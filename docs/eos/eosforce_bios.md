@@ -38,19 +38,19 @@ nodeos 可以通过指定config.ini配置启动信息， 也可以通过命令�
 
 nodeos 参数如下：
 
-| 名字        | 说明   |  示例值  | 对应config.ini的值 |
-| --------   | -----  | ----  | --- |
-| --blocks-dir|存放blocks文件的目录，不同节点不能重复              |"./nodes/01-biosbpa/blocks"  | blocks-dir |
-| --config-dir|配置文件及合约目录，用命令行启动可以用相同的               |"./config"  | |
-| --data-dir| 存放data文件目录，不同节点不能重复               |    "./nodes/01-biosbpa/data"      | |
-| --http-server-address|http server 地址              |  127.0.0.1:8001  | http-server-address |
-| --p2p-listen-endpoint|p2p 监听地址            |   127.0.0.1:9001     | p2p-listen-endpoint |
-| --max-clients|最大客户端数量               |   64   |max-clients |
-| --p2p-max-nodes-per-host|单个ip上节点最大值，如果部署在单台机器的话需要配置  |  64  | p2p-max-nodes-per-host |
-| --signature-provider|超级节点公私钥，格式是public-key=KEY:private-key       |     | signature-provider |
-| --plugin|要启动的插件               |  一般是  eosio::http_plugin eosio::chain_api_plugin eosio::producer_plugin | plugin |
-| --p2p-peer-address|p2p对端地址          |   127.0.0.1:9002, 就是其他节点对应的p2p监听地址    | |
-| --producer-name|超级节点名字，需要注意的是启动时一定是对应genesis.json中的配置          |   biospba   | producer-name |
+| 名字                     | 说明                                                           | 示例值                                                                    | 对应config.ini的值     |
+|:-------------------------|:---------------------------------------------------------------|:--------------------------------------------------------------------------|:-----------------------|
+| --blocks-dir             | 存放blocks文件的目录，不同节点不能重复                         | "./nodes/01-biosbpa/blocks"                                               | blocks-dir             |
+| --config-dir             | 配置文件及合约目录，用命令行启动可以用相同的                   | "./config"                                                                |                        |
+| --data-dir               | 存放data文件目录，不同节点不能重复                             | "./nodes/01-biosbpa/data"                                                 |                        |
+| --http-server-address    | http server 地址                                               | 127.0.0.1:8001                                                            | http-server-address    |
+| --p2p-listen-endpoint    | p2p 监听地址                                                   | 127.0.0.1:9001                                                            | p2p-listen-endpoint    |
+| --max-clients            | 最大客户端数量                                                 | 64                                                                        | max-clients            |
+| --p2p-max-nodes-per-host | 单个ip上节点最大值，如果部署在单台机器的话需要配置             | 64                                                                        | p2p-max-nodes-per-host |
+| --signature-provider     | 超级节点公私钥，格式是public-key=KEY:private-key               |                                                                           | signature-provider     |
+| --plugin                 | 要启动的插件                                                   | 一般是  eosio::http_plugin eosio::chain_api_plugin eosio::producer_plugin | plugin                 |
+| --p2p-peer-address       | p2p对端地址                                                    | 127.0.0.1:9002, 就是其他节点对应的p2p监听地址                             |                        |
+| --producer-name          | 超级节点名字，需要注意的是启动时一定是对应genesis.json中的配置 | biospba                                                                   | producer-name          |
 
 这里要特别注意的是 --config-dir
 eosforce要求这个目录下包含以下文件：

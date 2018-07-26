@@ -1,21 +1,31 @@
 # EOSJS API 文档
 
-# 安装
-    注意：这是当前稳定版本安装方式，不是npm install eos.
+-----------------------------
+
+## 安装
+
+!> 注意：这是当前稳定版本安装方式，不是npm install eos.
+
+```bash
     npm install git+https://github.com/eosforce/eosjs.git#2da68b5
     npm install bignumber.js //处理javascript大数字处理精准度不够的问题
-# 基础配置和需要的信息
-    
+```
+
+## 基础配置和需要的信息
+
+```json
     {
         httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
         keyProvider: privateKey, //私钥,部分接口需要
         chainId: 'chainId'//部分接口需要, 通过getBlock获得
     }
-    
-# 示例
+```
+
+## 示例
 
 接口都有可以运行的示例，可直接运行示例测试
 
+```javascript
     import Eos from 'eosjs';
     const config = { 
         httpEndpoint: node_rpc_url //节点rpc端口基础路径,如 http://192.168.82.173:8888
@@ -24,10 +34,11 @@
     Eos(config).getInfo({}).then(res => {
         console.log(res);
     });
+```
 
+## 接口列表
 
-# 接口列表
-## getInfo
+### getInfo
 
 获取节点最新同步信息
 参数:
@@ -53,8 +64,8 @@
 | virtual_block_cpu_limit     |            |
 | virtual_block_net_limit     |            |
 
-    
-    //示例
+示例:
+
     Eos({ 
         httpEndpoint: node_rpc_url
     })
@@ -62,8 +73,8 @@
     .then(res => {
         console.log(res);
     });
-    
-## getBlock
+
+### getBlock
 
 获取区块详细信息
 传递参数:
@@ -91,7 +102,7 @@
 | timestamp          |                                              |
 | transaction_mroot  |                                              |
 
-    //示例
+```javascript
     Eos({ 
         httpEndpoint: node_rpc_url
     })
@@ -101,8 +112,9 @@
     .then(res => {
         log(res);
     })
+```
     
-## getKeyAccounts
+### getKeyAccounts
 
 获取当前公钥下边有几个账户
 
@@ -113,7 +125,7 @@
 
 
 
-    //示例
+```javascript
     import EOS from 'eosjs'
     //从库中引入ecc
     const { ecc } = Eos.modules;
@@ -126,8 +138,9 @@
     .then(result => {
       console.log(result);
     });
-    
-## getActions
+```
+
+### getActions
 
 获取用户所有账单
 
@@ -139,9 +152,7 @@
 | offset       | 基于起始位置，偏移量                               |
 | limit        | 最大筛选量                                    |
 
-
-
-    //示例
+```javascript
     Eos({ 
         httpEndpoint: node_rpc_url
     })
@@ -154,7 +165,9 @@
     .then(res => {
         console.log(res);
     })
-## getTransaction
+```
+
+### getTransaction
 
 获取账单详情
 
@@ -163,9 +176,7 @@
 | httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
 | id           | 订单ID                                     |
 
-
-
-    //示例
+```javascript
     Eos({
     httpEndpoint: node_rpc_url 
     })
@@ -173,7 +184,9 @@
     .then(res => {
         console.log(res);
     });
-## getTableRows
+```
+
+### getTableRows
 
 getTableRows涉及参数比较多，当前的功能有:
 
@@ -182,16 +195,17 @@ getTableRows涉及参数比较多，当前的功能有:
 3. 获取节点投票信息
 4. 获取用户投票信息
 5. 获取当届超级节点
+
+
 | 参数           | 说明                                       |
 | ------------ | ---------------------------------------- |
 | httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
 | scope        |                                          |
 | code         |                                          |
 | table        |                                          |
-|              |                                          |
 
 
-
+```javascript
     //查询用户可用余额
     Eos({
         httpEndpoint: node_rpc_url 
@@ -265,7 +279,9 @@ getTableRows涉及参数比较多，当前的功能有:
         console.log(result);
     });
     //
-## newaccount
+```
+
+### newaccount
 
 创建账户
 
@@ -275,9 +291,7 @@ getTableRows涉及参数比较多，当前的功能有:
 | keyProvider  | 私钥                                       |
 | chaninId     | 通过getInfo接口获得，返回数据里边的chanin_id           |
 
-
-
-    //示例
+```javascript
     Eos({
         httpEndpoint: node_rpc_url,
         keyProvider: privateKey,
@@ -287,10 +301,9 @@ getTableRows涉及参数比较多，当前的功能有:
     .catch(err => {
         console.log(err);
     });
-    
+```
 
-
-## transfer
+### transfer
 
 转账
 
@@ -304,9 +317,7 @@ getTableRows涉及参数比较多，当前的功能有:
 | amount       | 转账金额                                     |
 | memo         | 转账说明                                     |
 
-
-
-    //示例
+```javascript
     let from = 'xxx', 
         to = 'apple2', 
         amount = 0.3, 
@@ -340,7 +351,9 @@ getTableRows涉及参数比较多，当前的功能有:
     .then(token => {
         return token.transfer(from, to, toAsset(amount, tokenSymbol, { precision }), memo);
     });
-## vote
+```
+
+### vote
 
 投票
 
@@ -352,7 +365,7 @@ getTableRows涉及参数比较多，当前的功能有:
 
 
 
-    //示例
+```javascript
     // '字符串或数字或 bignumber 格式转化为 XXX EOS 格式'
     import BigNumber from 'bignumber.js';
     const config ={
@@ -382,8 +395,9 @@ getTableRows涉及参数比较多，当前的功能有:
     .catch(err => {
         return handleApiError(err);
     });
-    
-## unfreeze
+```
+
+### unfreeze
 
 领取分红
 
@@ -397,7 +411,7 @@ getTableRows涉及参数比较多，当前的功能有:
 
 
 
-    //示例
+```javascript
     const config ={
         httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
         keyProvider: privateKey, //私钥
@@ -408,10 +422,10 @@ getTableRows涉及参数比较多，当前的功能有:
     .catch(err => {
       return handleApiError(err);
     });
-          
+```
 
 
-## claim
+### claim
 
 解冻
 
@@ -425,7 +439,7 @@ getTableRows涉及参数比较多，当前的功能有:
 
 
 
-    //示例
+```javascript
     const config ={
         httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
         keyProvider: privateKey, //私钥
@@ -436,19 +450,23 @@ getTableRows涉及参数比较多，当前的功能有:
     .catch(err => {
       return handleApiError(err);
     });
-## 私钥转公钥函数
+```
+
+### 私钥转公钥函数
+
+```javascript
     import EOS from 'eosjs'
     //从库中引入ecc
     const { ecc } = Eos.modules;
     //根据私钥算出公钥
     let publickKey = ecc.privateToPublic(privateKey)
+```
 
-
-## 输入数字转为接口需要的格式
+### 输入数字转为接口需要的格式
 
 接口中用到的toAsset函数，都可以用此函数
 
-    
+```javascript
     import BigNumber from 'bignumber.js';
     const toBigNumber = asset => {
       if (BigNumber.isBigNumber(asset)) {
@@ -466,4 +484,4 @@ getTableRows涉及参数比较多，当前的功能有:
       const amount = toBigNumber(_amount).toFixed(Number(precision));
       return [amount, symbol].join(' ');
     };
-
+```

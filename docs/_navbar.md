@@ -1,1 +1,2 @@
-* [首页](README.md)
+- [中文](/zh-cn/)
+- [English](/en-us/)

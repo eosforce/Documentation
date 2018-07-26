@@ -3,21 +3,63 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>eosforce doc wiki</title>
+  <title>eosforce docs</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="eosforce doc wiki">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="https://unpkg.com/docsify/lib/themes/vue.css">
+  <meta name="keywords" content="eosforce,eos">
+  <!-- Theme: Simple Dark -->
+  <link rel="stylesheet" href="//unpkg.com/docsify-themeable/dist/css/theme-simple-dark.css">
+  <link rel="stylesheet" href="//unpkg.com/docsify-copy-code@1.0.0/styles.css">
+  <link rel="stylesheet" href="//unpkg.com/prismjs@1.15.0/themes/prism-dark.css">
+
+  <script src="//unpkg.com/docsify-edit-on-github@1.0.1/index.js"></script>
 </head>
 
 <body>
-  <div id="app"></div>
+
+  <nav>
+    <a href="#/en-us/">EN</a>
+    <a href="#/zh-cn/">中文</a>
+  </nav>
+  <div data-app id="main">Please wait...</div>
+
+  //
   <script>
     window.$docsify = {
-      name: '',
+      name: 'Eosforce',
+      el: '#main',
+      search: {
+        maxAge: 86400000, // 过期时间，单位毫秒，默认一天
+        paths: 'auto', // or 'auto'
+
+        // 支持本地化
+        placeholder: {
+          '/': '搜索',
+          '/zh-cn/': '搜索',
+          '/en-us/': 'Type to search'
+        },
+
+        // 支持本地化
+        noData: {
+          '/': 'No Results',
+          '/zh-cn/': '找不到结果',
+          '/en-us/': 'No Results'
+        },
+
+        // 搜索标题的最大程级, 1 - 6
+        depth: 6
+      },
+
       loadSidebar: true,
       loadNavbar: true,
-      repo: '',
+      repo: 'https://github.com/eosforce/eosforce',
+      coverpage: true,
+      auto2top: true,
+      autoHeader: true,
+      themeColor: '#1da1f2',
+      subMaxLevel: 2,
+
       plugins: [
         function (hook) {
           hook.beforeEach(function (content) {
@@ -64,14 +106,17 @@
       markdown: {
         renderer: {
           code: function (code, lang) {
-            var html = '';
             if (code.match(/^sequenceDiagram/) || code.match(/^graph/) || code.match(/^gantt/) || code.match(
                 /^classDiagram/) || code.match(/^gitGraph/)) {
-              html = '<div class="mermaid">' + code + '</div>';
-              return html + '<pre v-pre data-lang="' + lang + '"></pre>'
+              const html = '<div class="mermaid">' + code + '</div>';
+              return html + '<pre v-pre data-lang="' + lang + '"></pre>';
             }
-            var hl = Prism.highlight(code, Prism.languages[lang] || Prism.languages.markup)
-            return '<pre v-pre data-lang="' + lang + '"><code class="lang-' + lang + '">' + hl + '</code></pre>'
+            code = code.replace(/@DOCSIFY_QM@/g, '`');
+            const hl = Prism.highlight(
+              code,
+              Prism.languages[lang] || Prism.languages.markup
+            );
+            return `<pre v-pre data-lang="${lang}"><code class="lang-${lang}">${hl}</code></pre>`;
           }
         }
       }
@@ -85,11 +130,29 @@
   <script src="//cdn.bootcss.com/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   <!-- docsify -->
-  <script src="//unpkg.com/docsify/lib/docsify.js" data-load-sidebar="_sidebar.md" data-router data-repo="https://github.com/eostio/wiki/tree/master/docs"></script>
+  <script src="//unpkg.com/docsify/lib/docsify.js" data-load-sidebar="_sidebar.md" data-router data-repo="https://github.com/eostio/Documentation/tree/master/docs"></script>
   <script src="//unpkg.com/mermaid@8.0.0-alpha.6/dist/mermaid.min.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/emoji.min.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
+  <script src="//unpkg.com/docsify-pagination@2.3.0/dist/docsify-pagination.min.js"></script>
 
+  <script src="//unpkg.com/prismjs/components/prism-bash.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-php.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-c.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-cpp.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-go.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-csharp.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-erlang.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-groovy.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-haskell.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-http.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-java.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-json.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-python.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-rust.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-coffeescript.min.js"></script>
 
+  <script src="https://unpkg.com/docsify-copy-code@2"></script>
   <script>
     mermaid.initialize({
       theme: 'dark',

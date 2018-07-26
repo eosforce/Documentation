@@ -1,4 +1,3 @@
 - [首页](README.md)
-- EOS
-    - Getting Start
-        - [EOSForce测试网搭建说明](eos/eosforce_bios.md)
+- 环境部署
+    - [EOSForce测试网搭建说明](eos/eosforce_bios.md)

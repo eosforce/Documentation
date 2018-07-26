@@ -18,3 +18,7 @@
     - [JS API库介绍](eos/eosjs_api_doc.md) 
 - C/C++ API
 - HTTP API
+- 关于文档的文档
+    - [文档搭建介绍](example/doc_introduction.md)
+    - [Markdown语法示例](example/example.md)
+    - [数学公式示例](example/example_maths.md) 

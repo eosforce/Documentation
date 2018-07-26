@@ -4,4 +4,4 @@
 
 [GitHub](https://github.com/eosforce/eosforce)
 [Main Page](https://www.eosforce.io/)
-[Get Started](#EOSForce-开发者文档)
+[Get Started](#EOSForce开发者文档)

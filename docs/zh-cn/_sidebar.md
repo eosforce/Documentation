@@ -16,6 +16,9 @@
 - 客户端开发参考文档
     - [HTTP API请求流程](zh-cn/eosforce_http_api_develop.md)
     - [JS API库介绍](zh-cn/eosjs_api_doc.md) 
+- 功能介绍
+    - [用户多签功能](zh-cn/eosforce_msig.md)
+    - [用户权限修改功能](zh-cn/eosforce_username_tran.md)
 - C/C++ API
 - HTTP API
 - 关于文档的文档

@@ -13,6 +13,9 @@
     - [Cleos Resources](en-us/eosforce_cleos_res.md)
     - [Introduction to Keosd](en-us/eosforce_keosd_introduction.md)
     - [Keosd API Resources](en-us/eosforce_keosd_res.md)
+- Functions
+    - [MSIG](en-us/eosforce_msig.md)
+    - [User Account Update](en-us/eosforce_username_tran.md)
 - Client develop documentations
     - [HTTP API](en-us/eosforce_http_api_develop.md)
     - [JS API Introduction](en-us/eosjs_api_doc.md) 

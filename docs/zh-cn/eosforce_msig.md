@@ -83,6 +83,8 @@ cleos multisig exec 命令参数解释：
 - proposal_name议题名
 - executer 执行者
 
+注意：cleos需使用eosforce最新代码编译的cleos才能使用，原cleos中msig命令没有增加手续费，无法使用
+
 ## 示例脚本
 
 ```bash

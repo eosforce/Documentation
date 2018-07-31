@@ -18,4 +18,56 @@ Positionals:
   - OwnerKey TEXT               拥有者的账号公钥 (required)
   - ActiveKey TEXT              新账号的激活公钥，默认同拥有者的账号公钥
 
-## abi
+
+## abi 数据结构
+
+```json
+    {
+      "name": "permission_level",
+      "base": "",
+      "fields": [
+        {"name":"actor",      "type":"account_name"},
+        {"name":"permission", "type":"permission_name"}
+      ]
+    },{
+      "name": "key_weight",
+      "base": "",
+      "fields": [
+        {"name":"key",    "type":"public_key"},
+        {"name":"weight", "type":"weight_type"}
+      ]
+    },{
+      "name": "permission_level_weight",
+      "base": "",
+      "fields": [
+        {"name":"permission", "type":"permission_level"},
+        {"name":"weight",     "type":"weight_type"}
+      ]
+    },{
+      "name": "wait_weight",
+      "base": "",
+      "fields": [
+        {"name":"wait_sec", "type":"uint32"},
+        {"name":"weight",   "type":"weight_type"}
+      ]
+    },{
+      "name": "authority",
+      "base": "",
+      "fields": [
+        {"name":"threshold", "type":"uint32"},
+        {"name":"keys",      "type":"key_weight[]"},
+        {"name":"accounts",  "type":"permission_level_weight[]"},
+        {"name":"waits",     "type":"wait_weight[]"}
+      ]
+    },{
+      "name": "newaccount",
+      "base": "",
+      "fields": [
+        {"name":"creator", "type":"account_name"},
+        {"name":"name",    "type":"account_name"},
+        {"name":"owner",   "type":"authority"},
+        {"name":"active",  "type":"authority"}
+      ]
+    }
+
+```

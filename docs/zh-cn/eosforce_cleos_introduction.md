@@ -19,12 +19,10 @@ cleos可通过编译eosforce项目后，在./build/program/cleos目录下得到�
 cleos -u http://47.98.249.86:8888 get info
 ```
 
-## 命令参数
+## cleos命令参数
 
+cleos [选项] 子命令
 ```
-
-使用方法: ./programs/cleos/cleos [选项] 子命令
-
 选项:
   -h,--help                   打印帮助信息
   -u,--url TEXT=http://localhost:8888/
@@ -45,6 +43,6 @@ Subcommands:
   wallet                      管理本地钱包
   sign                        交易签名
   push                        提交一个二进制交易到链上
-  multisig                    多重签名，需使用eosforce最新代码编译cleos才能使用
+  [multisig](zh-cn/contract/eosio.msig/msig.md)                   多重签名，需使用eosforce最新代码编译cleos才能使用
   system                      (无效子命令)发送 eosio.system系统合约action到链上，我们没有使用此合约
 ```

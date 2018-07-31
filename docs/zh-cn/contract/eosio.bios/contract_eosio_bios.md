@@ -36,6 +36,19 @@
 
 ## abi 数据结构
 ```json
+ "types": [{
+      "new_type_name": "permission_name",
+      "type": "name"
+   },{
+      "new_type_name": "action_name",
+      "type": "name"
+   },{
+      "new_type_name": "transaction_id_type",
+      "type": "checksum256"
+   },{
+      "new_type_name": "weight_type",
+      "type": "uint16"
+   }],
 "structs": [{
       "name": "permission_level",
       "base": "",

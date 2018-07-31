@@ -1,4 +1,4 @@
-# Cleos说明
+# Cleos
 
 cleos is a command line tool that interfaces with the REST API exposed by nodeos. In order to use cleos you will need to have the end point (IP address and port number) to a nodeos instance and also configure cleos to load the 'eosio::chain_api_plugin'. 
 

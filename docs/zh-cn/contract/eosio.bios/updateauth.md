@@ -3,7 +3,7 @@
 ## 功能概述
 
 - 修改公钥（可用于实现用户名转让）
-- 设置多个公钥（可用于实现多重签名）
+- 设置多个公钥或授权账号（可用于实现多重签名）
 - 修改公钥的权重
 - 修改账户权限阈值
 
@@ -25,7 +25,7 @@ abi数据结构：
       ]
     }
 ```
-
+权限数据结构
 ```json
 {
       "name": "authority",
@@ -38,13 +38,38 @@ abi数据结构：
       ]
     }
 ```
+- threshold 权限阈值
+- keys 公钥权重数组
+- accounts 账号权重数组
+- waits 等待时长权重数组
+
+账号权重
 ```json
 {
-      "name": "permission_level_weight",
+  "name": "permission_level_weight",
+  "base": "",
+  "fields": [
+    {"name":"permission", "type":"permission_level"},
+    {"name":"weight",     "type":"weight_type"}
+  ]
+},
+{
+  "name": "permission_level",
+  "base": "",
+  "fields": [
+    {"name":"actor",      "type":"account_name"},
+    {"name":"permission", "type":"permission_name"}
+  ]
+    }
+```
+公钥权重
+```json
+{
+      "name": "key_weight",
       "base": "",
       "fields": [
-        {"name":"permission", "type":"permission_level"},
-        {"name":"weight",     "type":"weight_type"}
+        {"name":"key",    "type":"public_key"},
+        {"name":"weight", "type":"weight_type"}
       ]
     }
 ```

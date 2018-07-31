@@ -2,7 +2,7 @@
 
 ## 1 线下交易
 
-使用 [updateauth](updateauth.md) 修改账号的公钥，此公钥可他人提供，线下交易，即可实现将此用户名转让。
+使用 [updateauth](zh-ch/contract/eosio.bios/updateauth.md) 修改账号的公钥，此公钥可他人提供，线下交易，即可实现将此用户名转让。
 
 ## 2 链上交易
 

@@ -51,11 +51,11 @@ permissions:
 cleos multisig propose 命令参数解释：
 
 - proposal_name 议题名
-- requested_permissions 请求权限 
-- trx_permissions 执行的权限
+- requested_permissions 请求权限, json格式
+- trx_permissions 执行的权限, json格式
 - contract 执行的合约账号
 - action 执行的动作
-- data 执行的数据
+- data 执行的数据, json格式
 - proposer提议人
 
 ### 2. 批准提议
@@ -69,7 +69,7 @@ cleos multisig approve 命令参数解释：
 
 - proposer提议人
 - proposal_name议题名
-- permissions权限许可
+- permissions权限许可 json
 
 ### 3. 执行提议
 

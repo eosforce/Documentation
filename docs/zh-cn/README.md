@@ -18,8 +18,17 @@
 - 客户端开发参考文档
     - [HTTP API请求流程](zh-cn/eosforce_http_api_develop.md)
     - [JS API库介绍](zh-cn/eosjs_api_doc.md) 
+- 功能介绍
+    - [系统合约](zh-cn/contract/System/System.md)
+    - [账号与权限](zh-cn/eosforce_account.md)
+    - [创建账号](zh-cn/contract/eosio.bios/newaccount.md)
+    - [修改权限](zh-cn/contract/eosio.bios/updateauth.md)
+    - [用户名转让](zh-cn/eosforce_username_tran.md)
+    - [多重签名](zh-cn/contract/eosio.msig/msig.md)
+    
 - C/C++ API
 - HTTP API
+    - [链相关api](zh-cn/eosforce_http_chain_api.md)
 - 关于文档的文档
     - [文档搭建介绍](example/doc_introduction.md)
     - [Markdown语法示例](example/example.md)

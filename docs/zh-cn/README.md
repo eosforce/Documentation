@@ -29,6 +29,7 @@
 - C/C++ API
 - HTTP API
     - [链相关api](zh-cn/eosforce_http_chain_api.md)
+    - [历史记录api](zh-cn/eosforce_http_history_api.md)
 - 关于文档的文档
     - [文档搭建介绍](example/doc_introduction.md)
     - [Markdown语法示例](example/example.md)

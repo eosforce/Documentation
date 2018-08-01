@@ -1,7 +1,7 @@
 # chain api
 
 - Protocol: http
-- Bash Path: /v1/chain/
+- Bash Path: /v1/chain
 - Request Method: POST
 
 ## /get_info

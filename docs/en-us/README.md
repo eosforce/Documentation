@@ -16,7 +16,8 @@
     - [Introduction to Keosd](en-us/eosforce_keosd_introduction.md)
     - [Keosd API Resources](en-us/eosforce_keosd_res.md)
 - Client develop documentations
-    - [HTTP API](en-us/eosforce_http_chian_api.md)
     - [JS API Introduction](en-us/eosjs_api_doc.md) 
 - C/C++ API
 - HTTP API
+    - [Chain API](en-us/eosforce_http_chian_api.md)
+    - [History API](en-us/eosforce_http_history_api.md)

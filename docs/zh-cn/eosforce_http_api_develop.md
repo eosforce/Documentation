@@ -57,4 +57,5 @@ eosforce提供的智能合约包括:
 5. 调用 /v1/chain/push_transaction 接口，提交签名后的transaction数据。
 
 > newaccount操作使用json_to_bin接口序列化失败问题已修复，稍后发布。可临时使用eos官方节点的接口
+> 
 > eosforce transaction中只能包含一个action

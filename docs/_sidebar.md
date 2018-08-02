@@ -21,5 +21,5 @@
     - [JS API Introduction](en-us/eosjs_api_doc.md) 
 - C/C++ API
 - HTTP API
-    - [Chain API](en-us/eosforce_http_chian_api.md)
+    - [Chain API](en-us/eosforce_http_chain_api.md)
     - [History API](en-us/eosforce_http_history_api.md)

@@ -16,7 +16,7 @@
 - Functions
     - [System](en-us/contract/System/System.md)
     - [token](en-us/contract/eosio.token/token.md)
-    - [account](en-us/contract_eosio_bios.md)
+    - [account](en-us/contract/contract_eosio_bios.md)
     - [account transfer](en-us/eosforce_username_tran.md)
     - [multi sign](en-us/contract/eosio.msig/msig.md)
 - Client develop documentations

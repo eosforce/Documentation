@@ -7,13 +7,7 @@
 
 之所以选择以这个项目作为例子是因为这个项目基于go开发，代码比较简洁直接，减少不同语言语法特性造成的疑问。
 
-## 1. 准备知识
-
-### 1.1 eosforce
-
-### 1.2 官方工具介绍
-
-## 2. 测试环境搭建
+## 1. 准备：测试环境搭建
 
 为了更直观的理解请求的过程，我们先搭建一条测试链。
 
@@ -57,11 +51,11 @@ go build
 
 !> 注意 因为eosc开发尚不完善，所以只有部分合约可以使用。
 
-## 3. 基本http API
+## 2. 基本http API
 
 参见 [链相关api](zh-cn/eosforce_http_chain_api.md) 和 [历史记录api](zh-cn/eosforce_http_history_api.md)
 
-## 4. 交易
+## 3. 交易
 
 对于客户端提交交易（push transcation）是最主要的操作，eosforce对transcation作出了一些修改，
 在transcation结构中增加了fee字段表示手续费。
@@ -230,7 +224,7 @@ Transaction submitted to the network. Transaction ID: 0125cd2d97d587408a9b993c80
 
 下面我们通过分析代码详细分析一下交易流程，注意，这里的代码中去除了不重要的逻辑：
 
-### 4.1 **构建交易内容**
+### 3.1 **构建交易内容**
 
 首先需要构建交易：
 
@@ -291,19 +285,19 @@ func NewTransfer(from, to eos.AccountName, quantity eos.Asset, memo string) *eos
 
 ```go
 func NewTransaction(actions []*Action, opts *TxOptions) *Transaction {
-	if opts == nil {
-		opts = &TxOptions{}
-	}
+  if opts == nil {
+    opts = &TxOptions{}
+  }
 
-	tx := &Transaction{
-		Actions: actions,
-		Fee: Asset{
-			0,
-			EOSSymbol,
-		},
-	}
-	tx.Fill(opts.HeadBlockID, opts.DelaySecs, opts.MaxNetUsageWords, opts.MaxCPUUsageMS)
-	return tx
+  tx := &Transaction{
+    Actions: actions,
+    Fee: Asset{
+      0,
+      EOSSymbol,
+    },
+  }
+  tx.Fill(opts.HeadBlockID, opts.DelaySecs, opts.MaxNetUsageWords, opts.MaxCPUUsageMS)
+  return tx
 }
 ```
 
@@ -311,22 +305,22 @@ func NewTransaction(actions []*Action, opts *TxOptions) *Transaction {
 
 ```go
 type TransactionHeader struct {
-	Expiration     JSONTime `json:"expiration"`
-	RefBlockNum    uint16   `json:"ref_block_num"`
-	RefBlockPrefix uint32   `json:"ref_block_prefix"`
+  Expiration     JSONTime `json:"expiration"`
+  RefBlockNum    uint16   `json:"ref_block_num"`
+  RefBlockPrefix uint32   `json:"ref_block_prefix"`
 
-	MaxNetUsageWords Varuint32 `json:"max_net_usage_words"`
-	MaxCPUUsageMS    uint8     `json:"max_cpu_usage_ms"`
-	DelaySec         Varuint32 `json:"delay_sec"` // number of secs to delay, making it cancellable for that duration
+  MaxNetUsageWords Varuint32 `json:"max_net_usage_words"`
+  MaxCPUUsageMS    uint8     `json:"max_cpu_usage_ms"`
+  DelaySec         Varuint32 `json:"delay_sec"` // number of secs to delay, making it cancellable for that duration
 }
 
 type Transaction struct { // WARN: is a `variant` in C++, can be a SignedTransaction or a Transaction.
-	TransactionHeader
+  TransactionHeader
 
-	ContextFreeActions []*Action    `json:"context_free_actions"`
-	Actions            []*Action    `json:"actions"`
-	Extensions         []*Extension `json:"transaction_extensions"`
-	Fee                Asset        `json:"fee"`
+  ContextFreeActions []*Action    `json:"context_free_actions"`
+  Actions            []*Action    `json:"actions"`
+  Extensions         []*Extension `json:"transaction_extensions"`
+  Fee                Asset        `json:"fee"`
 }
 ```
 
@@ -372,7 +366,7 @@ type Transaction struct { // WARN: is a `variant` in C++, can be a SignedTransac
 }
 ```
 
-### 4.2 **签名Transaction** 
+### 3.2 **签名Transaction** 
 
 第三步利用Trans，chanID和key获得SignedTransaction。
 
@@ -382,12 +376,12 @@ type Transaction struct { // WARN: is a `variant` in C++, can be a SignedTransac
 
 ```go
 type SignedTransaction struct {
-	*Transaction // SignedTransaction包括所有
+  *Transaction // SignedTransaction包括所有
 
-	Signatures      []ecc.Signature `json:"signatures"`
-	ContextFreeData []HexBytes      `json:"context_free_data"`
+  Signatures      []ecc.Signature `json:"signatures"`
+  ContextFreeData []HexBytes      `json:"context_free_data"`
 
-	packed *PackedTransaction
+  packed *PackedTransaction
 }
 ```
 
@@ -396,7 +390,7 @@ type SignedTransaction struct {
 ```go
 resp, err := api.GetRequiredKeys(tx)
 if err != nil {
-	return nil, nil, fmt.Errorf("get_required_keys: %s", err)
+  return nil, nil, fmt.Errorf("get_required_keys: %s", err)
 }
 requiredKeys = resp.RequiredKeys
 ```
@@ -408,20 +402,20 @@ requiredKeys = resp.RequiredKeys
 ```go
 // PackedTransactionAndCFD 将Transaction和ContextFreeData打包成二进制
 func (s *SignedTransaction) PackedTransactionAndCFD() ([]byte, []byte, error) {
-	rawtrx, err := MarshalBinary(s.Transaction)
-	if err != nil {
-		return nil, nil, err
-	}
+  rawtrx, err := MarshalBinary(s.Transaction)
+  if err != nil {
+    return nil, nil, err
+  }
 
-	rawcfd := []byte{}
-	if len(s.ContextFreeData) > 0 {
-		rawcfd, err = MarshalBinary(s.ContextFreeData)
-		if err != nil {
-			return nil, nil, err
-		}
-	}
+  rawcfd := []byte{}
+  if len(s.ContextFreeData) > 0 {
+    rawcfd, err = MarshalBinary(s.ContextFreeData)
+    if err != nil {
+      return nil, nil, err
+    }
+  }
 
-	return rawtrx, rawcfd, nil
+  return rawtrx, rawcfd, nil
 }
 ```
 
@@ -430,47 +424,47 @@ func (s *SignedTransaction) PackedTransactionAndCFD() ([]byte, []byte, error) {
 ```go
 // sigDigest := SigDigest(chainID, txdata, cfd)
 func SigDigest(chainID, payload, contextFreeData []byte) []byte {
-	h := sha256.New()
-	if len(chainID) == 0 {
-		_, _ = h.Write(make([]byte, 32, 32))
-	} else {
-		_, _ = h.Write(chainID)
-	}
-	_, _ = h.Write(payload)
+  h := sha256.New()
+  if len(chainID) == 0 {
+    _, _ = h.Write(make([]byte, 32, 32))
+  } else {
+    _, _ = h.Write(chainID)
+  }
+  _, _ = h.Write(payload)
 
-	if len(contextFreeData) > 0 {
-		h2 := sha256.New()
-		_, _ = h2.Write(contextFreeData)
-		_, _ = h.Write(h2.Sum(nil)) // add the hash of CFD to the payload
-	} else {
-		_, _ = h.Write(make([]byte, 32, 32))
-	}
-	return h.Sum(nil)
+  if len(contextFreeData) > 0 {
+    h2 := sha256.New()
+    _, _ = h2.Write(contextFreeData)
+    _, _ = h.Write(h2.Sum(nil)) // add the hash of CFD to the payload
+  } else {
+    _, _ = h.Write(make([]byte, 32, 32))
+  }
+  return h.Sum(nil)
 }
 ```
 
 之后用上一步生成的sigDigest签名：
 
 ```go
-	keyMap := b.keyMap()
-	for _, key := range requiredKeys {
-		privKey := keyMap[key.String()]
-		if privKey == nil {
-			return nil, fmt.Errorf("private key for %q not in keybag", key)
-		}
+  keyMap := b.keyMap()
+  for _, key := range requiredKeys {
+    privKey := keyMap[key.String()]
+    if privKey == nil {
+      return nil, fmt.Errorf("private key for %q not in keybag", key)
+    }
 
-		// fmt.Println("Signing with", key.String(), privKey.String())
-		// fmt.Println("SIGNING THIS DIGEST:", hex.EncodeToString(sigDigest))
-		// fmt.Println("SIGNING THIS payload:", hex.EncodeToString(txdata))
-		// fmt.Println("SIGNING THIS chainID:", hex.EncodeToString(chainID))
-		// fmt.Println("SIGNING THIS cfd:", hex.EncodeToString(cfd))
-		sig, err := privKey.Sign(sigDigest)
-		if err != nil {
-			return nil, err
-		}
+    // fmt.Println("Signing with", key.String(), privKey.String())
+    // fmt.Println("SIGNING THIS DIGEST:", hex.EncodeToString(sigDigest))
+    // fmt.Println("SIGNING THIS payload:", hex.EncodeToString(txdata))
+    // fmt.Println("SIGNING THIS chainID:", hex.EncodeToString(chainID))
+    // fmt.Println("SIGNING THIS cfd:", hex.EncodeToString(cfd))
+    sig, err := privKey.Sign(sigDigest)
+    if err != nil {
+      return nil, err
+    }
 
-		tx.Signatures = append(tx.Signatures, sig)
-	}
+    tx.Signatures = append(tx.Signatures, sig)
+  }
 ```
 
 这里用需要的权限将sigDigest分别签名，结果在Signatures中。
@@ -481,7 +475,7 @@ func SigDigest(chainID, payload, contextFreeData []byte) []byte {
 
 这样我们得到了SignedTransaction，下一步就是将其打包成PackedTransaction。
 
-### 4.3 **打包Transaction** 
+### 3.3 **打包Transaction** 
 
 第四步是将SignedTransaction打包进PackedTransaction。
 
@@ -490,48 +484,48 @@ func SigDigest(chainID, payload, contextFreeData []byte) []byte {
 ```go
 // SignedTransaction打包逻辑
 func (s *SignedTransaction) Pack(compression CompressionType) (*PackedTransaction, error) {
-	// 这里和之前签名一样，获取Transaction和ContextFreeData的二进制
+  // 这里和之前签名一样，获取Transaction和ContextFreeData的二进制
   rawtrx, rawcfd, err := s.PackedTransactionAndCFD() 
-	if err != nil {
-		return nil, err
-	}
+  if err != nil {
+    return nil, err
+  }
 
   // 这里可以选择压缩方式
-	switch compression {
-	case CompressionZlib:
-		var trx bytes.Buffer
-		var cfd bytes.Buffer
+  switch compression {
+  case CompressionZlib:
+    var trx bytes.Buffer
+    var cfd bytes.Buffer
 
     // 以下分别压缩Transaction和ContextFreeData的二进制
-		// Compress Trx
-		writer, _ := zlib.NewWriterLevel(&trx, flate.BestCompression) // can only fail if invalid `level`..
-		writer.Write(rawtrx)                                          // ignore error, could only bust memory
-		err = writer.Close()
-		if err != nil {
-			return nil, fmt.Errorf("tx writer close %s", err)
-		}
-		rawtrx = trx.Bytes()
+    // Compress Trx
+    writer, _ := zlib.NewWriterLevel(&trx, flate.BestCompression) // can only fail if invalid `level`..
+    writer.Write(rawtrx)                                          // ignore error, could only bust memory
+    err = writer.Close()
+    if err != nil {
+      return nil, fmt.Errorf("tx writer close %s", err)
+    }
+    rawtrx = trx.Bytes()
 
-		// Compress ContextFreeData
-		writer, _ = zlib.NewWriterLevel(&cfd, flate.BestCompression) // can only fail if invalid `level`..
-		writer.Write(rawcfd)                                         // ignore errors, memory errors only
-		err = writer.Close()
-		if err != nil {
-			return nil, fmt.Errorf("cfd writer close %s", err)
-		}
-		rawcfd = cfd.Bytes()
+    // Compress ContextFreeData
+    writer, _ = zlib.NewWriterLevel(&cfd, flate.BestCompression) // can only fail if invalid `level`..
+    writer.Write(rawcfd)                                         // ignore errors, memory errors only
+    err = writer.Close()
+    if err != nil {
+      return nil, fmt.Errorf("cfd writer close %s", err)
+    }
+    rawcfd = cfd.Bytes()
 
   }
   
   // 上面处理好rawcfd和rawtrx， 将其和之前Signatures签名一起构建PackedTransaction
-	packed := &PackedTransaction{
-		Signatures:            s.Signatures,
-		Compression:           compression,
-		PackedContextFreeData: rawcfd,
-		PackedTransaction:     rawtrx,
-	}
+  packed := &PackedTransaction{
+    Signatures:            s.Signatures,
+    Compression:           compression,
+    PackedContextFreeData: rawcfd,
+    PackedTransaction:     rawtrx,
+  }
 
-	return packed, nil
+  return packed, nil
 }
 ```
 
@@ -542,14 +536,14 @@ func (s *SignedTransaction) Pack(compression CompressionType) (*PackedTransactio
 // signatures, and all. They circulate like that on the P2P net, and
 // that's how they are stored.
 type PackedTransaction struct {
-	Signatures            []ecc.Signature `json:"signatures"`
-	Compression           CompressionType `json:"compression"` // in C++, it's an enum, not sure how it Binary-marshals..
-	PackedContextFreeData HexBytes        `json:"packed_context_free_data"`
-	PackedTransaction     HexBytes        `json:"packed_trx"`
+  Signatures            []ecc.Signature `json:"signatures"`
+  Compression           CompressionType `json:"compression"` // in C++, it's an enum, not sure how it Binary-marshals..
+  PackedContextFreeData HexBytes        `json:"packed_context_free_data"`
+  PackedTransaction     HexBytes        `json:"packed_trx"`
 }
 ```
 
-### 4.4 **发送Transaction**
+### 3.4 **发送Transaction**
 
 最后发送PackedTransaction到节点。
 
@@ -559,8 +553,8 @@ type PackedTransaction struct {
 // PushTransaction submits a properly filled (tapos), packed and
 // signed transaction to the blockchain.
 func (api *API) PushTransaction(tx *PackedTransaction) (out *PushTransactionFullResp, err error) {
-	err = api.call("chain", "push_transaction", tx, &out)
-	return
+  err = api.call("chain", "push_transaction", tx, &out)
+  return
 }
 ```
 
@@ -579,7 +573,7 @@ Host: 127.0.0.1:8888
 
 !> 这里要特别注意一个问题:
 
-### 4.5 关于打包的问题（**需要注意！！！**）
+### 3.5 关于打包的问题（**需要注意！！！**）
 
 很多实现中会通过节点提供的 json_to_bin 来打包action的data，这里我们分析一下cleos的实现：
 
@@ -621,6 +615,6 @@ chain::action create_action(const vector<permission_level>& authorization, const
 
 这是eosforce目前的一个问题，后续我们会加回合约声明，目前开发者可以选择去调用emlg主网的节点提供的api，也可以在客户端自行打包。
 
-## 5. p2p节点
+## 4. p2p节点
 
 ?> TODO p2p节点部署开发介绍

@@ -85,6 +85,7 @@ cleos multisig exec 命令参数解释：
 
 注意：cleos需使用eosforce最新代码编译的cleos才能使用，原cleos中msig命令没有增加手续费，无法使用
 
+> eosforce测试链多签需使用此代码编译的cleos： https://github.com/eosforce/eosforce/tree/feature/updateauth-msig
 ## 示例脚本
 
 ```bash

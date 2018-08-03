@@ -18,6 +18,7 @@ cleos可通过编译eosforce项目后，在./build/program/cleos目录下得到�
 ```bash
 cleos -u http://47.98.249.86:8888 get info
 ```
+> 测试多签需使用此代码编译的cleos： https://github.com/eosforce/eosforce/tree/feature/updateauth-msig
 
 ## cleos命令参数
 

@@ -12,7 +12,7 @@
 
 ## 预演流程
 
-本次预演升级是基于测试环境进行的，为了后面更顺利更安全的完成线上原力eos主网系统的升级，本次预演需要每个BP节点完成以下7个步骤：
+本次预演升级是基于测试环境进行的，为了后面更顺利更安全的完成线上eosforce主网系统的升级，本次预演需要每个BP节点完成以下7个步骤：
 
 1. 准备工作： 这次节点升级预演基于在原力eos主网测试环境下进行，各bp社区的需要准备一台测试机器（配置为ubuntu 16.04 64位linux 操作系统，配置2核4G内存以上）作为这次预演的测试机器
  
@@ -28,7 +28,7 @@
 
 7. 预演结束： 测试如果通过这次预演成功结束，否则退回上一步
 
-## 新版本eosfroce主网部署说明
+## 新版本eosforce主网部署说明
 
 我们会提供2种部署方式： 源码编译部署和docker镜像部署
 下面是源码部署方式，其中docker部署方式后续在文档中更新
@@ -38,7 +38,7 @@
 ```shell
 apt-get update && apt-get install -y git wget
 git clone https://github.com/eosforce/eosforce.git eosforce
-git chekcout -b release 
+git checkout -b release 
 ```
 
 ### 2. 执行如下命令安装原力eos
@@ -55,11 +55,12 @@ cp config.ini ~/.local/share/eosio/nodeos/config/
 cd build && make install
 ```
 
-### 3. config核心配置文件修改
+### 3. config配置文件修改
 
 #### 生成公私钥
 
 生成一对公私钥给BP节点使用，执行如下命令生成
+
 
 ```shell
 cleos create key

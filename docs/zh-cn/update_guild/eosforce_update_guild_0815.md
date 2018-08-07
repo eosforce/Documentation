@@ -70,7 +70,7 @@ cleos create key
 	Private key: 5KidVdxbLKbJo9QiTyrbYULNTdKFTzdCb9oZgdaWye2CZfXz2hC
 	Public key: EOS6Z4fD6isTKZwaeH6Req7QXZLK3Yvb2rQoTxefVcsGXaXsFrBap
 
-其中 Private key为私钥 Public key为公钥, Private  注意Public key在后面注册bp时用到，即执行updatebp
+其中 Private key为私钥 Public key为公钥,   注意Public key在后面注册bp时用到，即执行updatebp时使用
 
 config.ini文件需要修改4个地方：
 

@@ -116,7 +116,7 @@ signature-provider = EOSpubkey=KEY:EOSprivkey （其中EOSpubkey准备工作中�
 
 	cleos wallet import pri_key
 
-执行命令进行注册(注意-u 指定地址需要xiang)
+执行命令进行注册 (注意-u 指定为我们线上搭建的一台测试节点的bp节点，切不可指定正式环境的地址来注册)
 
 	cleos -u http://47.98.249.86:8888 push action eosio updatebp '{"bpname":"bpname","block_signing_key":"block_signing_key","commission_rate":"commission_rate","url":"https://eosforce.io"}' -p bpname
 

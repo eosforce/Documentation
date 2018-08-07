@@ -55,10 +55,10 @@ cp config.ini ~/.local/share/eosio/nodeos/config/
 cd build && make install
 ```
 
-### 3. config核心配置文件获取并修改
+### 3. config核心配置文件修改
 
 #### 生成公私钥
-  
+
 生成一对公私钥给BP节点使用，执行如下命令生成
 
 ```shell
@@ -74,19 +74,23 @@ cleos create key
 
 config.ini文件需要修改4个地方：
 
-第一个修改地方：p2p-server-address = ip:9876 (ip为公网服务器ip，端口自行修改，注意防火墙要放行该端口)
+第1个修改地方：p2p-server-address = ip:9876 (ip为公网服务器ip，端口自行修改，注意防火墙要放行该端口)
 
-第二个修改的地方，用绝对路径防止出错：
+第2个修改的地方，用绝对路径防止出错：
 
 genesis-json = "/root/.local/share/eosio/nodeos/config/genesis.json"
 
-第三需要修改的地方：
+第3需要修改的地方：
 
 producer-name = bpname （bpname为你的bp的名称）
 
-第四个修改地方：
+第4个修改地方：
 
 signature-provider = EOSpubkey=KEY:EOSprivkey （其中EOSpubkey准备工作中生成的公钥，EOSprivkey为准备工作中生成的私钥）
+
+第5个修改地方：
+
+p2p-peer-address 这个配置需要修改 后续会继续提高，请关注文档
 
 ### 4.启动
 

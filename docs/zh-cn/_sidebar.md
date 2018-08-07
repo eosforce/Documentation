@@ -33,6 +33,9 @@
 - C/C++ API
     - [C/C++ API](https://developers.eos.io/eosio-cpp/reference)
   
+- 更新记录
+    - [[2018年8月15日]更新预演说明](zh-cn/update_guild/eosforce_update_guild_0815.md) 
+
 - 关于文档的文档
     - [文档搭建介绍](example/doc_introduction.md)
     - [Markdown语法示例](example/example.md)

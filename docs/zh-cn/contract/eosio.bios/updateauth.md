@@ -12,6 +12,7 @@
 调用 /v1/chain/push_transaction接口，提交 updateauth action，修改账户owner权限、active权限。
 
 abi数据结构：
+- [eosio.bio.abi](https://github.com/eosforce/eosforce/blob/release/contracts/eosio.bios/eosio.bios.abi)
 
 ```json
 {

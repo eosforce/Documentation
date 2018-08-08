@@ -112,7 +112,9 @@ void setemergency( const account_name bpname, const bool emergency );
 - bpname : 节点
 - emergency : 紧急状态
  
-## abi 表
+## abi
+- [System](https://github.com/eosforce/eosforce/blob/release/contracts/System/System.abi)
+  
 ```json
 "tables": [
         {
@@ -149,7 +151,6 @@ void setemergency( const account_name bpname, const bool emergency );
   ]
 ```
 
-## abi 数据结构
 ```json
 "structs": [{
       "name": "transfer",

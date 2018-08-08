@@ -41,21 +41,23 @@ sequenceDiagram
 除了查询信息外，对区块链的所有操作，都是通过执行智能合约的action实现。
 
 eosforce提供的智能合约包括:
-- [System](zh-cn/contract/System/System.md) 系统合约：投票、分红等
-- eosio.token 代币合约：token的创建、发行、转账等
-- [eosio.bios](zh-cn/eosforce_account.md)(稍后开放) 内部合约：操作用户权限等
-- [eosio.msig](zh-cn/contract/eosio.msig/msig.md)(稍后开放) 多重签名合约
+- [System](zh-cn/contract/System/System.md) 系统合约：投票、分红等，合约账户：eosio
+- [eosio.token](zh-cn/contract/eosio.token/token.md) 代币合约：token的创建、发行、转账等，合约账户：eosio.token
+- [eosio.bios](zh-cn/eosforce_account.md)(稍后开放) 内部合约：操作用户权限等，合约账户：eosio.bios(待更新)
+- [eosio.msig](zh-cn/contract/eosio.msig/msig.md)(稍后开放) 多重签名合约，合约账户：eosio.msig(待更新)
 
 > eosforce 目前暂未开放用户提交智能合约的功能
 
 ### action操作的执行流程：
 
 1. 构造action: 指定合约账户，action名，执行权限
-2. 设置action执行数据data字段：数据需序列化打包(可调用/v1/chain/json_to_bin转换接口，或根据abi本地实现序列化逻辑)
+2. 设置action执行数据data字段：数据需根据相应合约的abi文件对应的action的数据结构，进行序列化打包(可调用/v1/chain/json_to_bin转换接口，或本地实现序列化逻辑)
 3. 构造transaction：包含action, 相应手续费，引用区块等信息
 4. 对交易transaction进行签名
 5. 调用 /v1/chain/push_transaction 接口，提交签名后的transaction数据。
 
 > newaccount操作使用json_to_bin接口序列化失败问题已修复，稍后发布。可临时使用eos官方节点的接口
-> 
+
 > eosforce transaction中只能包含一个action
+
+> abi文件通过 /v1/chain/get_abi 接口获取. [HTTP API](zh-cn/eosforce_http_chain_api.md) 

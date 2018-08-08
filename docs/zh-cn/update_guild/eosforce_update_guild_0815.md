@@ -97,7 +97,7 @@ signature-provider = EOSpubkey=KEY:EOSprivkey （其中EOSpubkey准备工作中�
 
 第5个修改地方：
 
-p2p-peer-address = 47.98.249.86:8002  (这个配置需要修改) 
+p2p-peer-address = 47.98.249.86:8002  (这个配置填这个地址) 
 
 ### 4.启动
 

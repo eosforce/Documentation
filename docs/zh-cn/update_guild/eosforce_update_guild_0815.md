@@ -31,7 +31,8 @@
 
 ## 旧版本eosforce主网源码编译部署说明
 
-参考http://47.92.77.94:4000/eosforce-old.html
+
+请参考来部署主网http://47.92.77.94:4000/eosforce-old.html
 
 ## 新版本eosforce主网源码编译部署说明
 

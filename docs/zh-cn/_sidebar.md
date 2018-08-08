@@ -5,6 +5,8 @@
     - [Getting Started](zh-cn/getting_started_eosforce.md)
     - [钱包客户端介绍](zh-cn/eosforce_wallet_introduction.md)
     - [参考资源](zh-cn/eosforce_res.md)
+- 技术规划
+    - [Eosforce多链架构技术规划](zh-cn/eosforce_mc_tech_plan.md)
 - 环境部署
     - [超级节点部署说明](zh-cn/eosforce_bp.md)
     - [测试网搭建说明](zh-cn/eosforce_bios.md)

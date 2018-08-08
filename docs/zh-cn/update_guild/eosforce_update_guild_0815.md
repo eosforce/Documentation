@@ -38,7 +38,7 @@
 其中docker部署也一样p2p-peer-address  也要配置成 47.92.77.94:9876这个地址
 
 
-新版本eosforce主网源码编译部署说明
+## 新版本eosforce主网源码编译部署说明
 ### 1. 下载源码
 
 ```shell

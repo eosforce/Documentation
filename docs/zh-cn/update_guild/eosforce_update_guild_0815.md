@@ -143,5 +143,7 @@ p2p-peer-address = 47.98.249.86:7894 (这个配置需要修改)
 * 本地bp节点同步已完成
 
 
-##新版本eosforce主网docker部署说明
+## 新版本eosforce主网docker部署说明
+
+
 docker部署 请参考 https://github.com/eosforce/genesis 上release分支

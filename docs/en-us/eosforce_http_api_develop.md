@@ -65,4 +65,14 @@ sequenceDiagram
 
 1. push_transaction 后会得到 trx_id
 2. 请求接口 POST  /v1/history/get_transaction
+   ```json
+    {
+        "id": "100004bf44d5cc60fe0697b37de830809bef3c2fa0438c38705992f649b97eb6",
+        "trx": null,
+        "block_time": "2018-07-01T08:32:09.000",
+        "block_num": 264171,
+        "last_irreversible_block": 264171,
+        "traces": []
+    }
+   ```
 3. 返回参数中 block_num 小于等于 last_irreversible_block 即为不可逆

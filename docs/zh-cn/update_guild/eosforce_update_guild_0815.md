@@ -31,8 +31,8 @@
 
 ## 旧版本eosforce主网源码编译部署说明
 
-
-请参考来部署主网http://47.92.77.94:4000/eosforce-old.html
+请参考这个文档来部署节点  http://47.92.77.94:4000/eosforce-old.html,注意这个部署文档和之前部署正式节点一样，只是p2p-peer-address选项不一样，在这个文档中p2p-peer-address只配置了一个， 请认真阅读文档
+其中docker部署也一样请参考
 
 ## 新版本eosforce主网源码编译部署说明
 
@@ -52,7 +52,7 @@ git checkout -b release
 ```shell
 cd eosforce && git submodule update --init --recursive && ./eosio_build.sh
 mkdir -p ~/.local/share/eosio/nodeos/config
-curl https://raw.githubusercontent.com/eosforce/genesis/master/genesis.json -o ~/.local/share/eosio/nodeos/config/genesis.json
+curl http://download.aitimeout.site/genesis.json -o ~/.local/share/eosio/nodeos/config/genesis.json
 cp build/contracts/eosio.token/eosio.token.abi build/contracts/eosio.token/eosio.token.wasm ~/.local/share/eosio/nodeos/config
 cp build/contracts/System/System.abi build/contracts/System/System.wasm ~/.local/share/eosio/nodeos/config
 cp build/contracts/eosio.bios/eosio.bios.abi build/contracts/eosio.bios/eosio.bios.wasm ~/.local/share/eosio/nodeos/config

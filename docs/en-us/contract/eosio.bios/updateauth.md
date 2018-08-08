@@ -110,11 +110,11 @@ Options:
 
 1. 修改user1用户的公钥
 
-/cleos set account permission -j user1 owner EOS6hj8ozvKetcfEPonMLdUm9Ey3HYPgc6Tt94R88BejE9ojbrzD5 -p ssh3@owner
+/cleos set account permission -j user1 owner EOS6hj8ozvKetcfEPonMLdUm9Ey3HYPgc6Tt94R88BejE9ojbrzD5 -p user1@owner
 
-2. 设置user1用户多重签名 (权限阈值为2，3个公钥)
+1. 设置user1用户多重签名 (权限阈值为2，3个公钥)
 
-/cleos set account permission -j user1 owner authority.json -p ssh3@owner
+/cleos set account permission -j user1 owner authority.json -p user1@owner
 
 权限设置配置文件 authority.json：
 

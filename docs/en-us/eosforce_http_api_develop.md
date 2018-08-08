@@ -58,3 +58,11 @@ sequenceDiagram
 
 > newaccount操作使用json_to_bin接口序列化失败问题已修复，稍后发布。可临时使用eos官方节点的接口
 > eosforce transaction中只能包含一个action
+
+### 安全性建议
+执行操作应该至少判断 2/3 个BP节点确认(即不可逆)才能告诉用户执行成功。
+可以通过轮询节点，返回不可逆区块信息再提示成功，具体技术过程如下：
+
+1. push_transaction 后会得到 trx_id
+2. 请求接口 POST  /v1/history/get_transaction
+3. 返回参数中 block_num 小于等于 last_irreversible_block 即为不可逆

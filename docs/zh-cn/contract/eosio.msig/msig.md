@@ -40,6 +40,9 @@ permissions:
 4. exec 执行
 5. cancel 取消提议
 
+###abi 数据结构
+- [eosio.msig](https://github.com/eosforce/eosforce/blob/release/contracts/eosio.msig/eosio.msig.abi)
+
 ## 多签执行流程
 
 ### 1. 创建提议

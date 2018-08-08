@@ -20,7 +20,8 @@ Positionals:
 
 
 ## abi 数据结构
-
+- [eosio.bio.abi](https://github.com/eosforce/eosforce/blob/release/contracts/eosio.bios/eosio.bios.abi)
+  
 ```json
     {
       "name": "newaccount",

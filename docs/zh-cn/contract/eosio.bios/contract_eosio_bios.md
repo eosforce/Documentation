@@ -35,6 +35,9 @@
 - [eosio.bios/eosio.bios.hpp](https://github.com/eosforce/eosforce/blob/master/contracts/eosio.bios/eosio.bios.hpp)
 
 ## abi 数据结构
+
+- [eosio.bio.abi](https://github.com/eosforce/eosforce/blob/release/contracts/eosio.bios/eosio.bios.abi)
+
 ```json
  "types": [{
       "new_type_name": "permission_name",

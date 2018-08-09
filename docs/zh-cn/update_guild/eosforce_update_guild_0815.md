@@ -82,7 +82,7 @@ kill -2 pid
 ### 6.最后启动升级后的服务
 
 ```shell
-cd build/programs/nodeos && ./nodeos
+cd build/programs/nodeos &&  nohup ./nodeos >> nodeos.log 2>&1 &
 ```
 
 

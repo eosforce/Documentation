@@ -93,6 +93,8 @@ cd build/programs/nodeos &&  nohup ./nodeos >> nodeos.log 2>&1 &
 
 来部署升级前的主网，注意conifg.ini配置，其p2p-peer-address要配置成 47.98.249.86:8002,目前只提供一个地址
 
+部署完成后需要确保/data/eosforce下有System.abi，System.wasm, eosio.bios.abi, eosio.bios.wasm,eosio.msig.abi,eosio.msig.wasm,eosio.token.abi,eosio.token.wasm,genesis.json,config.ini文件即可
+
 这里升级前版本是eosforce/eos:v1.0.0，需要升级的版本为eosforce/eos:v1.1
 
 我们提供了eosforce/eos:v1.0.0和eosforce/eos:v1.1镜像
@@ -101,7 +103,7 @@ cd build/programs/nodeos &&  nohup ./nodeos >> nodeos.log 2>&1 &
  docker pull eosforce/eos:v1.0.0
  docker pull eosforce/eos:v1.1
  ```
- 
+
  ### 使用如下命令启动的升级前的主网
  
  ```shell

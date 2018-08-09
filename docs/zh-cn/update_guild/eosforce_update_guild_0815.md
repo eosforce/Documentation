@@ -88,20 +88,23 @@ cd build/programs/nodeos && ./nodeos
 
 ## eosforce主网docker升级部署说明
 
-假定升级前版本是eosforce/eos:v1.0，需要升级版本的版本为eosforce/eos:v1.1
+参考来部署 https://github.com/eosforce/genesis/tree/release
+
+这里升级前版本是eosforce/eos:v1.0.0，升级版本的版本为eosforce/eos:v1.1
 
 我们提供了eosforce/eos:v1.1镜像
 
  ```shell
+ docker pull eosforce/eos:v1.0.0
  docker pull eosforce/eos:v1.1
  ```
  
- 之前使用如下命令启动的主网
+ ### 使用如下命令启动的升级前的主网
  
  ```shell
- docker run -d --restart=always --name eosforce -v /data/eosforce:/opt/eosio/bin/data-dir -v /data/nodeos/eosforce:/root/.local/share/eosio/nodeos -p 8888:8888 -p 9876:9876 eosforce/eos:v1.0 nodeosd.sh
+ docker run -d --restart=always --name eosforce -v /data/eosforce:/opt/eosio/bin/data-dir -v /data/nodeos/eosforce:/root/.local/share/eosio/nodeos -p 8888:8888 -p 9876:9876 eosforce/eos:v1.0.0 nodeosd.sh
 ```
-  升级只需要用新镜像启动,数据目录不变
+ ### 升级只需要用新镜像启动,数据目录不变，就可升级成功
   ```shell
   docker stop eosforce
   docker run -d --restart=always --name eosforce-new -v /data/eosforce:/opt/eosio/bin/data-dir -v /data/nodeos/eosforce:/root/.local/share/eosio/nodeos -p 8888:8888 -p 9876:9876 eosforce/eos:v1.1 nodeosd.sh

@@ -88,7 +88,7 @@ void onblock(…const account_name bpname,const uint32_t schedule_version);
 1. 出块节点bpname，producer.amount出块数加1
 2. 每个出块奖励9个EOS，按分红比例，将奖励加入出块节点余额，并将剩余分红加入出块节点的奖池中。
 3. 每个出块将奖励1个EOS给b1账号(block.one)
-4. 刷新选举的23个超级节点，遍历所有bp查前23个，调用wasm接口set_proposed_producers重置BP,修改数据库数据
+4. 每100个块(即5分钟)更新一次超级节点排行. 刷新选举的23个超级节点，遍历所有bp查前23个，调用wasm接口set_proposed_producers重置BP,修改数据库数据
 
 ### 扣除手续费    (系统内部使用)
 ```C++

@@ -33,7 +33,7 @@
 
 请参考这个文档来部署节点  http://47.92.77.94:4000/eosforce-old.html
 
-注意这个部署文档和之前部署正式节点一样，只是p2p-peer-address选项不一样，在文档中p2p-peer-address只配置了一个， 请认真阅读文档
+注意这个部署文档和之前部署正式节点比较类似，genesis.json文件修改了以及config.ini配置p2p-peer-address选项不一样，在文档中p2p-peer-address只配置了一个（47.98.249.86:8002）， 请认真阅读文档
 
 其中docker部署也一样p2p-peer-address也要配置成 47.98.249.86:8002 这个地址
 

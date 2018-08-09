@@ -33,7 +33,7 @@
 
 请参考这个文档来部署节点  http://47.92.77.94:4000/eosforce-old.html
 
-注意这个部署文档和之前部署正式节点比较类似，genesis.json文件修改了以及config.ini配置p2p-peer-address选项不一样，在文档中p2p-peer-address只配置了一个（47.98.249.86:8002）， 请认真阅读文档
+注意这个部署文档和之前部署正式节点比较类似，有2处不一样，genesis.json文件修改了以及config.ini配置p2p-peer-address选项不一样，在文档中p2p-peer-address只配置了一个（47.98.249.86:8002）， 请认真阅读文档
 
 其中docker部署也一样p2p-peer-address也要配置成 47.98.249.86:8002 这个地址
 
@@ -62,7 +62,7 @@ git checkout -b release
 git submodule update --init --recursive && ./eosio_build.sh
 ```
 
-### 3. 编译出来后相当之前版本会多出来，eosio.bios.abi，eosio.bios.wasm，eosio.msig.abi，eosio.msig.wasm 4个智能合约文件，需要将新增的智能文件拷贝进去
+### 3. 编译出来后相当之前版本会多出来，eosio.bios.abi，eosio.bios.wasm，eosio.msig.abi，eosio.msig.wasm 4个智能合约文件，需要将新增的智能文件拷贝进之前存放合约的目录
 
 ```shell
 cp build/contracts/eosio.bios/eosio.bios.abi build/contracts/eosio.bios/eosio.bios.wasm ~/.local/share/eosio/nodeos/config
@@ -74,7 +74,7 @@ cd build && make install
 mv /root/eosforce/build /root/eosforce/build.bak
 cd -r /root/eosforce-new/build /root/eosforce
 ```
-### 5. 杀掉升级前的nodeos进程，然后重启再启动节点服务
+### 5. 杀掉升级前的nodeos进程，重启节点服务
 注意这里需用kill -2 来杀掉进程，直接kill -9来杀进程，再次启动会报错
 ```shell
 kill -2 pid
@@ -86,7 +86,24 @@ cd build/programs/nodeos && ./nodeos
 ```
 
 
-
 ## eosforce主网docker升级部署说明
 
-docker部署 请参考 https://github.com/eosforce/genesis 上release分支
+假定升级前版本是eosforce/eos:v1.0，需要升级版本的版本为eosforce/eos:v1.1
+
+我们提供了eosforce/eos:v1.1镜像
+
+ ```shell
+ docker pull eosforce/eos:v1.1
+ ```
+ 
+ 之前使用如下命令启动的主网
+ 
+ ```shell
+ docker run -d --restart=always --name eosforce -v /data/eosforce:/opt/eosio/bin/data-dir -v /data/nodeos/eosforce:/root/.local/share/eosio/nodeos -p 8888:8888 -p 9876:9876 eosforce/eos:v1.0 nodeosd.sh
+```
+  升级只需要用新镜像启动,数据目录不变
+  ```shell
+  docker stop eosforce
+  docker run -d --restart=always --name eosforce -v /data/eosforce:/opt/eosio/bin/data-dir -v /data/nodeos/eosforce:/root/.local/share/eosio/nodeos -p 8888:8888 -p 9876:9876 eosforce/eos:v1.1 nodeosd.sh
+  ```
+

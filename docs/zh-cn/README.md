@@ -2,11 +2,15 @@
 
 ?> TODO 需要完善文档
 
+- [首页](README.md)
+
 - 介绍
     - [EOSForce介绍](zh-cn/what_is_eosforce.md)
     - [Getting Started](zh-cn/getting_started_eosforce.md)
     - [钱包客户端介绍](zh-cn/eosforce_wallet_introduction.md)
     - [参考资源](zh-cn/eosforce_res.md)
+- 技术规划
+    - [Eosforce多链架构技术规划](zh-cn/eosforce_mc_tech_plan.md)
 - 环境部署
     - [超级节点部署说明](zh-cn/eosforce_bp.md)
     - [测试网搭建说明](zh-cn/eosforce_bios.md)
@@ -35,6 +39,9 @@
 - C/C++ API
     - [C/C++ API](https://developers.eos.io/eosio-cpp/reference)
   
+- 更新记录
+    - [[2018年8月15日]更新预演说明](zh-cn/update_guild/eosforce_update_guild_0815.md) 
+
 - 关于文档的文档
     - [文档搭建介绍](example/doc_introduction.md)
     - [Markdown语法示例](example/example.md)

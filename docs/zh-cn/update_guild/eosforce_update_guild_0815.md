@@ -38,7 +38,7 @@
 其中docker部署也一样p2p-peer-address也要配置成 47.98.249.86:8002 这个地址
 
 
-## eosforce主网升级步骤说明
+## 使用源码编译升级部署说明
 
 因新版本中增加了eosio.msig， eosio.bios相关合约，因此在部署时也有差别，注意下面的文档
 
@@ -86,7 +86,7 @@ cd build/programs/nodeos && ./nodeos
 ```
 
 
-## eosforce主网docker升级部署说明
+## 使用docker升级部署说明
 
 参考来部署 https://github.com/eosforce/genesis/tree/release
 

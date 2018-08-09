@@ -56,7 +56,8 @@
 apt-get update && apt-get install -y git wget
 git clone https://github.com/eosforce/eosforce.git eosforce-new
 cd eosforce-new
-git checkout -b release 
+git checkout -b release
+git pull origin release
 ```
 
 ### 2. 执行如下命令进行编译

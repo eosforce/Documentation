@@ -88,11 +88,11 @@ cd build/programs/nodeos && ./nodeos
 
 ## eosforce主网docker升级部署说明
 
-参考来部署 https://github.com/eosforce/genesis/tree/release
+参考来部署 https://github.com/eosforce/genesis/tree/release,来部署升级前的主网，注意conifg.ini配置，其p2p-peer-address要配置成 47.98.249.86:8002,目前只提供一个地址
 
-这里升级前版本是eosforce/eos:v1.0.0，升级版本的版本为eosforce/eos:v1.1
+这里升级前版本是eosforce/eos:v1.0.0，需要升级的版本为eosforce/eos:v1.1
 
-我们提供了eosforce/eos:v1.1镜像
+我们提供了eosforce/eos:v1.0.0和eosforce/eos:v1.1镜像
 
  ```shell
  docker pull eosforce/eos:v1.0.0

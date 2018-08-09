@@ -65,7 +65,9 @@ git checkout -b release
 git submodule update --init --recursive && ./eosio_build.sh
 ```
 
-### 3. 编译出来后相对于之前版本会多出来 eosio.bios.abi，eosio.bios.wasm，eosio.msig.abi，eosio.msig.wasm 4个智能合约文件，需要将新增的智能文件拷贝进之前存放合约的目录，前提要确保旧版本的 ~/.local/share/eosio/nodeos/config目录有System.abi,System.wasm,config.ini	,eosio.token.abi,eosio.token.wasm,genesis.json这些文件
+### 3. 编译出来后相对于之前版本会多出来 eosio.bios.abi，eosio.bios.wasm，eosio.msig.abi，eosio.msig.wasm 4个智能合约文件，需要将新增的智能文件拷贝进之前存放合约的目录
+
+要确保旧版本的 ~/.local/share/eosio/nodeos/config目录已有System.abi,System.wasm,config.ini	,eosio.token.abi,eosio.token.wasm,genesis.json这些文件
 
 ```shell
 cp build/contracts/eosio.bios/eosio.bios.abi build/contracts/eosio.bios/eosio.bios.wasm ~/.local/share/eosio/nodeos/config

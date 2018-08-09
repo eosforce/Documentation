@@ -72,7 +72,7 @@ cd build && make install
 ### 4. 先将升级前的build目录备份，再用编译出来的build目录拷贝进升级前的源码目录
 ```shell
 mv /root/eosforce/build /root/eosforce/build.bak
-cd -r /root/eosforce-new/build /root/eosforce
+cp -r /root/eosforce-new/build /root/eosforce
 ```
 ### 5. 杀掉升级前的nodeos进程，重启节点服务
 注意这里需用kill -2 来杀掉进程，直接kill -9来杀进程，再次启动会报错

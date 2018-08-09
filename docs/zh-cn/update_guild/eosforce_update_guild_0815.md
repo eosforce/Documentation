@@ -89,7 +89,7 @@ cd build/programs/nodeos &&  nohup ./nodeos >> nodeos.log 2>&1 &
 ## 使用docker升级部署说明
 
 参考来部署 https://github.com/eosforce/genesis/tree/release
-（其中/data/eosforce/里面的合约文件和genesis.json文件即兼容升级前版本的，又兼容升级后的版本，这个不用管，按步骤做就行）
+（其中/data/eosforce/里面的合约文件和genesis.json文件即兼容升级前版本的，又兼容升级后的版本）
 
 来部署升级前的主网，注意conifg.ini配置，其p2p-peer-address要配置成 47.98.249.86:8002,目前只提供一个地址
 

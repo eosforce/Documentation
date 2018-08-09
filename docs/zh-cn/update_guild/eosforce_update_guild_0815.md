@@ -9,6 +9,7 @@
 
 3. 升级由BP节点一个一个按固定顺序（23个BP节点按节点投票排名由高到低的顺序来完成升级），前一BP升级成功，下一个BP节点开始完成升级，确保主网最后预演成功
 
+4.在预演升级之前，只需要把旧版本eosforce主网部署好，到时直接演练升级新版本eosforce主网
 
 ## 预演流程
 
@@ -62,7 +63,7 @@ git checkout -b release
 git submodule update --init --recursive && ./eosio_build.sh
 ```
 
-### 3. 编译出来后相当之前版本会多出来，eosio.bios.abi，eosio.bios.wasm，eosio.msig.abi，eosio.msig.wasm 4个智能合约文件，需要将新增的智能文件拷贝进之前存放合约的目录
+### 3. 编译出来后相对于之前版本会多出来 eosio.bios.abi，eosio.bios.wasm，eosio.msig.abi，eosio.msig.wasm 4个智能合约文件，需要将新增的智能文件拷贝进之前存放合约的目录，前提要确保旧版本的 ~/.local/share/eosio/nodeos/config目录有System.abi,System.wasm,config.ini	,eosio.token.abi,eosio.token.wasm,genesis.json这些文件
 
 ```shell
 cp build/contracts/eosio.bios/eosio.bios.abi build/contracts/eosio.bios/eosio.bios.wasm ~/.local/share/eosio/nodeos/config
@@ -75,7 +76,7 @@ mv /root/eosforce/build /root/eosforce/build.bak
 cp -r /root/eosforce-new/build /root/eosforce
 ```
 ### 5. 杀掉升级前的nodeos进程，重启节点服务
-注意这里需用kill -2 来杀掉进程，直接kill -9来杀进程，再次启动会报错
+注意这里需用kill -2 来杀掉进程，不要直接用kill -9来杀进程，否则会启动会报错
 ```shell
 kill -2 pid
 ```

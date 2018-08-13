@@ -19,6 +19,7 @@
     - [eosforce 客户端开发指南](zh-cn/eosforce_client_develop_guild.md)
     - [HTTP API请求流程](zh-cn/eosforce_http_api_develop.md)
     - [JS API库介绍](zh-cn/eosjs_api_doc.md) 
+    - [常用cleos命令](zh-cn/eosforce_cleos_eg.md)
 - 功能介绍
     - [系统合约](zh-cn/contract/System/System.md)
     - [代币](zh-cn/contract/eosio.token/token.md)

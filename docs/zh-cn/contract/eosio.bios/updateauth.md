@@ -11,6 +11,39 @@
 
 调用 /v1/chain/push_transaction接口，提交 updateauth action，修改账户owner权限、active权限。
 
+```json
+{
+  "compression": "none",
+  "transaction": {
+    "expiration": "2018-08-09T10:21:21",
+    "ref_block_num": 24885,
+    "ref_block_prefix": 3198095408,
+    "net_usage_words": 0,
+    "max_cpu_usage_ms": 0,
+    "delay_sec": 0,
+    "context_free_actions": [],
+    "actions": [
+      {
+        "account": "eosio",
+        "name": "updateauth",
+        "authorization": [
+          {
+            "actor": "yg",
+            "permission": "owner"
+          }
+        ],
+        "data": "00000000000000f300000000a8ed32320000000080ab26a70100000001000301cf1d9b6abc1b647c06446e7fceccaec6e5ac78592049751b95834de5dd6e7301000000"
+      }
+    ],
+    "transaction_extensions": [],
+    "fee": "0.1000 EOS"
+  },
+  "signatures": [
+    "SIG_K1_KZtvqcfubxXciq6dQWgoVsdmo8TtF56yV39nDHpGV9bxiHWxSbugX2WyUFjgX436i5Ri8YkL478E6NaV66xZ5JuVgM3KcG"
+  ]
+}
+```
+
 abi数据结构：
 - [eosio.bio.abi](https://github.com/eosforce/eosforce/blob/release/contracts/eosio.bios/eosio.bios.abi)
 

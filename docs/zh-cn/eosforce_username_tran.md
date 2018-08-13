@@ -4,6 +4,12 @@
 
 使用 [updateauth](zh-cn/contract/eosio.bios/updateauth.md) 修改账号的公钥，此公钥可他人提供，线下交易，即可实现将此用户名转让。
 
+> 注意：eosforce暂时一个交易只能包含一个action，所以需要提交两次交易。注意执行顺序与失败情况。
+
+单方执行的方法：需先修改active权限，再修改onwer权限。修改了owner权限后，就无法执行修改了。
+双方异步执行方法：所有者修改owner权限给接收者公钥；接受者再修改此账号的active权限。
+
+
 ## 2 链上交易
 
 (待实现)

@@ -8,6 +8,7 @@
 
 参数：
 - issuer : 类型 account_name, 发行人
+
 - maximum_supply :  类型 asset, 代币及最大供应量
 
 > asset '数量 代币符号' eg:'100 RMB'

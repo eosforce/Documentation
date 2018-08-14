@@ -61,3 +61,22 @@ eosforce提供的智能合约包括:
 > eosforce transaction中只能包含一个action
 
 > abi文件通过 /v1/chain/get_abi 接口获取. [HTTP API](zh-cn/eosforce_http_chain_api.md) 
+
+
+### 安全性建议
+执行操作应该至少判断 2/3 个BP节点确认(即不可逆)才能告诉用户执行成功。
+可以通过轮询节点，返回不可逆区块信息再提示成功，具体技术过程如下：
+
+1. push_transaction 后会得到 trx_id
+2. 请求接口 POST  /v1/history/get_transaction
+   ```json
+    {
+        "id": "100004bf44d5cc60fe0697b37de830809bef3c2fa0438c38705992f649b97eb6",
+        "trx": null,
+        "block_time": "2018-07-01T08:32:09.000",
+        "block_num": 264171,
+        "last_irreversible_block": 264171,
+        "traces": []
+    }
+   ```
+3. 返回参数中 block_num 小于等于 last_irreversible_block 即为不可逆

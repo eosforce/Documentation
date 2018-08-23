@@ -190,16 +190,16 @@ http://127.0.0.1:8888/v1/chain/get_block
 ```
 ## /get_table_rows
 
-查询表数据信息
+查询合约表数据信息
 
 参数	:
-- scope : string REQUIRED Provide the account name
-- code : string REQUIRED Provide the smart contract name
-- table : string REQUIRED Provide the table name
-- json : string REQUIRED Provide true or false
-- lower_bound : int32, Provide the lower bound
-- upper_bound : int32, Provide the upper bound
-- limit : int32, Provide the limit
+- scope : string 必须，账号名，系统账号为"eosio"
+- code : string 必须，合约名，系统合约为"eosio"
+- table : string 必须，表名
+- json : string 必须， json格式
+- lower_bound : int32, 下界
+- upper_bound : int32, 上界
+- limit : int32, 查询数量
 
 ## /get_code
 

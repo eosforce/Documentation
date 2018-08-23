@@ -9,6 +9,7 @@
 BODY PARAMS	 :
 - pos : int32
 - offset : int32
+- limit : int32 
 - account_name : string
 
 ```json

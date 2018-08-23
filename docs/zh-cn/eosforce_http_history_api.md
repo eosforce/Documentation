@@ -11,6 +11,7 @@
 BODY PARAMS	 :
 - pos : int32
 - offset : int32
+- limit : int32 数量
 - account_name : string
 
 ```json

@@ -258,7 +258,9 @@ RETURN :
 ## /abi_json_to_bin
 
 json序列化，序列化结果用于push_transaction的data字段。
-目前仅支持 eosio and eosio.token 账号的abi， 之后会支持eosio.bios账号，包括newaccount等系统action
+
+> tag:v1.0.2 支持eosio.bios、eosio.msig合约，包括newaccount等系统action
+> 更新v1.0.2后编译重启，若是从0开始同步数据的，同步完成后需要重启以加载eosio.bios、eosio.msig合约
 
 参数	 :
 - code :  string, Provide the account name.
@@ -273,7 +275,9 @@ json序列化，序列化结果用于push_transaction的data字段。
 - code string REQUIRED Provide the smart contract account name
 - action : string REQUIRED Provide the action name
 - binargs : string REQUIRED Provide the binary arguments
-  
+
+> 注意点同  abi_json_to_bin
+
 ## /push_transaction
 
 推送交易

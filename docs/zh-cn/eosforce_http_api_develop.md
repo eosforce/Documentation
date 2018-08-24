@@ -56,8 +56,10 @@ eosforce提供的智能合约包括:
 4. 对交易transaction进行签名
 5. 调用 /v1/chain/push_transaction 接口，提交签名后的transaction数据。
 
-> newaccount操作使用json_to_bin接口序列化失败问题已修复，稍后发布。可临时使用eos官方节点的接口
-
+> newaccount操作使用json_to_bin接口序列化失败问题（v1.0.2）已修复.
+> tag:v1.0.2 支持eosio.bios、eosio.msig合约，包括newaccount等系统action
+> 更新v1.0.2后编译重启，若是从0开始同步数据的，同步完成后需要重启以加载eosio.bios、eosio.msig合约
+> 
 > eosforce transaction中只能包含一个action
 
 > abi文件通过 /v1/chain/get_abi 接口获取. [HTTP API](zh-cn/eosforce_http_chain_api.md) 
@@ -65,7 +67,7 @@ eosforce提供的智能合约包括:
 
 ### 安全性建议
 执行操作应该至少判断 2/3 个BP节点确认(即不可逆)才能告诉用户执行成功。
-可以通过轮询节点，返回不可逆区块信息再提示成功，具体技术过程如下：
+可以通过轮询节点（正常16*3秒后查询即可），返回不可逆区块信息再提示成功，具体技术过程如下：
 
 1. push_transaction 后会得到 trx_id
 2. 请求接口 POST  /v1/history/get_transaction

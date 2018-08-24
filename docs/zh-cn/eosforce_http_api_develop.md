@@ -43,7 +43,7 @@ sequenceDiagram
 eosforce提供的智能合约包括:
 - [System](zh-cn/contract/System/System.md) 系统合约：投票、分红等，合约账户：eosio
 - [eosio.token](zh-cn/contract/eosio.token/token.md) 代币合约：token的创建、发行、转账等，合约账户：eosio.token
-- [eosio.bios](zh-cn/eosforce_account.md)(稍后开放) 内部合约：操作用户权限等，合约账户：eosio.bios(待更新)
+- [eosio.bios](zh-cn/eosforce_account.md)(v1.0.2 开放) 内部合约：操作用户权限等，合约账户：eosio.bios
 - [eosio.msig](zh-cn/contract/eosio.msig/msig.md)(稍后开放) 多重签名合约，合约账户：eosio.msig(待更新)
 
 > eosforce 目前暂未开放用户提交智能合约的功能

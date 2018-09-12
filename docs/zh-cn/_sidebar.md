@@ -28,6 +28,7 @@
     - [修改权限](zh-cn/contract/eosio.bios/updateauth.md)
     - [用户名转让](zh-cn/eosforce_username_tran.md)
     - [多重签名](zh-cn/contract/eosio.msig/msig.md)
+    - [手续费](zh-cn/fee.md)
     
 - HTTP API
     - [链相关api](zh-cn/eosforce_http_chain_api.md)
@@ -35,7 +36,9 @@
 
 - C/C++ API
     - [C/C++ API](https://developers.eos.io/eosio-cpp/reference)
-  
+- 数据库
+    - [mongoDB](zh-cn/mongodb.md)
+
 - 更新记录
     - [[2018年8月15日]更新预演说明](zh-cn/update_guild/eosforce_update_guild_0815.md) 
 

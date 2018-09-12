@@ -19,6 +19,8 @@
     - [account](en-us/contract/contract_eosio_bios.md)
     - [account transfer](en-us/eosforce_username_tran.md)
     - [multi sign](en-us/contract/eosio.msig/msig.md)
+    - [手续费](zh-cn/fee.md)
+  
 - Client develop documentations
     - [HTTP API](en-us/eosforce_http_api_develop.md)
     - [JS API Introduction](en-us/eosjs_api_doc.md) 
@@ -26,6 +28,7 @@
 - HTTP API
     - [Chain API](en-us/eosforce_http_chain_api.md)
     - [History API](en-us/eosforce_http_history_api.md)
-  
+- DB
+    - [mongoDB](zh-cn/mongodb.md)
 - C/C++ API
     - [C/C++ API](https://developers.eos.io/eosio-cpp/reference)

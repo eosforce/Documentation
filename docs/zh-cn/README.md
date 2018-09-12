@@ -45,6 +45,9 @@
 - 更新记录
     - [[2018年8月15日]更新预演说明](zh-cn/update_guild/eosforce_update_guild_0815.md) 
 
+- 源码分析
+    - [EOS备忘-Block Produce机制](zh-cn/code/block_produce.md)
+
 - 关于文档的文档
     - [文档搭建介绍](example/doc_introduction.md)
     - [Markdown语法示例](example/example.md)

@@ -19,7 +19,7 @@
     - [account](en-us/contract/contract_eosio_bios.md)
     - [account transfer](en-us/eosforce_username_tran.md)
     - [multi sign](en-us/contract/eosio.msig/msig.md)
-    - [手续费](zh-cn/fee.md)
+    - [fee](zh-cn/fee.md)
   
 - Client develop documentations
     - [HTTP API](en-us/eosforce_http_api_develop.md)

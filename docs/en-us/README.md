@@ -24,6 +24,7 @@
 - Client develop documentations
     - [HTTP API](en-us/eosforce_http_api_develop.md)
     - [JS API Introduction](en-us/eosjs_api_doc.md) 
+    - [develop APP for Scatter](en-us/eosforce_scatter.md) 
     - [commen cleos example](en-us/eosforce_cleos_eg.md)
 
 - HTTP API

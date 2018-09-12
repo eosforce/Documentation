@@ -7,12 +7,14 @@
 1. 启动mongod, 默认端口：27017。
 
 2. config.ini 配置文件
-添加参数：
+   
+- 添加参数：
 mongodb-uri = mongodb://127.0.0.1:27017/EOS
-添加插件：
+
+- 添加插件：
 plugin = eosio::mongo_db_plugin
 
-3. 启动nodeos. 将通过mongodb-uri连接mongo, 并默认建立库：EOS
+1. 启动nodeos. 将通过mongodb-uri连接mongo, 并默认建立库：EOS
 
 ## mongoDB collections：
 

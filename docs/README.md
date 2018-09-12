@@ -15,10 +15,20 @@
     - [Cleos Resources](en-us/eosforce_cleos_res.md)
     - [Introduction to Keosd](en-us/eosforce_keosd_introduction.md)
     - [Keosd API Resources](en-us/eosforce_keosd_res.md)
+  - Functions
+    - [System](en-us/contract/System/System.md)
+    - [token](en-us/contract/eosio.token/token.md)
+    - [account](en-us/contract/contract_eosio_bios.md)
+    - [account transfer](en-us/eosforce_username_tran.md)
+    - [multi sign](en-us/contract/eosio.msig/msig.md)
+    - [fee](zh-cn/fee.md)
 - Client develop documentations
     - [HTTP API](en-us/eosforce_http_api_develop.md)
     - [JS API Introduction](en-us/eosjs_api_doc.md) 
 - C/C++ API
+    - [C/C++ API](https://developers.eos.io/eosio-cpp/reference)
 - HTTP API
     - [Chain API](en-us/eosforce_http_chian_api.md)
     - [History API](en-us/eosforce_http_history_api.md)
+- DB
+    - [mongoDB](zh-cn/mongodb.md)

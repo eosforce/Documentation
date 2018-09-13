@@ -4,6 +4,8 @@
 
 这里我们主要讨论EOS出块相关代码，在EOS中由BP节点出块，这些区块构成了一条链，这里的逻辑Eosforce和Eos没有太大区别。
 
+这里的代码基于1.2.5版本
+
 ## 1.总体流程
 
 nodeos启动时会加载producer_plugin，在这个插件的start函数中会调用schedule_production_loop()开始循环：

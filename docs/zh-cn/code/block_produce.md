@@ -122,6 +122,59 @@ namespace block_production_condition {
 
 ## 3.块计算逻辑 producer_plugin_impl::start_block()
 
+首先来看下start_block的返回值：
+
+```cpp
+      enum class start_block_result {
+         succeeded, // 出块成功
+         failed, // 出块失败
+         waiting, // 需要等待
+         exhausted // 出块繁忙
+      };
+```
+
+在`schedule_production_loop`中会进行错误处理。
+
+进入`start_block`之后， 会先判定当前_pending_block_mode， 在上文中已经阐述了，
+
+首先，因为考虑到在出块时有可能还在进行同步区块，所以这里首先有个判定，如果当前最高区块的时间和当前时间差距太大（超过5秒），就会认为还在同步区块，这时会等一段时间再出，返回 `start_block_result::waiting`
+
+```cpp
+   if (_pending_block_mode == pending_block_mode::speculating) {
+      auto head_block_age = now - chain.head_block_time();
+      if (head_block_age > fc::seconds(5))
+         return start_block_result::waiting;
+   }
+```
+
+在这之后是调用`chain.start_block`来做要出的区块的构造逻辑：
+
+```cpp
+   try {
+      uint16_t blocks_to_confirm = 0;
+
+      if (_pending_block_mode == pending_block_mode::producing) {
+         // determine how many blocks this producer can confirm
+         // 1) if it is not a producer from this node, assume no confirmations (we will discard this block anyway)
+         // 2) if it is a producer on this node that has never produced, the conservative approach is to assume no
+         //    confirmations to make sure we don't double sign after a crash TODO: make these watermarks durable?
+         // 3) if it is a producer on this node where this node knows the last block it produced, safely set it -UNLESS-
+         // 4) the producer on this node's last watermark is higher (meaning on a different fork)
+         if (currrent_watermark_itr != _producer_watermarks.end()) {
+            auto watermark = currrent_watermark_itr->second;
+            if (watermark < hbs->block_num) {
+               blocks_to_confirm = std::min<uint16_t>(std::numeric_limits<uint16_t>::max(), (uint16_t)(hbs->block_num - watermark));
+            }
+         }
+      }
+
+      chain.abort_block();
+      chain.start_block(block_time, blocks_to_confirm);
+   } FC_LOG_AND_DROP();
+```
+
+之后是执行交易的过程，每个出块节点会维护一个待打包进块的交易的集合，
+
 首先看下 persisted transactions:
 
 ```cpp
@@ -528,3 +581,5 @@ void producer_plugin_impl::produce_block() {
 至此以上就是整个出块流程, accepted_block信号会触发net_plugin_impl中的回调,最终会调用net_plugin中的`void dispatch_manager::bcast_block (const signed_block &bsum)`函数,将新出的块广播给所有对端.
 
 ## 5.需要留意的问题
+
+TODO

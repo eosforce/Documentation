@@ -1,7 +1,5 @@
 # EOS源码备忘-Push Transaction机制
 
-by fanyang
-
 ---------------------------------------
 
 这里我们讨论EOS Push Transaction 的逻辑，这块EOS与Eosforce实现有一些区别，我们会着重点出。
@@ -21,6 +19,8 @@ transaction_header <- transaction <- signed_transaction <- deferred_transaction
                         |
                  packed_transaction
 ```
+
+### 1.1 Action
 
 我们这里先看一下Action的声明：
 
@@ -53,6 +53,8 @@ transaction_header <- transaction <- signed_transaction <- deferred_transaction
 Action没有什么特别的内容，但要注意：
 
 !> 在EOS中一个transaction中包含很多个action，而在Eosforce中一个trx只能包括一个action。
+
+### 1.2 Transaction
 
 下面我们分析一下transaction，这里简写为trx。
 
@@ -137,9 +139,42 @@ transaction_id_type transaction::id() const {
 }
 ```
 
-TODO eosforce的trx
+!> Eosforce不同
+
+在Eosforce中为了添加手续费信息，trx与EOS结构不同，主要是增加了fee， 在transaction中：
+
+```cpp
+   struct transaction : public transaction_header {
+      vector<action>         context_free_actions;
+      vector<action>         actions;
+      extensions_type        transaction_extensions;
+      asset                  fee; // EOSForce 增加的手续费，在客户端push trx时需要写入
+
+      transaction_id_type        id()const;
+      digest_type                sig_digest( const chain_id_type& chain_id, const vector<bytes>& cfd = vector<bytes>() )const;
+      flat_set<public_key_type>  get_signature_keys( const vector<signature_type>& signatures,
+                                                     const chain_id_type& chain_id,
+                                                     const vector<bytes>& cfd = vector<bytes>(),
+                                                     bool allow_duplicate_keys = false,
+                                                     bool use_cache = true )const;
+
+      uint32_t total_actions()const { return context_free_actions.size() + actions.size(); }
+      account_name first_authorizor()const {
+         for( const auto& a : actions ) {
+            for( const auto& u : a.authorization )
+               return u.actor;
+         }
+         return account_name();
+      }
+
+   };
+```
+
+在 https://eosforce.github.io/Documentation/#/zh-cn/eosforce_client_develop_guild 这篇文档里也有说明。
 
 这里计算trx id时完全使用trx的数据，这意味着，如果是两个trx数据完全一致，特别的他们在一个区块中，那么这两个trx的id就会是一样的。
+
+### 1.3 signed_transaction
 
 一个trx签名之后会得到一个`signed_transaction`，
 
@@ -459,11 +494,15 @@ bool controller::is_known_unexpired_transaction( const transaction_id_type& id) 
    }
 ```
 
-这里会将运行正常的广播给其他节点，这其中会发送给超级节点打包如块。
+这里会将运行正常的广播给其他节点，这其中会发送给超级节点打包入块，打包过程可以参见 https://eosforce.github.io/Documentation/#/zh-cn/code/block_produce 。
 
 ## 3. `push_transaction`代码分析
 
 这里我们来分析下`push_transaction`的过程，作为执行trx的入口，这个函数在EOS中非常重要，另一方面，这里EOS与Eosforce有一定区别，这里会具体介绍。
+
+TODO 需要一个流程图，不过博客还不支持
+
+### 3.1 transaction_metadata
 
 我们先来看下`push_transaction`的`transaction_metadata`参数， 这个参数统一了各种不同类型，不同行为的trx：
 
@@ -527,6 +566,8 @@ using transaction_metadata_ptr = std::shared_ptr<transaction_metadata>;
 !> Eosforce不同之处
 
 而对于EOSForce中，除了on_block action之外，onfee合约也是被设置为implicit==true的，onfee合约是eosforce的系统合约，设计用来收取交易的手续费。
+
+### 3.2 `push_transaction`函数
 
 下面我们逐行分析下代码，EOS中`push_transaction`代码如下：
 
@@ -971,6 +1012,7 @@ using transaction_metadata_ptr = std::shared_ptr<transaction_metadata>;
 调用完exec之后会调用`transaction_context::finalize()`：
 
 ```cpp
+   // 这里主要是处理资源消耗
    void transaction_context::finalize() {
       EOS_ASSERT( is_initialized, transaction_exception, "must first initialize" );
 
@@ -1027,7 +1069,7 @@ using transaction_metadata_ptr = std::shared_ptr<transaction_metadata>;
    }
 ```
 
-接下来调用`make_block_restore_point`：
+接下来`make_block_restore_point`，这里添加了一个`检查点`：
 
 ```cpp
    // The returned scoped_exit should not exceed the lifetime of the pending which existed when make_block_restore_point was called.
@@ -1084,6 +1126,8 @@ using transaction_metadata_ptr = std::shared_ptr<transaction_metadata>;
             }
 ```
 
+TODO trx_context.undo
+
 这里调用`database::session`对应的函数，
 
 !> Eosforce不同之处
@@ -1106,7 +1150,7 @@ Eosforce中的`push_transaction`函数如下：
       // eosforce暂时没有开放延迟交易和上下文无关交易
       EOS_ASSERT(trx->trx.delay_sec.value == 0UL, transaction_exception, "delay,transaction failed");
       EOS_ASSERT(trx->trx.context_free_actions.size()==0, transaction_exception, "context free actions size should be zero!");
-      
+
       // 在eosforce中，为了安全性，对于特定一些交易进行了额外的验证，主要是考虑到，系统会将执行错误的交易写入区块
       // 此时就要先验证下交易内容，特别是大小上有没有超出限制，否则将会带来安全问题。
       check_action(trx->trx.actions);
@@ -1188,12 +1232,528 @@ Eosforce中的`push_transaction`函数如下：
 
 这里我们来看看action的执行过程，上面在`dispatch_action`中创建`apply_context`执行action，我们这里分析这一块的代码。
 
-`apply_context`结构如下：
+`apply_context`结构比较大，主要是数据结构实现内容很多，这里我们只分析功能点，从这方面入手看结构，先从`exec`开始，
+在上面push_trx最终调用的就是这个函数，执行actions：
 
 ```cpp
+void apply_context::exec()
+{
+   // 先添加receiver，关于_notified下面分析
+   _notified.push_back(receiver);
 
+   // 执行exec_one，这里是实际执行action的地方，下面单独分析
+   trace = exec_one();
+
+   // 下面处理inline action
+   
+   // 注意不是从0开始，会绕过上面添加的receiver
+   for( uint32_t i = 1; i < _notified.size(); ++i ) {
+      receiver = _notified[i];
+      // 通知指定的账户 关于_notified下面分析
+      trace.inline_traces.emplace_back( exec_one() );
+   }
+
+   // 防止调用inline action过深
+   if( _cfa_inline_actions.size() > 0 || _inline_actions.size() > 0 ) {
+      EOS_ASSERT( recurse_depth < control.get_global_properties().configuration.max_inline_action_depth,
+                  transaction_exception, "inline action recursion depth reached" );
+   }
+
+   // 先执行_cfa_inline_actions
+   for( const auto& inline_action : _cfa_inline_actions ) {
+      trace.inline_traces.emplace_back();
+      trx_context.dispatch_action( trace.inline_traces.back(), inline_action, inline_action.account, true, recurse_depth + 1 );
+   }
+
+   // 再执行_inline_actions
+   for( const auto& inline_action : _inline_actions ) {
+      trace.inline_traces.emplace_back();
+      trx_context.dispatch_action( trace.inline_traces.back(), inline_action, inline_action.account, false, recurse_depth + 1 );
+   }
+
+} /// exec()
 ```
+
+这里的逻辑基本都是处理inline action，inline action允许在一个合约中触发另外一个合约的调用，需要注意的是这里与编程语言中的函数调用并不相同，从上面代码也可以看出，系统会先执行合约对应的action，再执行合约中的声明调用的inline action，注意recurse_depth，显然循环调用合约次数深度过高会引起错误。
+
+为了更好的理解代码过程我们先来仔细看下 inline action。在合约中可以这样使用，代码出自dice：
+
+```cpp
+      //@abi action
+      void deposit( const account_name from, const asset& quantity ) {
+         
+         ...
+
+         action(
+            permission_level{ from, N(active) },
+            N(eosio.token), N(transfer),
+            std::make_tuple(from, _self, quantity, std::string(""))
+         ).send();
+
+         ...
+      }
+```
+
+这里`send`会把action打包并调用下面的`send_inline`：
+
+```cpp
+      void send_inline( array_ptr<char> data, size_t data_len ) {
+         //TODO: Why is this limit even needed? And why is it not consistently checked on actions in input or deferred transactions
+         EOS_ASSERT( data_len < context.control.get_global_properties().configuration.max_inline_action_size, inline_action_too_big,
+                    "inline action too big" );
+
+         action act;
+         fc::raw::unpack<action>(data, data_len, act);
+         context.execute_inline(std::move(act));
+      }
+```
+
+可以看到这里调用的是内部的`execute_inline`函数：
+
+```cpp
+/**
+ *  This will execute an action after checking the authorization. Inline transactions are
+ *  implicitly authorized by the current receiver (running code). This method has significant
+ *  security considerations and several options have been considered:
+ *
+ *  1. priviledged accounts (those marked as such by block producers) can authorize any action
+ *  2. all other actions are only authorized by 'receiver' which means the following:
+ *         a. the user must set permissions on their account to allow the 'receiver' to act on their behalf
+ *
+ *  Discarded Implemenation:  at one point we allowed any account that authorized the current transaction
+ *   to implicitly authorize an inline transaction. This approach would allow privelege escalation and
+ *   make it unsafe for users to interact with certain contracts.  We opted instead to have applications
+ *   ask the user for permission to take certain actions rather than making it implicit. This way users
+ *   can better understand the security risk.
+ */
+void apply_context::execute_inline( action&& a ) {
+   // 先做了一些检查
+   auto* code = control.db().find<account_object, by_name>(a.account);
+   EOS_ASSERT( code != nullptr, action_validate_exception,
+               "inline action's code account ${account} does not exist", ("account", a.account) );
+
+   for( const auto& auth : a.authorization ) {
+      auto* actor = control.db().find<account_object, by_name>(auth.actor);
+      EOS_ASSERT( actor != nullptr, action_validate_exception,
+                  "inline action's authorizing actor ${account} does not exist", ("account", auth.actor) );
+      EOS_ASSERT( control.get_authorization_manager().find_permission(auth) != nullptr, action_validate_exception,
+                  "inline action's authorizations include a non-existent permission: ${permission}",
+                  ("permission", auth) );
+   }
+
+   // No need to check authorization if: replaying irreversible blocks; contract is privileged; or, contract is calling itself.
+   // 上面几种情况下不需要做权限检查
+   if( !control.skip_auth_check() && !privileged && a.account != receiver ) {
+      control.get_authorization_manager()
+             .check_authorization( {a},
+                                   {},
+                                   {{receiver, config::eosio_code_name}},
+                                   control.pending_block_time() - trx_context.published,
+                                   std::bind(&transaction_context::checktime, &this->trx_context),
+                                   false
+                                 );
+
+      //QUESTION: Is it smart to allow a deferred transaction that has been delayed for some time to get away
+      //          with sending an inline action that requires a delay even though the decision to send that inline
+      //          action was made at the moment the deferred transaction was executed with potentially no forewarning?
+   }
+
+   // 这里只是把这个act放入_inline_actions列表中，并没有执行。
+   _inline_actions.emplace_back( move(a) );
+}
+```
+
+注意上面代码中最后的`_inline_actions`，这里面放着执行action时所触发的所有action的数据，回到`exec`中：
+
+```cpp
+   // 防止调用inline action过深
+   if( _cfa_inline_actions.size() > 0 || _inline_actions.size() > 0 ) {
+      EOS_ASSERT( recurse_depth < control.get_global_properties().configuration.max_inline_action_depth,
+                  transaction_exception, "inline action recursion depth reached" );
+   }
+
+   // 先执行_cfa_inline_actions
+   for( const auto& inline_action : _cfa_inline_actions ) {
+      trace.inline_traces.emplace_back();
+      trx_context.dispatch_action( trace.inline_traces.back(), inline_action, inline_action.account, true, recurse_depth + 1 );
+   }
+
+   // 再执行_inline_actions
+   for( const auto& inline_action : _inline_actions ) {
+      trace.inline_traces.emplace_back();
+      trx_context.dispatch_action( trace.inline_traces.back(), inline_action, inline_action.account, false, recurse_depth + 1 );
+   }
+```
+
+这后半部分就是执行action，注意上面我们没有跟踪`_cfa_inline_actions`的流程，这里和`_inline_actions`的流程是一致的，区别是在合约中由`send_context_free`触发。
+
+以上我们看了下inline action的处理，上面`exec`中没有提及的是`_notified`，下面来看看这个，
+在合约中可以调用`require_recipient`：
+
+```cpp
+// 把账户添加至通知账户列表中
+void apply_context::require_recipient( account_name recipient ) {
+   if( !has_recipient(recipient) ) {
+      _notified.push_back(recipient);
+   }
+}
+```
+
+在执行完action之后，执行inline action之前（严格上说inline action 不是action的一部分，所以在这之前）会通知所有在执行合约过程中添加入`_notified`的账户：
+
+```cpp
+   // 注意不是从0开始，会绕过上面添加的receiver
+   for( uint32_t i = 1; i < _notified.size(); ++i ) {
+      receiver = _notified[i];
+      trace.inline_traces.emplace_back( exec_one() );
+   }
+```
+
+这里可能有疑问的是为什么又执行了一次`exec_one`，下面分析`exec_one`时会说明。
+
+以上我们分析了一下`exec`，这里主要是调用`exec_one`来执行合约，下面就来看看`exec_one`：
+
+```cpp
+// 执行action，注意`receiver`
+action_trace apply_context::exec_one()
+{
+   auto start = fc::time_point::now();
+
+   const auto& cfg = control.get_global_properties().configuration;
+   try {
+      // 这里是receiver是作为一个合约账户的情况
+      const auto& a = control.get_account( receiver );
+      privileged = a.privileged;
+
+      // 这里检查action是不是系统内部的合约，关于这方面下面会单独分析
+      auto native = control.find_apply_handler( receiver, act.account, act.name );
+      if( native ) {
+         if( trx_context.can_subjectively_fail && control.is_producing_block()) {
+            control.check_contract_list( receiver );
+            control.check_action_list( act.account, act.name );
+         }
+         // 这里会执行cpp中定义的代码
+         (*native)( *this );
+      }
+
+      // 如果是合约账户的话，这里会执行
+      if( a.code.size() > 0
+          // 这里对 setcode 单独处理了一下，这是因为setcode和其他合约都使用了code数据
+          // 但是 setcode 是在cpp层调用的，code作为参数，所以这里就不会调用code。
+          && !(act.account == config::system_account_name
+               && act.name == N( setcode )
+               && receiver == config::system_account_name)) {
+         if( trx_context.can_subjectively_fail && control.is_producing_block()) {
+            // 各种黑白名单检查
+            control.check_contract_list( receiver ); // 这里主要是account黑白名单，不再细细说明
+            control.check_action_list( act.account, act.name ); // 这里主要是action黑名单，不再细细说明
+         }
+         try {
+            // 这里就会调用虚拟机执行code，关于这方面，我们会单独写一篇分析文档
+            control.get_wasm_interface().apply( a.code_version, a.code, *this );
+         } catch( const wasm_exit& ) {}
+      }
+
+   } FC_RETHROW_EXCEPTIONS(warn, "pending console output: ${console}", ("console", _pending_console_output.str()))
+
+   // 这里的代码分成了两部分，这里其实应该重构一下，下面的逻辑应该单独提出一个函数。
+   // 上面对于`_notified`其实就是从这里开始
+
+   // 整理action_receipt数据
+   action_receipt r;
+   r.receiver         = receiver;
+   r.act_digest       = digest_type::hash(act);
+   r.global_sequence  = next_global_sequence();
+   r.recv_sequence    = next_recv_sequence( receiver );
+
+   const auto& account_sequence = db.get<account_sequence_object, by_name>(act.account);
+   r.code_sequence    = account_sequence.code_sequence;
+   r.abi_sequence     = account_sequence.abi_sequence;
+
+   for( const auto& auth : act.authorization ) {
+      r.auth_sequence[auth.actor] = next_auth_sequence( auth.actor );
+   }
+
+   // 这里会生成一个action_trace结构直接用来标志
+   action_trace t(r);
+   t.trx_id = trx_context.id;
+   t.act = act;
+   t.console = _pending_console_output.str();
+
+   // 放入以执行的列表中
+   trx_context.executed.emplace_back( move(r) );
+
+   // 日志
+   if ( control.contracts_console() ) {
+      print_debug(receiver, t);
+   }
+
+   reset_console();
+
+   t.elapsed = fc::time_point::now() - start;
+   return t;
+}
+```
+
+这里先看看对于加入`_notified`的账户的处理，
+正常的逻辑中，执行的结果中会产生所有_notified（不包含最初的receiver）中账户对应的`action_trace`的列表，
+这些会存入`inline_traces`中，这里其实是把通知账户的过程也当作了一种“inline action”。
+
+这些trace信息会被其他插件利用，目前主要是history插件中的`on_action_trace`函数，这里会将所有action的执行信息和结果存入`action_history_object`供api调用，具体的过程这里不再消息描述。
+
+以上就是整个`apply_context`执行合约的过程。
 
 ## 5. 几个内置的action
 
-## 5. 需要留意的问题
+在EOS中有一些action的实现是在cpp层的，这里单独看下。
+
+如果看合约中，会有这样几个只有定义而没有实现的合约：
+
+```cpp
+   /*
+    * Method parameters commented out to prevent generation of code that parses input data.
+    */
+   class native : public eosio::contract {
+      public:
+
+         using eosio::contract::contract;
+
+         /**
+          *  Called after a new account is created. This code enforces resource-limits rules
+          *  for new accounts as well as new account naming conventions.
+          *
+          *  1. accounts cannot contain '.' symbols which forces all acccounts to be 12
+          *  characters long without '.' until a future account auction process is implemented
+          *  which prevents name squatting.
+          *
+          *  2. new accounts must stake a minimal number of tokens (as set in system parameters)
+          *     therefore, this method will execute an inline buyram from receiver for newacnt in
+          *     an amount equal to the current new account creation fee.
+          */
+         void newaccount( account_name     creator,
+                          account_name     newact
+                          /*  no need to parse authorites
+                          const authority& owner,
+                          const authority& active*/ );
+
+
+         void updateauth( /*account_name     account,
+                                 permission_name  permission,
+                                 permission_name  parent,
+                                 const authority& data*/ ) {}
+
+         void deleteauth( /*account_name account, permission_name permission*/ ) {}
+
+         void linkauth( /*account_name    account,
+                               account_name    code,
+                               action_name     type,
+                               permission_name requirement*/ ) {}
+
+         void unlinkauth( /*account_name account,
+                                 account_name code,
+                                 action_name  type*/ ) {}
+
+         void canceldelay( /*permission_level canceling_auth, transaction_id_type trx_id*/ ) {}
+
+         void onerror( /*const bytes&*/ ) {}
+
+   };
+```
+
+这些合约是在eos项目的cpp中实现的，这里的声明是为了适配合约名相关的api，
+这里Eosforce有个问题，就是在最初的实现中，将这些声明删去了，导致json_to_bin api出错，这里后续会修正这个问题。
+
+对于这些合约，在上面我们指出是在`exec_one`中处理的，实际的注册在这里：
+
+```cpp
+   void set_apply_handler( account_name receiver, account_name contract, action_name action, apply_handler v ) {
+      apply_handlers[receiver][make_pair(contract,action)] = v;
+   }
+
+   ...
+
+#define SET_APP_HANDLER( receiver, contract, action) \
+   set_apply_handler( #receiver, #contract, #action, &BOOST_PP_CAT(apply_, BOOST_PP_CAT(contract, BOOST_PP_CAT(_,action) ) ) )
+
+   SET_APP_HANDLER( eosio, eosio, newaccount );
+   SET_APP_HANDLER( eosio, eosio, setcode );
+   SET_APP_HANDLER( eosio, eosio, setabi );
+   SET_APP_HANDLER( eosio, eosio, updateauth );
+   SET_APP_HANDLER( eosio, eosio, deleteauth );
+   SET_APP_HANDLER( eosio, eosio, linkauth );
+   SET_APP_HANDLER( eosio, eosio, unlinkauth );
+/*
+   SET_APP_HANDLER( eosio, eosio, postrecovery );
+   SET_APP_HANDLER( eosio, eosio, passrecovery );
+   SET_APP_HANDLER( eosio, eosio, vetorecovery );
+*/
+
+   SET_APP_HANDLER( eosio, eosio, canceldelay );
+```
+
+!> Eosforce不同 ： 在eosforce中有些合约被屏蔽了。
+
+这里不好查找的一点是，在宏定义中拼接了函数名，所以实际对应的是`apply_eosio_×`的函数，如`newaccount`对应的是`apply_eosio_newaccount`。
+
+我们这里专门分析下`apply_eosio_newaccount`，`apply_eosio_setcode`和`apply_eosio_setabi`，后续会有文档专门分析所有系统合约。
+
+### 5.1 `apply_eosio_newaccount`
+
+新建用户没有什么特别之处，这里的写法和合约中类似：
+
+```cpp
+void apply_eosio_newaccount(apply_context& context) {
+   // 获得数据
+   auto create = context.act.data_as<newaccount>();
+   try {
+   // 各种检查
+   context.require_authorization(create.creator);
+//   context.require_write_lock( config::eosio_auth_scope );
+   auto& authorization = context.control.get_mutable_authorization_manager();
+
+   EOS_ASSERT( validate(create.owner), action_validate_exception, "Invalid owner authority");
+   EOS_ASSERT( validate(create.active), action_validate_exception, "Invalid active authority");
+
+   auto& db = context.db;
+
+   auto name_str = name(create.name).to_string();
+
+   EOS_ASSERT( !create.name.empty(), action_validate_exception, "account name cannot be empty" );
+   EOS_ASSERT( name_str.size() <= 12, action_validate_exception, "account names can only be 12 chars long" );
+
+   // Check if the creator is privileged
+   const auto &creator = db.get<account_object, by_name>(create.creator);
+   if( !creator.privileged ) {
+      // EOS中eosio.的账户都是系统账户，Eosforce中没有指定保留账户
+      EOS_ASSERT( name_str.find( "eosio." ) != 0, action_validate_exception,
+                  "only privileged accounts can have names that start with 'eosio.'" );
+   }
+
+   // 检查账户重名
+   auto existing_account = db.find<account_object, by_name>(create.name);
+   EOS_ASSERT(existing_account == nullptr, account_name_exists_exception,
+              "Cannot create account named ${name}, as that name is already taken",
+              ("name", create.name));
+
+   // 创建账户
+   const auto& new_account = db.create<account_object>([&](auto& a) {
+      a.name = create.name;
+      a.creation_date = context.control.pending_block_time();
+   });
+
+   db.create<account_sequence_object>([&](auto& a) {
+      a.name = create.name;
+   });
+
+   for( const auto& auth : { create.owner, create.active } ){
+      validate_authority_precondition( context, auth );
+   }
+
+   const auto& owner_permission  = authorization.create_permission( create.name, config::owner_name, 0,
+                                                                    std::move(create.owner) );
+   const auto& active_permission = authorization.create_permission( create.name, config::active_name, owner_permission.id,
+                                                                    std::move(create.active) );
+
+   // 初始化账户资源
+   context.control.get_mutable_resource_limits_manager().initialize_account(create.name);
+
+   int64_t ram_delta = config::overhead_per_account_ram_bytes;
+   ram_delta += 2*config::billable_size_v<permission_object>;
+   ram_delta += owner_permission.auth.get_billable_size();
+   ram_delta += active_permission.auth.get_billable_size();
+
+   context.trx_context.add_ram_usage(create.name, ram_delta);
+
+} FC_CAPTURE_AND_RETHROW( (create) ) }
+```
+
+### 5.2 `apply_eosio_setcode`和`apply_eosio_setabi`
+
+`apply_eosio_setcode`和`apply_eosio_setabi`用来提交合约，实现上也没有特别之处，
+唯一注意的是之前谈过，`apply_eosio_setcode`既是系统合约，又带code，这里的code作为参数
+
+```cpp
+void apply_eosio_setcode(apply_context& context) {
+   const auto& cfg = context.control.get_global_properties().configuration;
+
+   // 获取数据
+   auto& db = context.db;
+   auto  act = context.act.data_as<setcode>();
+
+   // 权限
+   context.require_authorization(act.account);
+
+   EOS_ASSERT( act.vmtype == 0, invalid_contract_vm_type, "code should be 0" );
+   EOS_ASSERT( act.vmversion == 0, invalid_contract_vm_version, "version should be 0" );
+
+   fc::sha256 code_id; /// default ID == 0
+
+   if( act.code.size() > 0 ) {
+     code_id = fc::sha256::hash( act.code.data(), (uint32_t)act.code.size() );
+     wasm_interface::validate(context.control, act.code);
+   }
+
+   const auto& account = db.get<account_object,by_name>(act.account);
+
+   int64_t code_size = (int64_t)act.code.size();
+   int64_t old_size  = (int64_t)account.code.size() * config::setcode_ram_bytes_multiplier;
+   int64_t new_size  = code_size * config::setcode_ram_bytes_multiplier;
+
+   EOS_ASSERT( account.code_version != code_id, set_exact_code, "contract is already running this version of code" );
+
+   db.modify( account, [&]( auto& a ) {
+      /** TODO: consider whether a microsecond level local timestamp is sufficient to detect code version changes*/
+      // TODO: update setcode message to include the hash, then validate it in validate
+      a.last_code_update = context.control.pending_block_time();
+      a.code_version = code_id;
+      a.code.resize( code_size );
+      if( code_size > 0 )
+         memcpy( a.code.data(), act.code.data(), code_size );
+
+   });
+
+   const auto& account_sequence = db.get<account_sequence_object, by_name>(act.account);
+   db.modify( account_sequence, [&]( auto& aso ) {
+      aso.code_sequence += 1;
+   });
+
+   // 更新资源消耗
+   if (new_size != old_size) {
+      context.trx_context.add_ram_usage( act.account, new_size - old_size );
+   }
+}
+
+void apply_eosio_setabi(apply_context& context) {
+   auto& db  = context.db;
+   auto  act = context.act.data_as<setabi>();
+
+   context.require_authorization(act.account);
+
+   const auto& account = db.get<account_object,by_name>(act.account);
+
+   int64_t abi_size = act.abi.size();
+
+   int64_t old_size = (int64_t)account.abi.size();
+   int64_t new_size = abi_size;
+
+   db.modify( account, [&]( auto& a ) {
+      a.abi.resize( abi_size );
+      if( abi_size > 0 )
+         memcpy( a.abi.data(), act.abi.data(), abi_size );
+   });
+
+   const auto& account_sequence = db.get<account_sequence_object, by_name>(act.account);
+   db.modify( account_sequence, [&]( auto& aso ) {
+      aso.abi_sequence += 1;
+   });
+
+   // 更新资源消耗
+   if (new_size != old_size) {
+      context.trx_context.add_ram_usage( act.account, new_size - old_size );
+   }
+}
+
+```
+
+
+## 6. 需要留意的问题

@@ -39,6 +39,9 @@
 - 数据库
     - [mongoDB](zh-cn/mongodb.md)
 - 智能合约
+    - [概览](zh-cn/contract/overview.md)
+    - [教程]
+    - [工作流技巧]
 - 源码备忘
     - [Block Produce机制](zh-cn/code/block_produce.md)
     - [Push Transaction](zh-cn/code/push_trx.md)

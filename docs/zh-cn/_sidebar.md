@@ -38,7 +38,7 @@
     - [C/C++ API](https://developers.eos.io/eosio-cpp/reference)
 - 数据库
     - [mongoDB](zh-cn/mongodb.md)
-
+- 智能合约
 - 源码备忘
     - [Block Produce机制](zh-cn/code/block_produce.md)
     - [Push Transaction](zh-cn/code/push_trx.md)

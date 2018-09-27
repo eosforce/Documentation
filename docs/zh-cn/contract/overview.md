@@ -312,6 +312,14 @@ transfer 类型定义在 structs 数组中 name 为 transfer 的对象中。
 ABI 有好几个字段，包括 from, to, 和 quantity。这些字段有对应的类型 account_name 和 uint64。account_name 是内建类型，将字符串表示成base32编码的 uint64。
 了解更多关于内建类型，点这里。https://github.com/EOSIO/eos/blob/master/libraries/chain/abi_serializer.cpp#L65-L103
 
+{
+  "types": [{
+      "new_type_name": "account_name",
+      "type": "name"
+    }
+  ],
+...
+
 # 多索引数据库编程接口
 
 

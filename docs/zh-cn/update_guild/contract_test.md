@@ -110,6 +110,13 @@ Positionals:
  cleos push action hello hi '{"user":"abc"}' -p eosforce
 ```
 
+如果执行时资源触及上限，则会报以下错误：
+
+```
+Error 3040000: Transaction exception
+Ensure that your transaction satisfy the contract's constraint!
+```
+
 ## 4. 相关注意事项
 
 需要注意的是，目前EOSForce不支持延迟合约，也不支持上下文无关合约和在合约中调用上下文无关合约。

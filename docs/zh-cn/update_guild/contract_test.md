@@ -120,3 +120,4 @@ Ensure that your transaction satisfy the contract's constraint!
 ## 4. 相关注意事项
 
 需要注意的是，目前EOSForce不支持延迟合约，也不支持上下文无关合约和在合约中调用上下文无关合约。
+合约相关可以参见 https://developers.eos.io/eosio-cpp/v1.2.0/docs/introduction

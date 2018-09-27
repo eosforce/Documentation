@@ -143,7 +143,9 @@ action处理器和 action "应用“ 上下文
 
 智能合约提供action 处理器来完成请求的action的工作（下文更多）。没次一个action运行，例如action 通过运行合约实现中的 apply 方法被“应用”，
 EOSFORCEIO 创建一个新的action “应用”上下文，action在其中运行。下图描述了action “应用”上下文的关键元素。
-![Alt text](URLhttps://files.readme.io/6d71afc-action-apply-context-diagram.png)
+
+![avatar](https://files.readme.io/6d71afc-action-apply-context-diagram.png)
+
 从EOSFORCEIO 区块链的全局视角来看，EOSFORCEIO网络中的每个节点获得一份拷贝并且运行每份合约的每个action。有些节点处理合约的实际工作，而其它节点
 处理是为了证明transaction块的有效性。因此合约能判定“它们是谁”，或基本地，它们在什么上下文中运行，这很重要。上下文识别信息在action上下文中提供，
 如上图所述，通过 receiver, code, action。 receiver是当前处理action的账户。code 是授权合约的账户。action 是当前运行action的ID。

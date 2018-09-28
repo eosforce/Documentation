@@ -44,6 +44,17 @@
 - 更新记录
     - [[2018年8月15日]更新预演说明](zh-cn/update_guild/eosforce_update_guild_0815.md) 
 
+- 源码备忘
+    - [Block Produce机制](zh-cn/code/block_produce.md)
+    - [Push Transaction](zh-cn/code/push_trx.md)
+    - [共识机制](zh-cn/code/consensus.md)
+    - [Eosforce合约](zh-cn/code/eosforce_contract.md)
+    - [EOS与Eosforce区别整理](zh-cn/code/diff_eos_vs_eosforce.md)
+    - [MongoDB Plugin](zh-cn/code/plugin_mongodb.md)
+    - [如何构建单元测试](zh-cn/code/unittest.md)
+    - [WASM虚拟机相关整理](zh-cn/code/wasm.md)
+    - [EOS中的异常](zh-cn/code/eos_exceptions.md)
+
 - 关于文档的文档
     - [文档搭建介绍](example/doc_introduction.md)
     - [Markdown语法示例](example/example.md)

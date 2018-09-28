@@ -25,6 +25,7 @@
     - [HTTP API](en-us/eosforce_http_api_develop.md)
     - [JS API Introduction](en-us/eosjs_api_doc.md) 
     - [commen cleos example](en-us/eosforce_cleos_eg.md)
+    - [exception code](en-us/eosforce_exception_code.md)
 - HTTP API
     - [Chain API](en-us/eosforce_http_chain_api.md)
     - [History API](en-us/eosforce_http_history_api.md)

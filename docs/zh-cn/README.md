@@ -1,7 +1,5 @@
 # EOSForce开发者文档
 
-?> TODO 需要完善文档
-
 - [首页](README.md)
 
 - 介绍
@@ -25,6 +23,7 @@
     - [JS API库介绍](zh-cn/eosjs_api_doc.md) 
     - [开发基于Chrome scatter钱包的应用](zh-cn/eosforce_scatter.md) 
     - [常用cleos命令](zh-cn/eosforce_cleos_eg.md)
+    - [异常码](zh-cn/eosforce_exception_code.md)
 - 功能介绍
     - [系统合约](zh-cn/contract/System/System.md)
     - [代币](zh-cn/contract/eosio.token/token.md)

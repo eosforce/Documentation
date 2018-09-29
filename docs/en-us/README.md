@@ -1,7 +1,5 @@
 # EOSForce Develop Documentation
 
-?> TODO need documentations
-
 - Introduction
     - [What is Eosforce](en-us/what_is_eosforce.md)
     - [Getting Started](en-us/getting_started_eosforce.md)
@@ -26,6 +24,7 @@
     - [JS API Introduction](en-us/eosjs_api_doc.md) 
     - [develop APP for Scatter](en-us/eosforce_scatter.md) 
     - [commen cleos example](en-us/eosforce_cleos_eg.md)
+    - [exception code](en-us/eosforce_exception_code.md)
 
 - HTTP API
     - [Chain API](en-us/eosforce_http_chain_api.md)

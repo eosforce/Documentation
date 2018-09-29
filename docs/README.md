@@ -1,34 +1,50 @@
-# EOSForce Develop Documentation
+# EOSForce开发者文档
 
-?> TODO need documentations
+- [首页](README.md)
 
-- Introduction
-    - [What is Eosforce](en-us/what_is_eosforce.md)
-    - [Getting Started](en-us/getting_started_eosforce.md)
-    - [Wallet Client](en-us/eosforce_wallet_introduction.md)
-    - [Resources](en-us/eosforce_res.md)
-- Deploy
-    - [How to deploy BP node](en-us/eosforce_bp.md)
-    - [How to deploy a test net](en-us/eosforce_bios.md)
-- Tools
-    - [Introduction to Cleos](en-us/eosforce_cleos_introduction.md)
-    - [Cleos Resources](en-us/eosforce_cleos_res.md)
-    - [Introduction to Keosd](en-us/eosforce_keosd_introduction.md)
-    - [Keosd API Resources](en-us/eosforce_keosd_res.md)
-  - Functions
-    - [System](en-us/contract/System/System.md)
-    - [token](en-us/contract/eosio.token/token.md)
-    - [account](en-us/contract/contract_eosio_bios.md)
-    - [account transfer](en-us/eosforce_username_tran.md)
-    - [multi sign](en-us/contract/eosio.msig/msig.md)
-    - [fee](zh-cn/fee.md)
-- Client develop documentations
-    - [HTTP API](en-us/eosforce_http_api_develop.md)
-    - [JS API Introduction](en-us/eosjs_api_doc.md) 
+- 介绍
+    - [EOSForce介绍](zh-cn/what_is_eosforce.md)
+    - [Getting Started](zh-cn/getting_started_eosforce.md)
+    - [钱包客户端介绍](zh-cn/eosforce_wallet_introduction.md)
+    - [参考资源](zh-cn/eosforce_res.md)
+- 技术规划
+    - [Eosforce多链架构技术规划](zh-cn/eosforce_mc_tech_plan.md)
+- 环境部署
+    - [超级节点部署说明](zh-cn/eosforce_bp.md)
+    - [测试网搭建说明](zh-cn/eosforce_bios.md)
+- 命令行工具
+    - [Cleos说明](zh-cn/eosforce_cleos_introduction.md)
+    - [Cleos命令参考](zh-cn/eosforce_cleos_res.md)
+    - [Keosd说明](zh-cn/eosforce_keosd_introduction.md)
+    - [Keosd API 参考](zh-cn/eosforce_keosd_res.md)
+- 客户端开发参考文档
+    - [eosforce 客户端开发指南](zh-cn/eosforce_client_develop_guild.md)
+    - [HTTP API请求流程](zh-cn/eosforce_http_api_develop.md)
+    - [JS API库介绍](zh-cn/eosjs_api_doc.md)
+    - [开发基于Chrome scatter钱包的应用](zh-cn/eosforce_scatter.md)
+    - [常用cleos命令](zh-cn/eosforce_cleos_eg.md)
+    - [异常码](zh-cn/eosforce_exception_code.md)
+- 功能介绍
+    - [系统合约](zh-cn/contract/System/System.md)
+    - [代币](zh-cn/contract/eosio.token/token.md)
+    - [账号与权限](zh-cn/eosforce_account.md)
+    - [创建账号](zh-cn/contract/eosio.bios/newaccount.md)
+    - [修改权限](zh-cn/contract/eosio.bios/updateauth.md)
+    - [用户名转让](zh-cn/eosforce_username_tran.md)
+    - [多重签名](zh-cn/contract/eosio.msig/msig.md)
+    - [手续费](zh-cn/fee.md)
+- HTTP API
+    - [链相关api](zh-cn/eosforce_http_chain_api.md)
+    - [历史记录api](zh-cn/eosforce_http_history_api.md)
+
 - C/C++ API
     - [C/C++ API](https://developers.eos.io/eosio-cpp/reference)
-- HTTP API
-    - [Chain API](en-us/eosforce_http_chian_api.md)
-    - [History API](en-us/eosforce_http_history_api.md)
-- DB
+- 数据库
     - [mongoDB](zh-cn/mongodb.md)
+- 更新记录
+    - [[2018年8月15日]更新预演说明](zh-cn/update_guild/eosforce_update_guild_0815.md)
+
+- 关于文档的文档
+    - [文档搭建介绍](example/doc_introduction.md)
+    - [Markdown语法示例](example/example.md)
+    - [数学公式示例](example/example_maths.md)

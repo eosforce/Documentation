@@ -436,4 +436,4 @@ N(base32 X)
 
 
 
-# [C++/C 编程接口](./cpp_api.md)
+# [C++/C 编程接口](zh-cn/contract/cpp_api.md)

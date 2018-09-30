@@ -67,7 +67,7 @@ EOSFORCE.IO action 拥有下面的抽象结构：
 ## action_data_size
  
  
- 
+## require_recipient
  
  
  

@@ -46,7 +46,7 @@ EOSFORCE.IO action 拥有下面的抽象结构：
  总结
 
 	成员 																	描述
-	public uint32_t read_action_data (void * msg,uint32_t len) 				保存当前 action 数据到指定位置。
+	public uint32_t read_action_data (void * msg,uint32_t len) 				拷贝当前 action 数据到指定位置。
 	public uint32_t action_data_size() 										获取当前 action 数据长度。
 	public void require_recipient(account_name name) 						增加指定账户到被通知账户集合。
 	public void require_auth(account_name name) 							验证指定账户是否存在于指定的授权集合中。
@@ -61,13 +61,39 @@ EOSFORCE.IO action 拥有下面的抽象结构：
 	public account_name`[current_receiver](#current_receiver)()` 			获取 action 当前接收者。      
                    
                    
-## read_action_data                  
+read_action_data                  
+拷贝当前 action 数据到指定位置。              
+
+	uint32_t read_action_data( void* msg, uint32_t len );
+
+拷贝最多 len 字节当前 action 数据到指定位置。    
+ 
+参数
+msg - 指向保存 action 数据的位置
+len - 要拷贝的数据的长度，0 报告需要的长度
+
+返回值
+拷贝到指定位置的字节数，或者能拷贝的字节数（如果len传0） 
+
+前置条件
+msg 是有效指针指向至少 len 字节长度的内存区域
+
+后置条件
+msg 被填充打包的 action 数据
+
                    
-                   
-## action_data_size
+action_data_size
+获取当前 action 数据长度。
+
+	uint32_t action_data_size();
+
+获取当前 action 数据长度。这个方法对动态大小的 actions 有用。
+
+返回值
+当前 action 数据字段的长度
  
  
-## require_recipient
+require_recipient
  
  
  

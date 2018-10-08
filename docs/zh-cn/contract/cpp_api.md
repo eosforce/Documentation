@@ -95,9 +95,10 @@ action_data_size
  
 require_recipient
  
+增加指定账户到被通知账户集合。 
  
- 
- 
+参数
+name - 待被验证账户名 
  
  
  

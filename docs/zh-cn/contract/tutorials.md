@@ -329,23 +329,435 @@ Eosio.msig 是一种更加友好的方式，可以异步建议，批准，及最
 	#         eosio <= eosio::setcode               {"account":"eosio.msig","vmtype":0,"vmversion":0,"code":"0061736d010000000198011760017f0060047f7e7e7...
 	#         eosio <= eosio::setabi                {"account":"eosio.msig","abi":"0e656f73696f3a3a6162692f312e30030c6163636f756e745f6e616d65046e616d650...
 
-	
-	
-	
-	
-
-# “Hello World” 合约
-
-
-
-
-
-# 多索引表使用指导
-
-
 
 
 # 多索引表示例
+
+描述
+
+在这篇教程中我们将浏览在智能合约中创建和使用多索引表的步骤。
+
+注释
+
+多索引表是一种在内存中缓存状态和数据为了快速访问的方法。多索引表支持创建，读，更新和删除（CRUD）操作，有些区块链不支持（区块链仅支持创建和读）。
+
+多索引表提供了一种快速访问的数据存储，是一种实用的在智能合约中存储数据的方式。区块链记录 transactions, 但你应该用多索引表存储应用数据。
+
+它们是多索引表，因为它们支持在数据上使用多个索引。主键索引类型必须是 uint64_t 并且必须唯一，但是其它二级索引可以有重复。最多可以建16个索引并且
+字段类型可以是 uint64_t, uint128_t, uint256_t, double 和 long double 。
+
+如果你想在字符串上建索引，你需要将其转换成整数类型，并且将结果存储在一个字段上然后在其上建索引。
+
+
+1、创建一个 struct
+
+创建一个 struct , 它将被存在多索引表中，并且在想建索引的字段上定义 getters 。
+
+记住这些 getters 其中之一必须名为 "primary_key()", 如果没有，编译器 （eosio-cpp）将生成一个错误。它无法发现字段用作主键。
+
+如果你想建多个索引（最多允许16个），然后为想建索引的字段定义一个 getter, 这次名字不那么重要，因为你将传递 getter 名字进入 typedef 。
+
+C++
+	 struct [[eosio::table]] mystruct 
+      {
+         uint64_t     key; 
+         uint64_t     secondid;
+         std::string  name; 
+         std::string  account; 
+
+         uint64_t primary_key() const { return key; } // getter for primary key
+         uint64_t by_id() const {return secondid; } // getter for additional key
+      };
+
+这儿要注意两件事：
+1.属性 [[eosio::table]] 对 ABI 生成器是需要的，eosio-cpp, 识别出你想通过 ABI 暴露这个表并且使它在智能合约外可见。
+2.struct 名称少于12个字符并且都是小写。
+
+
+2. typedef 多索引表并且定义索引
+
+定义将使用 mystruct 的多索引表，告诉它索引什么以及怎样获取被索引的数据。主键将被自动创建，因此使用上述 struct, 如果我要一个只有主键的多索引表
+将定义如下：
+
+C++
+
+typedef eosio::multi_index<N(mystruct), mystruct> datastore;
+
+这定义了多索引出入表名 N(mystruct) 和 struct 名 "mystruct"。N(mystruct) 执行一次编译转换从 struct 名到 uint64_t 并且这个 uint64_t
+被用来识别属于这个多索引表的数据。
+
+要增加二级索引，使用  indexed_by 模板做参数，因此定义变为：
+
+C++
+
+typedef eosio::multi_index<N(mystruct), mystruct, indexed_by<N(secondid), const_mem_fun<mystruct, uint64_t, &mystruct::by_id>>> datastore;
+
+这儿
+
+indexed_by<N(secondid), const_mem_fun<mystruct, uint64_t, &mystruct::by_id>>
+
+参数
+
+- 字段名转换为整数，N(secondid)
+- 用户自定义键提取器， const_mem_fun<mystruct, uint64_t, &mystruct::by_id> 
+
+如果想建3个索引
+
+C++
+
+	  struct [[eosio::table]] mystruct 
+      {
+         uint64_t     key; 
+         uint64_t     secondid;
+         uint64_t			anotherid;
+         std::string  name; 
+         std::string  account; 
+
+         uint64_t primary_key() const { return key; }
+         uint64_t by_id() const {return secondid; }
+         uint64_t by_anotherid() const {return anotherid; }
+      };
+      
+typedef eosio::multi_index<N(mystruct), mystruct, indexed_by<N(secondid), const_mem_fun<mystruct, uint64_t, &mystruct::by_id>>, indexed_by<N(anotherid), const_mem_fun<mystruct, uint64_t, &mystruct::by_anotherid>>> datastore;
+      
+      
+诸此类推。
+
+这儿有一件重要的事要注意，struct 名称匹配表名，并且名称将出现在 abi 文件，必须满足规则（少于12个字符并且都是小写）。如果不满足规则，这些表通过 abi 将
+不可见(你可以通过编辑 abi 文件规避这个限制)。
+
+
+3.创建定义类型的局部变量
+
+	// local instances of the multi indexes
+  	pollstable _polls;
+    votes _votes;
+
+现在我已经定义了一个有两个索引的多索引表，我可以在智能合约中用这个表。
+
+下面展示一个用了两个多索引表的工作智能合约的例子。这儿你能看出怎样迭代表以及怎样在同一合约中用两个表。
+
+C++
+
+#include <eosiolib/eosio.hpp>
+
+using namespace eosio;
+
+class youvote : public contract {
+  public:
+      youvote(account_name s):contract(s), _polls(s, s), _votes(s, s)
+      {}
+
+      // public methods exposed via the ABI
+      // on pollsTable
+
+      [[eosio::action]]
+      void version()
+      {
+          print("YouVote version  0.01"); 
+
+      };
+      
+      [[eosio::action]]
+      void addpoll(account_name s, std::string pollName)
+      {
+          //require_auth(s);
+
+          print("Add poll ", pollName); 
+              
+          // update the table to include a new poll
+          _polls.emplace(get_self(), [&](auto& p)
+                                      {
+                                        p.key = _polls.available_primary_key();
+                                        p.pollId = _polls.available_primary_key();
+                                        p.pollName = pollName;
+                                        p.pollStatus = 0;
+                                        p.option = "";
+                                        p.count = 0;
+                                      });
+      };
+
+
+      [[eosio::action]]
+      void rmpoll(account_name s, std::string pollName)
+      {
+          //require_auth(s);
+
+          print("Remove poll ", pollName); 
+              
+          std::vector<uint64_t> keysForDeletion;
+          // find items which are for the named poll
+          for(auto& item : _polls)
+          {
+              if (item.pollName == pollName)
+              {
+                  keysForDeletion.push_back(item.key);   
+              }
+          }
+          
+          // now delete each item for that poll
+          for (uint64_t key : keysForDeletion)
+          {
+              print("remove from _polls ", key);
+              auto itr = _polls.find(key);
+              if (itr != _polls.end())
+              {
+                _polls.erase(itr);
+              }
+          }
+
+
+          // add remove votes ... don't need it the actions are permanently stored on the block chain
+
+          std::vector<uint64_t> keysForDeletionFromVotes;
+          // find items which are for the named poll
+          for(auto& item : _votes)
+          {
+              if (item.pollName == pollName)
+              {
+                  keysForDeletionFromVotes.push_back(item.key);   
+              }
+          }
+          
+          // now delete each item for that poll
+          for (uint64_t key : keysForDeletionFromVotes)
+          {
+              print("remove from _votes ", key);
+              auto itr = _votes.find(key);
+              if (itr != _votes.end())
+              {
+                _votes.erase(itr);
+              }
+          }
+
+
+      };
+
+      [[eosio::action]]
+      void status(std::string pollName)
+      {
+          print("Change poll status ", pollName);
+
+          std::vector<uint64_t> keysForModify;
+          // find items which are for the named poll
+          for(auto& item : _polls)
+          {
+              if (item.pollName == pollName)
+              {
+                  keysForModify.push_back(item.key);   
+              }
+          }
+          
+          // now get each item and modify the status
+          for (uint64_t key : keysForModify)
+          {
+
+            print("modify _polls status", key);
+            auto itr = _polls.find(key);
+            if (itr != _polls.end())
+            {
+              _polls.modify(itr, get_self(), [&](auto& p)
+                                              {
+                                                p.pollStatus = p.pollStatus + 1;
+                                              });
+            }
+          }
+      };
+
+      [[eosio::action]]
+      void statusreset(std::string pollName)
+      {
+          print("Reset poll status ", pollName); 
+              
+          std::vector<uint64_t> keysForModify;
+          // find all poll items
+          for(auto& item : _polls)
+          {
+              if (item.pollName == pollName)
+              {
+                  keysForModify.push_back(item.key);   
+              }
+          }
+          
+          // update the status in each poll item
+          for (uint64_t key : keysForModify)
+          {
+              print("modify _polls status", key);
+              auto itr = _polls.find(key);
+              if (itr != _polls.end())
+              {
+                _polls.modify(itr, get_self(), [&](auto& p)
+                                                {
+                                                  p.pollStatus = 0;
+                                                });
+              }
+          }
+      };
+
+
+      [[eosio::action]]
+      void addpollopt(std::string pollName, std::string option)
+      {
+          print("Add poll option ", pollName, "option ", option); 
+
+          // find the pollId, from _polls, use this to update the _polls with a new option
+          for(auto& item : _polls)
+          {
+              if (item.pollName == pollName)
+              {
+                    // can only add if the poll is not started or finished
+                    if(item.pollStatus == 0)
+                    {
+                        _polls.emplace(get_self(), [&](auto& p)
+                                          {
+                                            p.key = _polls.available_primary_key();
+                                            p.pollId = item.pollId;
+                                            p.pollName = item.pollName;
+                                            p.pollStatus = 0;
+                                            p.option = option;
+                                            p.count = 0;
+                                          });
+                    }
+                    else
+                    {
+                        print("Can not add poll option ", pollName, "option ", option, " Poll has started or is finished.");
+                    }
+
+                    break; // so you only add it once
+              }
+          }
+      };
+
+      [[eosio::action]]
+      void rmpollopt(std::string pollName, std::string option)
+      {
+          print("Remove poll option ", pollName, "option ", option); 
+              
+          std::vector<uint64_t> keysForDeletion;
+          // find and remove the named poll
+          for(auto& item : _polls)
+          {
+              if (item.pollName == pollName)
+              {
+                  keysForDeletion.push_back(item.key);   
+              }
+          }
+          
+          
+          for (uint64_t key : keysForDeletion)
+          {
+              print("remove from _polls ", key);
+              auto itr = _polls.find(key);
+              if (itr != _polls.end())
+              {
+                  if (itr->option == option)
+                  {
+                      _polls.erase(itr);
+                  }
+              }
+          }
+      };
+
+
+      [[eosio::abi]]
+      void vote(std::string pollName, std::string option, std::string accountName)
+      {
+          print("vote for ", option, " in poll ", pollName, " by ", accountName); 
+
+          // is the poll open
+          for(auto& item : _polls)
+          {
+              if (item.pollName == pollName)
+              {
+                  if (item.pollStatus != 1)
+                  {
+                      print("Poll ",pollName,  " is not open");
+                      return;
+                  }
+
+                  break; // only need to check status once
+              }
+          }
+
+          // has account name already voted?  
+          for(auto& vote : _votes)
+          {
+              if (vote.pollName == pollName && vote.account == accountName)
+              {
+                  print(accountName, " has already voted in poll ", pollName);
+                  //eosio_assert(true, "Already Voted");
+                  return;
+              }
+          }
+
+          uint64_t pollId =99999; // get the pollId for the _votes table
+
+          // find the poll and the option and increment the count
+          for(auto& item : _polls)
+          {
+              if (item.pollName == pollName && item.option == option)
+              {
+                  pollId = item.pollId; // for recording vote in this poll
+
+                  _polls.modify(item, get_self(), [&](auto& p)
+                                                {
+                                                    p.count = p.count + 1;
+                                                });
+              }
+          }
+
+          // record that accountName has voted
+          _votes.emplace(get_self(), [&](auto& pv)
+                                      {
+                                        pv.key = _votes.available_primary_key();
+                                        pv.pollId = pollId;
+                                        pv.pollName = pollName;
+                                        pv.account = accountName;
+                                      });        
+      };
+
+  private:    
+
+    // create the multi index tables to store the data
+      struct [[eosio::table]] poll 
+      {
+        uint64_t      key; // primary key
+        uint64_t      pollId; // second key, non-unique, this table will have dup rows for each poll because of option
+        std::string   pollName; // name of poll
+        uint8_t      pollStatus =0; // staus where 0 = closed, 1 = open, 2 = finished
+        std::string  option; // the item you can vote for
+        uint32_t    count =0; // the number of votes for each itme -- this to be pulled out to separte table.
+
+        uint64_t primary_key() const { return key; }
+        uint64_t by_pollId() const {return pollId; }
+      };
+      typedef eosio::multi_index<N(poll), poll, indexed_by<N(pollId), const_mem_fun<poll, uint64_t, &poll::by_pollId>>> pollstable;
+
+      struct [[eosio::table]] pollvotes 
+      {
+         uint64_t     key; 
+         uint64_t     pollId;
+         std::string  pollName; // name of poll
+         std::string  account; //this account has voted, use this to make sure noone votes > 1
+
+         uint64_t primary_key() const { return key; }
+         uint64_t by_pollId() const {return pollId; }
+      };
+      typedef eosio::multi_index<N(pollvotes), pollvotes, indexed_by<N(pollId), const_mem_fun<pollvotes, uint64_t, &pollvotes::by_pollId>>> votes;
+
+      // local instances of the multi indexes
+      pollstable _polls;
+      votes _votes;
+};
+
+EOSIO_ABI( youvote, (version)(addpoll)(rmpoll)(status)(statusreset)(addpollopt)(rmpollopt)(vote))
+
+
+注意 EOSIO_ABI 调用，这通过 abi 暴露函数，函数名必须匹配 abi 函数名。
+
+
+
+
 
 
 

@@ -435,5 +435,4 @@ N(base32 X)
 	std::string user_name = user_name_obj.to_string();
 
 
-
 # [C++/C 编程接口](zh-cn/contract/cpp_api.md)

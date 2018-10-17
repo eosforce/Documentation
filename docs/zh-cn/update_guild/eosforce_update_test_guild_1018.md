@@ -136,13 +136,13 @@ System01-contract-block-num=3500
  ### 使用如下命令启动的升级前的主网
  
  ```shell
- docker run -d --restart=always --name eosforce -v /data/eosforce:/opt/eosio/bin/data-dir -v /data/nodeos/eosforce:/root/.local/share/eosio/nodeos -p 8888:8888 -p 9876:9876 eosforce/eos:v1.0.0 nodeosd.sh
+ docker run -d --restart=always --name eosforce -v /data/eosforce:/opt/eosio/bin/data-dir -v /data/nodeos/eosforce:/root/.local/share/eosio/nodeos -p 8888:8888 -p 9876:9876 eosforce/eos:v1.0.1 nodeosd.sh
 ```
 
  ### 升级只需要用新镜像启动,数据目录不变，就可升级成功
 
   ```shell
   docker stop eosforce
-  docker run -d --restart=always --name eosforce-new -v /data/eosforce:/opt/eosio/bin/data-dir -v /data/nodeos/eosforce:/root/.local/share/eosio/nodeos -p 8888:8888 -p 9876:9876 eosforce/eos:v1.1 nodeosd.sh
+  docker run -d --restart=always --name eosforce-new -v /data/eosforce:/opt/eosio/bin/data-dir -v /data/nodeos/eosforce:/root/.local/share/eosio/nodeos -p 8888:8888 -p 9876:9876 eosforce/eos:v1.1.0.test2 nodeosd.sh
   ```
 

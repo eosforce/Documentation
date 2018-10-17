@@ -68,6 +68,13 @@ cp build/contracts/System01/System01.abi build/contracts/System01/System01.wasm 
 cd build && make install
 ```
 
+另外config.ini中需要添加以下配置：
+
+```
+http-validate-host=false
+System01-contract-block-num=3500
+```
+
 ### 4. 先将升级前的build目录备份，再用编译出来的build目录拷贝进升级前的源码目录
 
 ```shell
@@ -95,9 +102,20 @@ cd build/programs/nodeos &&  nohup ./nodeos >> nodeos.log 2>&1 &
 参考来部署 https://github.com/eosforce/genesis/tree/release
 （其中/data/eosforce/里面的合约文件和genesis.json文件即兼容升级前版本的，又兼容升级后的版本）
 
-来部署升级前的主网，注意conifg.ini配置，其p2p-peer-address要配置成 47.98.249.86:8002,目前只提供一个地址
+来部署升级前的主网，注意conifg.ini配置，其p2p-peer-address要配置成地址
 
-部署完成后需要确保/data/eosforce下有System.abi，System.wasm, eosio.bios.abi, eosio.bios.wasm,eosio.msig.abi,eosio.msig.wasm,eosio.token.abi,eosio.token.wasm,genesis.json,config.ini文件即可
+p2p节点如下：
+
+```
+p2p-peer-address = 47.99.151.178:9076
+p2p-peer-address = 47.99.138.131:9076
+p2p-peer-address = 47.99.165.99:9076
+p2p-peer-address = 47.99.167.137:9076
+```
+
+genesis.json System01.abi，System01.wasm 可以从 http://download.aitimeout.site/eosforce.tar.gz
+
+部署完成后需要确保/data/eosforce下有System01.abi，System01.wasm, System.abi，System.wasm, eosio.bios.abi, eosio.bios.wasm,eosio.msig.abi,eosio.msig.wasm,eosio.token.abi,eosio.token.wasm,genesis.json,config.ini文件即可
 
 这里升级前版本是eosforce/eos:v1.0.1，需要升级的版本为eosforce/eos:v1.1.0.test2
 
@@ -107,6 +125,13 @@ cd build/programs/nodeos &&  nohup ./nodeos >> nodeos.log 2>&1 &
  docker pull eosforce/eos:v1.0.1
  docker pull eosforce/eos:v1.1.0.test2
  ```
+
+ 另外config.ini中需要添加以下配置：
+
+```
+http-validate-host=false
+System01-contract-block-num=3500
+```
 
  ### 使用如下命令启动的升级前的主网
  

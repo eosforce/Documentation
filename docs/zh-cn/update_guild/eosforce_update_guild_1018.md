@@ -147,7 +147,7 @@ cd build/programs/nodeos &&  nohup ./nodeos >> nodeos.log 2>&1 &
 升级只需要用新景象启动即可，注意修改以下参数中的配置为之前的配置。
 
 ```
-  docker run -d --restart=always --name eosforce-new -v /data/eosforce:/opt/eosio/bin/data-dir -v /data/nodeos/eosforce:/root/.local/share/eosio/nodeos -p 8888:8888 -p 9876:9876 eosforce/eos:v1.1 nodeosd.sh
+  docker run -d --restart=always --name eosforce-n -v /data/eosforce:/opt/eosio/bin/data-dir -v /data/nodeos/eosforce:/root/.local/share/eosio/nodeos -p 8888:8888 -p 9876:9876 eosforce/eos:v1.1.0 nodeosd.sh
 ```
 
 

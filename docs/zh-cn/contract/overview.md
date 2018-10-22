@@ -326,12 +326,113 @@ ABI 有好几个字段，包括 from, to, 和 quantity。这些字段有对应�
 
 # 多索引数据库编程接口
 
+概述
+
+EOSFORCEIO 提供了一套服务和接口，使合约开发者能跨域 actions 及 trasactions 边界持久化状态。如果没有持久化，actions 和 transactions 
+处理过程中产生的状态当处理出了作用域后将丢失。持久化组件包括：
+
+1. 将状态持久化到数据库的服务
+
+2. 增强的查找和检索数据库内容的能力
+
+3. 这些服务的 C++ APIs, 目标给合约开发者使用
+
+4. 访问核心服务的 C APIs, 目标给感兴趣的库和系统开发者
+
+这份文档涉及前3项主题。
 
 
+持久化服务的需求
 
+Actions 执行EOSFORCEIO 合约的工作。Actions 在称作 action 上下文的环境中运行。如 Action "应用"上下文图所述，action 上下文提供了action执行
+必须的几件东西。其中之一是 action 工作内存。这是 action 维护工作状态的地方。在处理一个 action 之前，EOSFORCEIO 为 action 设置一块感觉的
+工作内存。其它 action 执行时设置的变量对新 action 上下文不可用。在 action 间传递状态的唯一方式是从 EOSFORCEIO 数据库中存取。
+
+EOSFORCEIO Multi-Index 编程接口
+
+EOSFORCEIO Multi-Index 编程接口提供了访问 EOSFORCEIO 数据库的 C++ 接口。EOSFORCEIO Multi-Index 编程接口模仿 Boost Multi-Index 容器。编程接口
+提供了一个拥有丰富检索能力的对象存储模型，使的可以使用具有不同排序和访问语义的多个索引。Multi-Index 编程接口在 eosforce/eosforce GitHub repository
+contracts/eosiolib 目录下 eosio::multi_index C++ 类中。这个类使得 C++ 合约能读取和修改 EOSFORCEIO 数据库中持久化状态。
+
+Multi-Index 容器接口 eosio::multi_index 提供了一个同类的任意 C++ 类型的容器（不必是一个老式的或固定大小的），可以有多个索引，每种按照继承自对象的类型的键排序。
+可以类比传统数据库表的行，列，和索引。也能很容易地和  Boost Multi-index 作类比。实际上 eosio::multi_index的成员函数签名按照 boost::multi_index 建模，虽然有重要的不同点。
+
+eosio::multi_index 概念上可以看做传统数据库中的表，行是容器中单个对象，列是容器中对象的成员属性，索引提供按照兼容对象成员属性的主键快速查找对象。
+
+传统数据库表允许在表的列上通过自定义函数建索引。类似地 eosio::multi_index 也允许索引是自定义函数（作为元素类型类的成员函数），但是返回类型限制为支持的主键类型其中之一。
+
+传统数据库表典型地有一个单一的唯一主键，能不模糊的识别表中特定行，并且提供了表中行的标准排序顺序。eosio::multi_index 支持类似地语义，但是 eosio::multi_index 容器中对象的主键
+必须是唯一的无符号64位整数。eosio::multi_index 容器中对象按照主键索引升序排序。
+
+EOSFORCEIO Multi-Index 迭代器
+
+EOSFORCEIO 持久化服务优于其它区块链基础设施的一个关键点是 Multi-Index 迭代器。不同于其它只提供建-值对存储的区块链，EOSFORCEIO Multi-Index 表允许合约开发者维护多个按照不同键类型
+排序的对象集合，键值可以从对象数据中推导出。这增加了丰富的检索能力。最多能定义16个索引，每个索引有自己的排序及检索表内容的方式。
+
+EOSFORCEIO Multi-Index 迭代器遵循跟 C++ 迭代器一样的模式。所有迭代器都是双向 const，或者 const_iterator 或者 const_reverse_iterator。迭代器能被间接引用访问 Multi-Index 表中对象。
+
+
+综合
+
+
+怎样创建你的 EOSFORCEIO Multi-Index 表
+
+这里是一份用 EOSFORCEIO Multi-Index 表创建你自己的持久化数据的步骤的概要：
+
+	用 C++ class 或 struct 定义你的对象。每类对象存在自己的 Multi-Index 表。
+	在名为 primary_key 的class / struct 中定义一个 const 成员函数，返回类型为 uint64_t 对象主键值。
+	决定二级索引。至多支持 16 个额外的索引。二级索引支持下列几种键类型。
+		idx64 - 原始的无符号64位整数键
+		idx128 - 原始的 无符号128位整数键，或128位固定大小的词典编撰的键
+		idx256 - 256位固定大小的词典编撰的键
+		idx_double - Double 精度浮点型键
+		idx_long_double - 四倍精度浮点型键
+	为每个二级索引定义一个键提取器。键提取器是一个从 Multi-Index 表元素中提取键得函数。参见 下文的  Multi-Index 构造器及 indexed_by 节。
+
+怎样用 EOSFORCEIO Multi-Index 表
+
+	实例化 Multi-Index 表
+	调用 emplace、 modify 及 erase 分别插入、修改、删除对象
+	调用 get、find 及迭代器操作定位及遍历对象
 
 # 命名规范
 
+标准账户名
+
+只能包含字符 .abcdefghijklmnopqrstuvwxyz12345 。
+必须以字母开头
+必须包含12个字符
+
+表名，结果，函数，类
+
+只能包含最多12个 alpha 字符
+	
+符号
+
+必须是大写的 alpha 字符 （A - Z）
+至多7个字符
+
+原则
 
 
-# C++/C 编程接口
+
+
+宏及函数相关命名
+
+N(base32 X)
+
+编码参数为 EOSFORCEIO name (base32)
+用作固定名称
+
+如果从变量转换为 EOSFORCEIO name, 应该使用 eosio::string_to_name()
+
+技巧
+
+1、编码脚本为 EOSFORCEIO name, 见  eosio::string_to_name
+2、从 base32 解码成 string, 用 name::to_string()
+
+	auto user_name_obj = eosio::name{user}; // account_name user
+	std::string user_name = user_name_obj.to_string();
+
+
+# [C++/C 编程接口](zh-cn/contract/cpp_api.md)

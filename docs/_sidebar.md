@@ -20,7 +20,10 @@
     - [account transfer](en-us/eosforce_username_tran.md)
     - [multi sign](en-us/contract/eosio.msig/msig.md)
     - [fee](zh-cn/fee.md)
-  
+- Contract
+    - [overview](en-us/contract/overview.md)
+    - [build and set](en-us/contract/build_and_set.md)
+    - [EMLG diff](en-us/contract/eos_diff.md)
 - Client develop documentations
     - [HTTP API](en-us/eosforce_http_api_develop.md)
     - [JS API Introduction](en-us/eosjs_api_doc.md) 

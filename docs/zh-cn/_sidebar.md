@@ -20,12 +20,11 @@
 
 - [智能合约](zh-cn/toc/eosforce_contract.md)
     - [概览](zh-cn/contract/overview.md)
-
     - [教程](zh-cn/contract/tutorials.md)
     - [编译与上传](zh-cn/contract/build_and_set.md)
     - [联盟EOS合约移植与对比](zh-cn/contract/eos_diff.md)
     - [工作流技巧]
-    - 
+
 - 源码备忘
     - [Block Produce机制](zh-cn/code/block_produce.md)
     - [Push Transaction](zh-cn/code/push_trx.md)

@@ -22,7 +22,7 @@
     - [概览](zh-cn/contract/overview.md)
     - [教程](zh-cn/contract/tutorials.md)
     - [编译与上传](zh-cn/contract/build_and_set.md)
-    - [联盟EOS合约移植与对比](zh-cn/contract/eos_diff.md)
+    - [EMLG EOS合约移植与对比](zh-cn/contract/eos_diff.md)
     - [工作流技巧]
 
 - 源码备忘

@@ -36,6 +36,6 @@
     - [mongoDB](zh-cn/mongodb.md)
 - Smart Contracts
 	- [Overview](en-us/contract/overview.md)
-	- [Tutorials](en-us/contract/overview.md)
+	- [Tutorials](en-us/contract/tutorials.md)
 - C/C++ API
     - [C/C++ API](https://developers.eos.io/eosio-cpp/reference)

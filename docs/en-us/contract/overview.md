@@ -124,9 +124,12 @@ Transaction Confirmations
 On completion of the transaction, a transaction receipt is generated. This receipt takes the form a hash. Receiving a transaction hash does not mean that the transaction has been confirmed, it only means that the node accepted it without error, which also means that there is a high probability other producers will accept it.
 
 By means of confirmation, you should see the transaction in the transaction history with the block number of which it is included.
+
 Action Handlers and Action "Apply" Context
 
 Smart contracts provide action handlers to do the work of requested actions. (More on this below) Each time an action runs, i.e., the action is "applied" by running the apply method in the contract implementation, EOSIO creates a new action "apply" context within which the action runs. The diagram below illustrates key elements of the action "apply" context.
+
+![avatar](https://files.readme.io/6d71afc-action-apply-context-diagram.png)
 
 From a global view of an EOSIO blockchain, every node in the EOSIO network gets a copy of and runs every action in every contract. Some of the nodes are doing the actual work of the contract, while others are processing in order to prove the validity of the transaction blocks. It is, therefore, important that contracts be able to determine "who they are", or basically, under which context are they running. Context identification information is provided in the action context, as illustrated in the above diagram by receiver, code, action. receiver is the account that is currently processing the action. code is the account that authorized the contract. action is the ID of the currently running action.
 
@@ -387,5 +390,5 @@ Tips
 
 
 
-# C++/C API
+# [C++/C API](URLhttps://developers.eos.io/eosio-cpp/reference)
 

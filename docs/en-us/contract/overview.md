@@ -50,68 +50,68 @@ An action represents a single operation, whereas a transaction is a collection o
 
 Transaction with one action.
 
-{
-  "expiration": "2018-04-01T15:20:44",
-  "region": 0,
-  "ref_block_num": 42580,
-  "ref_block_prefix": 3987474256,
-  "net_usage_words": 21,
-  "kcpu_usage": 1000,
-  "delay_sec": 0,
-  "context_free_actions": [],
-  "actions": [{
-      "account": "eosio.token",
-      "name": "issue",
-      "authorization": [{
-          "actor": "eosio",
-          "permission": "active"
-        }
-      ],
-      "data": "00000000007015d640420f000000000004454f5300000000046d656d6f"
-    }
-  ],
-  "signatures": [
-    ""
-  ],
-  "context_free_data": []
-}
+	{
+	  "expiration": "2018-04-01T15:20:44",
+	  "region": 0,
+	  "ref_block_num": 42580,
+	  "ref_block_prefix": 3987474256,
+	  "net_usage_words": 21,
+	  "kcpu_usage": 1000,
+	  "delay_sec": 0,
+	  "context_free_actions": [],
+	  "actions": [{
+	      "account": "eosio.token",
+	      "name": "issue",
+	      "authorization": [{
+	          "actor": "eosio",
+	          "permission": "active"
+	        }
+	      ],
+	      "data": "00000000007015d640420f000000000004454f5300000000046d656d6f"
+	    }
+	  ],
+	  "signatures": [
+	    ""
+	  ],
+	  "context_free_data": []
+	}
 
 Transaction with multiple actions, these actions must all succeed or the transaction will fail.
 
-{
-  "expiration": "...",
-  "region": 0,
-  "ref_block_num": ...,
-  "ref_block_prefix": ...,
-  "net_usage_words": ..,
-  "kcpu_usage": ..,
-  "delay_sec": 0,
-  "context_free_actions": [],
-  "actions": [{
-      "account": "...",
-      "name": "...",
-      "authorization": [{
-          "actor": "...",
-          "permission": "..."
-        }
-      ],
-      "data": "..."
-    }, {
-      "account": "...",
-      "name": "...",
-      "authorization": [{
-          "actor": "...",
-          "permission": "..."
-        }
-      ],
-      "data": "..."
-    }
-  ],
-  "signatures": [
-    ""
-  ],
-  "context_free_data": []
-}
+	{
+	  "expiration": "...",
+	  "region": 0,
+	  "ref_block_num": ...,
+	  "ref_block_prefix": ...,
+	  "net_usage_words": ..,
+	  "kcpu_usage": ..,
+	  "delay_sec": 0,
+	  "context_free_actions": [],
+	  "actions": [{
+	      "account": "...",
+	      "name": "...",
+	      "authorization": [{
+	          "actor": "...",
+	          "permission": "..."
+	        }
+	      ],
+	      "data": "..."
+	    }, {
+	      "account": "...",
+	      "name": "...",
+	      "authorization": [{
+	          "actor": "...",
+	          "permission": "..."
+	        }
+	      ],
+	      "data": "..."
+	    }
+	  ],
+	  "signatures": [
+	    ""
+	  ],
+	  "context_free_data": []
+	}
 
 Context-Free Actions
 Action Name Restrictions
@@ -139,11 +139,11 @@ Before processing an action, EOSIO sets up a clean working memory for the action
 
 An action can have many side effects. Among these are:
 
-    Change state persisted in the EOSIO persistent storage
-    Notify the recipient of the current transaction
-    Send inline action requests to a new receiver
-    Generate new (deferred) transactions
-    Cancel existing (in-flight) deferred transactions (i.e., cancel already-submitted deferred transaction requests)
+Change state persisted in the EOSIO persistent storage
+Notify the recipient of the current transaction
+Send inline action requests to a new receiver
+Generate new (deferred) transactions
+Cancel existing (in-flight) deferred transactions (i.e., cancel already-submitted deferred transaction requests)
 
 Transaction Limitations
 
@@ -154,33 +154,33 @@ Every transaction must execute in 30ms or less. If a transaction contains severa
 
 Every smart contract must provide an apply action handler. The apply action handler is a function that listens to all incoming actions and performs the desired behavior. In order to respond to a particular action, code is required to identify and respond to specific actions requests. apply uses the receiver, code, and action input parameters as filters to map to the desired functions that implement particular actions. The apply function can filter on the code parameter using something like the following:
 
-if (code == N(${contract_name}) {
-   // your handler to respond to particular code
-}
+	if (code == N(${contract_name}) {
+	   // your handler to respond to particular code
+	}
 
 Within a given code, one can respond to a particular action by filtering on the action parameter. This is normally used in conjunction with the code filter.
 
-if (action == N(${action_name}) {
-    //your handler to respond to a particular action
-}
+	if (action == N(${action_name}) {
+	    //your handler to respond to a particular action
+	}
 
 The EOSIO_ABI macro
 
 To simplify the work for contract developers, the EOSIO_ABI macro encapsulates the lower level action mapping details of the apply function, enabling developers to focus on their application implementation.
 
-#define EOSIO_ABI( TYPE, MEMBERS ) \
-extern "C" { \
-   void apply( uint64_t receiver, uint64_t code, uint64_t action ) { \
-      auto self = receiver; \
-      if( code == self ) { \
-         TYPE thiscontract( self ); \
-         switch( action ) { \
-            EOSIO_API( TYPE, MEMBERS ) \
-         } \
-         /* does not allow destructor of thiscontract to run: eosio_exit(0); */ \
-      } \
-   } \
-} \
+	#define EOSIO_ABI( TYPE, MEMBERS ) \
+	extern "C" { \
+	   void apply( uint64_t receiver, uint64_t code, uint64_t action ) { \
+	      auto self = receiver; \
+	      if( code == self ) { \
+	         TYPE thiscontract( self ); \
+	         switch( action ) { \
+	            EOSIO_API( TYPE, MEMBERS ) \
+	         } \
+	         /* does not allow destructor of thiscontract to run: eosio_exit(0); */ \
+	      } \
+	   } \
+	} \
 
 A developer needs only to specify the code and action names from the contract in the macro, and all of the underlying C code mapping logic is generated by the macro. An example of use of the macro can be seen above, i.e., EOSIO_ABI( hello, (hi) ) where hello and hi are values from the contract.
 
@@ -192,18 +192,18 @@ code filter
 
 In order to respond to a particular action, structure the apply function as follows. You may also construct a response to general actions by omitting the code filter.
 
-if (code == N(${contract_name}) {
-    // your handler to respond to particular code
-}
+	if (code == N(${contract_name}) {
+	    // your handler to respond to particular code
+	}
 
 You can also define responses to respective actions in the code block.
 action filter
 
 To respond to a particular action, structure your apply function as follows. This is normally used in conjuction with the code filter.
 
-if (action == N(${action_name}) {
-    //your handler to respond to a particular action
-}
+	if (action == N(${action_name}) {
+	    //your handler to respond to a particular action
+	}
 
 wast
 
@@ -214,7 +214,7 @@ Once you have the CPP file ready, you can compile it into a text version of WASM
 eosiocpp is deprecated from v1.2.0 and will be removed in v1.3.0 . It will be replaced into eosio-cpp of eosio.wasmsdk repository.
 Parameters and arguments could be changed accordingly.
 
-$ eosio-cpp -o ${contract}.wast ${contract}.cpp
+	$ eosio-cpp -o ${contract}.wast ${contract}.cpp
 
 abi
 
@@ -222,70 +222,70 @@ The Application Binary Interface (ABI) is a JSON-based description on how to con
 
 The ABI file can be generated from the .hpp files using the eosio-cpp tool by passing --abigen argument.
 
-$ eosio-cpp -o ${contract}.wast ${contract}.cpp --abigen
+	$ eosio-cpp -o ${contract}.wast ${contract}.cpp --abigen
 
 The following is an example of what the skeleton contract ABI looks like:
 
-{
-  "types": [{
-      "new_type_name": "account_name",
-      "type": "name"
-    }
-  ],
-  "structs": [{
-      "name": "transfer",
-      "base": "",
-      "fields": {
-        "from": "account_name",
-        "to": "account_name",
-        "quantity": "uint64"
-      }
-    },{
-      "name": "account",
-      "base": "",
-      "fields": {
-        "account": "name",
-        "balance": "uint64"
-      }
-    }
-  ],
-  "actions": [{
-      "action": "transfer",
-      "type": "transfer"
-    }
-  ],
-  "tables": [{
-      "table": "account",
-      "type": "account",
-      "index_type": "i64",
-      "key_names" : ["account"],
-      "key_types" : ["name"]
-    }
-  ]
-}
+	{
+	  "types": [{
+	      "new_type_name": "account_name",
+	      "type": "name"
+	    }
+	  ],
+	  "structs": [{
+	      "name": "transfer",
+	      "base": "",
+	      "fields": {
+	        "from": "account_name",
+	        "to": "account_name",
+	        "quantity": "uint64"
+	      }
+	    },{
+	      "name": "account",
+	      "base": "",
+	      "fields": {
+	        "account": "name",
+	        "balance": "uint64"
+	      }
+	    }
+	  ],
+	  "actions": [{
+	      "action": "transfer",
+	      "type": "transfer"
+	    }
+	  ],
+	  "tables": [{
+	      "table": "account",
+	      "type": "account",
+	      "index_type": "i64",
+	      "key_names" : ["account"],
+	      "key_types" : ["name"]
+	    }
+	  ]
+	}
 
 You will notice that this ABI defines an action transfer of type transfer. This tells EOSIO that when ${account}->transfer action is seen that the payload is of type transfer. The type transfer is defined in the structs array in the object with name set to transfer.
 
-  "structs": [{
-      "name": "transfer",
-      "base": "",
-      "fields": {
-        "from": "account_name",
-        "to": "account_name",
-        "quantity": "uint64"
-      }
-    },{
-...
+	  "structs": [{
+	      "name": "transfer",
+	      "base": "",
+	      "fields": {
+	        "from": "account_name",
+	        "to": "account_name",
+	        "quantity": "uint64"
+	      }
+	    },{
+	...
 
 The ABI has several fields, including from, to and quantity. These fields have the corresponding types account_name, and uint64. account_name is a built-in type used to represent base32 string as uint64. To see more about what built-in types are available, check here.
 
-{
-  "types": [{
-      "new_type_name": "account_name",
-      "type": "name"
-    }
-  ],
-...
+	{
+	  "types": [{
+	      "new_type_name": "account_name",
+	      "type": "name"
+	    }
+	  ],
+	...
 
 Inside the above types array we define a list of aliases for existing types. Here, we define name as an alias of account_name.
 
@@ -382,8 +382,8 @@ To encode a script into EOSIO name, see eosio::string_to_name
 
 To decode from base32 and restore to string form, use eosio::to_string() (an alias of std::string)
 
-auto user_name_obj = eosio::name{user}; // account_name user
-std::string user_name = user_name_obj.to_string();
+	auto user_name_obj = eosio::name{user}; // account_name user
+	std::string user_name = user_name_obj.to_string();
 
 
 

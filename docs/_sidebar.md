@@ -21,7 +21,8 @@
     - [multi sign](en-us/contract/eosio.msig/msig.md)
     - [fee](zh-cn/fee.md)
 - Contract
-    - [overview](en-us/contract/overview.md)
+    - [overview](en-us/contract/overview.md)       
+    - [Tutorials](en-us/contract/tutorials.md) 
     - [build and set](en-us/contract/build_and_set.md)
     - [EMLG diff](en-us/contract/eos_diff.md)
 - Client develop documentations
@@ -34,8 +35,5 @@
     - [History API](en-us/eosforce_http_history_api.md)
 - DB
     - [mongoDB](zh-cn/mongodb.md)
-- Smart Contracts
-	- [Overview](en-us/contract/overview.md)
-	- [Tutorials](en-us/contract/tutorials.md)
 - C/C++ API
     - [C/C++ API](https://developers.eos.io/eosio-cpp/reference)

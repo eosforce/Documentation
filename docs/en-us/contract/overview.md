@@ -298,10 +298,10 @@ Overview
 EOSIO provides a set of services and interfaces that enable contract developers to
 persist state across actions, and consequently transactions, boundaries. Without persistence, state that is generated during the processing of actions and transactions will be lost when processing goes out of scope. The persistence components include:
 
-    Services to persist state in a database
-    Enhanced query capabilities to find and retrieve database content
-    C++ APIs to these services, intended for use by contract developers
-    C APIs for access to core services, of interest to libraries and system developers
+Services to persist state in a database
+Enhanced query capabilities to find and retrieve database content
+C++ APIs to these services, intended for use by contract developers
+C APIs for access to core services, of interest to libraries and system developers
 
 This document covers the first three topics.
 
@@ -334,41 +334,39 @@ How to Create Your EOSIO Multi-Index Table
 
 Here is a summary of the steps to create your own persistent data using EOSIO Multi-Index tables.
 
-    Define your object(s) using C++ class or struct. Each object will be in its own Multi-Index table.
-    Define a const member function in the class/struct called primary_key that returns the uint64_t primary key value of your object.
-    Determine the secondary indices. Up to 16 additional indices are supported. A secondary index
-    supports several key types, listed below.
-        idx64 - Primitive 64-bit unsigned integer key
-        idx128 - Primitive 128-bit unsigned integer key, or a 128-bit fixed-size lexicographical key
-        idx256 - 256-bit fixed-size lexicographical key
-        idx_double - Double precision floating point key
-        idx_long_double - Quadruple precision floating point key
-    Define a key extractor for each secondary index. The key extractor is a function used to obtain the keys from the elements of the Multi-Index table. 
+Define your object(s) using C++ class or struct. Each object will be in its own Multi-Index table.
+Define a const member function in the class/struct called primary_key that returns the uint64_t primary key value of your object.
+Determine the secondary indices. Up to 16 additional indices are supported. A secondary index
+supports several key types, listed below.
+      idx64 - Primitive 64-bit unsigned integer key
+      idx128 - Primitive 128-bit unsigned integer key, or a 128-bit fixed-size lexicographical key
+      idx256 - 256-bit fixed-size lexicographical key
+      idx_double - Double precision floating point key
+      idx_long_double - Quadruple precision floating point key
+Define a key extractor for each secondary index. The key extractor is a function used to obtain the keys from the elements of the Multi-Index table. 
 
 How to Use Your EOSIO Multi-Index Table
 
-    Instantiate your Multi-Index table.
-    Insert emplace into, and subsequently modify or erase objects in your table as required by your contract.
-    Locate and traverse objects in your table using get, find and iterator operations.
-
-
+Instantiate your Multi-Index table.
+Insert emplace into, and subsequently modify or erase objects in your table as required by your contract.
+Locate and traverse objects in your table using get, find and iterator operations.
 
 # Naming Conventions
 
 Standard Account Names
 
-    Can only contain the characters .abcdefghijklmnopqrstuvwxyz12345. a-z (lowercase), 1-5 and . (period)
-    Must start with a letter
-    Must be 12 characters
+Can only contain the characters .abcdefghijklmnopqrstuvwxyz12345. a-z (lowercase), 1-5 and . (period)
+Must start with a letter
+Must be 12 characters
 
 Table Names, Structs, Functions, Classes
 
-    Can only contain up to 12 alpha characters
+Can only contain up to 12 alpha characters
 
 Symbols
 
-    Must be capitalized alpha characters between A and Z
-    Must be 7 characters or less
+Must be capitalized alpha characters between A and Z
+Must be 7 characters or less
 
 Principle
 Macro & functions related naming
@@ -380,12 +378,12 @@ Used for fixed name
 If you want to convert into EOSIO name from variable, you should use eosio::string_to_name()
 Tips
 
-    To encode a script into EOSIO name, see eosio::string_to_name
+To encode a script into EOSIO name, see eosio::string_to_name
 
-    To decode from base32 and restore to string form, use eosio::to_string() (an alias of std::string)
+To decode from base32 and restore to string form, use eosio::to_string() (an alias of std::string)
 
-    auto user_name_obj = eosio::name{user}; // account_name user
-    std::string user_name = user_name_obj.to_string();
+auto user_name_obj = eosio::name{user}; // account_name user
+std::string user_name = user_name_obj.to_string();
 
 
 

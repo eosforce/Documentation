@@ -1,5 +1,3 @@
-# EOSForce开发者文档
-
 - [首页](README.md)
 
 - 介绍
@@ -21,7 +19,6 @@
     - [eosforce 客户端开发指南](zh-cn/eosforce_client_develop_guild.md)
     - [HTTP API请求流程](zh-cn/eosforce_http_api_develop.md)
     - [JS API库介绍](zh-cn/eosjs_api_doc.md) 
-    - [开发基于Chrome scatter钱包的应用](zh-cn/eosforce_scatter.md) 
     - [常用cleos命令](zh-cn/eosforce_cleos_eg.md)
     - [异常码](zh-cn/eosforce_exception_code.md)
 - 功能介绍
@@ -33,6 +30,7 @@
     - [用户名转让](zh-cn/eosforce_username_tran.md)
     - [多重签名](zh-cn/contract/eosio.msig/msig.md)
     - [手续费](zh-cn/fee.md)
+    
 - HTTP API
     - [链相关api](zh-cn/eosforce_http_chain_api.md)
     - [历史记录api](zh-cn/eosforce_http_history_api.md)
@@ -41,9 +39,12 @@
     - [C/C++ API](https://developers.eos.io/eosio-cpp/reference)
 - 数据库
     - [mongoDB](zh-cn/mongodb.md)
-- 更新记录
-    - [[2018年8月15日]更新预演说明](zh-cn/update_guild/eosforce_update_guild_0815.md) 
-
+- 智能合约
+    - [概览](zh-cn/contract/overview.md)
+    - [教程]
+    - [编译与上传](zh-cn/contract/build_and_set.md)
+    - [联盟EOS合约移植与对比](zh-cn/contract/eos_diff.md)
+    - [工作流技巧]
 - 源码备忘
     - [Block Produce机制](zh-cn/code/block_produce.md)
     - [Push Transaction](zh-cn/code/push_trx.md)
@@ -54,6 +55,9 @@
     - [如何构建单元测试](zh-cn/code/unittest.md)
     - [WASM虚拟机相关整理](zh-cn/code/wasm.md)
     - [EOS中的异常](zh-cn/code/eos_exceptions.md)
+
+- 更新记录
+    - [[2018年8月15日]更新预演说明](zh-cn/update_guild/eosforce_update_guild_0815.md) 
 
 - 关于文档的文档
     - [文档搭建介绍](example/doc_introduction.md)

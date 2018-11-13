@@ -1,8 +1,8 @@
-# EosForce节点部署指南
+# EosForce bp deploy
 
 --------------------------
 
-!> 注意事项
+!> note
 
 - 一般服务器最低配置为2核cpu4G内存 50G ssd硬盘,系统推荐64位ubuntu 16.04操作系统
 - 部署过程中原力eos主网不可和联盟eos主网同时部署在一台服务器上，即一台服务器只能部署一套EOS主网，主要防止使用过程中出现奇怪的错误
@@ -11,65 +11,60 @@
 - 部署BP节点，是部署同步节点的基础上修改下配置，就变成BP节点 
 - 注册bp时，需要钱包账户最低充值100个eos作为注册费
 
-## 同步节点部署
+## sync node deploy
 
-基于linux操作系统 ubuntu 16.04版本 原力eos源码部署方案，docker部署请参考  https://github.com/eosforce/genesis
+基于linux操作系统 ubuntu 16.04版本 原力eos源码部署方案，docker deploy reference:  https://github.com/eosforce/genesis
 
-### 1. 下载源码
+### 1. download the srouce
 
 ```bash
 apt-get update && apt-get install -y git wget
 git clone https://github.com/eosforce/eosforce.git eosforce
 ```
 
-### 2. 执行如下命令安装原力eos
+### 2. exe shell to build eos
 
 ```bash
 cd eosforce && git submodule update --init --recursive && ./eosio_build.sh
 mkdir -p ~/.local/share/eosio/nodeos/config
 curl https://raw.githubusercontent.com/eosforce/genesis/master/genesis.json -o ~/.local/share/eosio/nodeos/config/genesis.json
-
-cp build/contracts/eosio.token/eosio.token.abi build/contracts/eosio.token/eosio.token.wasm ~/.local/share/eosio/nodeos/config
 cp build/contracts/System/System.abi build/contracts/System/System.wasm ~/.local/share/eosio/nodeos/config
+cp build/contracts/System01/System01.abi build/contracts/System01/System01.wasm ~/.local/share/eosio/nodeos/config
+cp build/contracts/eosio.token/eosio.token.abi build/contracts/eosio.token/eosio.token.wasm ~/.local/share/eosio/nodeos/config
+cp build/contracts/eosio.msig/eosio.msig.abi build/contracts/eosio.msig/eosio.msig.wasm ~/.local/share/eosio/nodeos/config
+cp build/contracts/eosio.bios/eosio.bios.abi build/contracts/eosio.bios/eosio.bios.wasm ~/.local/share/eosio/nodeos/config
 cd build && make install
 ```
 
-### 3. config核心配置文件获取并修改(若想修改p2p地址请参考第二节)
+### 3. config
 
 ```bash
 wget http://download.aitimeout.site/config.ini
 cp config.ini ~/.local/share/eosio/nodeos/config/
 ```
 
-config.ini文件需要修改2个地方：
+config.ini update:
 
-第一个修改地方：p2p-server-address = ip:7894 (ip为公网服务器ip，端口自行修改，注意防火墙要放行该端口)
-
-第二个修改的地方,修改成自己的genesis.json路径,用绝对路径防止出错：
-
-```ini
+p2p-server-address = ip:port
 genesis-json = "/root/.local/share/eosio/nodeos/config/genesis.json"
-```
 
-### 4. 启动节点并测试
+
+### 4. startup
 
 ```bash
 cd build/programs/nodeos && ./nodeos
 ```
 
-#### 打开另一个终端查看本地区块高度及对比eos原力官方主网的出块高度
-
-查看本地高度命令如下，并多次执行如下命令区块高度为不断增加，说明同步正常，直到高度和原力主网高度接近时，同步完成
+#### get info
 
 ```bash
 cleos get info
 ```
 
-打开浏览器输入如下地址查看原力eos主网区块高度
+explore the chain info on major eosforce network
 
 https://w1.eosforce.cn/v1/chain/get_info 
 
-其中head_block_num为区块高度
 
 ## BP节点部署
 

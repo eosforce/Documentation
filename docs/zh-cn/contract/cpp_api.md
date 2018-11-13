@@ -91,7 +91,25 @@ action_data_size
 
 返回值
 当前 action 数据字段的长度
+
+has_auth
+验证action 账户集合是否包含指定账户。
+
+验证action 账户集合是否包含指定账户
+
+参数
+name - 待被验证账户名 
  
+require_auth
+验证指定账户是否存在于指定的授权集合中。
+
+验证指定账户是否存在于 action 指定的授权集合中。如果不在，抛异常。
+
+参数
+name - 待被验证账户名 
+
+require_auth2
+
  
 require_recipient
  
@@ -100,10 +118,15 @@ require_recipient
 参数
 name - 待被验证账户名 
  
+require_read_lock
+
+验证 name 是否存在于持有的读锁集合中。
+
+验证 name 是否存在于持有的读锁集合中。
+验证 name 是否存在于 action 持有的读锁集合中。如果不在则抛异常。
  
- 
- 
- 
+参数
+name - 待被验证账户名 
  
  
  

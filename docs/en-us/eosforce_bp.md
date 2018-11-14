@@ -2,27 +2,27 @@
 
 --------------------------
 
-!> note
+!> Important Notes:
 
-- 一般服务器最低配置为2核cpu4G内存 50G ssd硬盘,系统推荐64位ubuntu 16.04操作系统
-- 部署过程中原力eos主网不可和EMLG EOS主网同时部署在一台服务器上，即一台服务器只能部署一套EOS主网，主要防止使用过程中出现奇怪的错误
-- 原力eos生态的第三方应用插件不可和EMLG EOS主网混合使用，比如EMLG EOS的eosjs插件不可和原力eos主网直接对接
-- 部署原力eos节点前，最好需要之前有过eos的相关的基础知识学习，比如命令行客户端及RPC API使用
-- 部署BP节点，是部署同步节点的基础上修改下配置，就变成BP节点 
-- 注册bp时，需要钱包账户最低充值100个eos作为注册费
+- The minimum server requirements is dual-core CPU, 4G RAM, 50G SSD hardrive, and the recommended system is 64-bit ubuntu 16.04
+- EOSForce mainnet cannot be deployed on the same server as the EOS EMLG mainnet, meaning that one server can only deploy one mainnet. This is to prevent unusual errors during deployment
+- Third-party plug-ins on the EOSForce ecosystem are not compatible with the EOS EMLG Mainnet. For example, EMLG eosjs plug-ins cannot dock the EOSForce mainnet
+- Before the deployment of EOSForce node, please get familar with EOS-related documents, the use of command client and RPC API use for example
+- For BP node deployment, modify the settings based on deploying syncronous node, and then it will be a BP node
+- For BP registraton, please have 100 EOSC in the wallet account in advance for registration fees.
 
 ## sync node deploy
 
-基于linux操作系统 ubuntu 16.04版本 原力eos源码部署方案，docker deploy reference:  https://github.com/eosforce/genesis
+This is the EOSForce source code deployment plan based on linux ubuntu 16.04. Refer to docker deployment here: https://github.com/eosforce/genesis
 
-### 1. download the srouce
+### 1. Download the srouce
 
 ```bash
 apt-get update && apt-get install -y git wget
 git clone https://github.com/eosforce/eosforce.git eosforce
 ```
 
-### 2. exe shell to build eos
+### 2. Excute the following commands to instal EOSForce
 
 ```bash
 cd eosforce && git submodule update --init --recursive && ./eosio_build.sh
@@ -36,17 +36,17 @@ cp build/contracts/eosio.bios/eosio.bios.abi build/contracts/eosio.bios/eosio.bi
 cd build && make install
 ```
 
-### 3. config
+### 3. Obtain and modify the config core setting documents
 
 ```bash
 wget http://download.aitimeout.site/config.ini
 cp config.ini ~/.local/share/eosio/nodeos/config/
 ```
+Modify the config.ini document in 2 places:
 
-config.ini update:
+(1) p2p-server-address = ip:7894 (ip is the public server IP. Firewall must release the port, and the port modifies itself)
 
-p2p-server-address = ip:port
-genesis-json = "/root/.local/share/eosio/nodeos/config/genesis.json"
+(2) modify to your own genesis.json path. Use absolute path to prevent errors
 
 
 ### 4. startup
@@ -66,64 +66,59 @@ explore the chain info on major eosforce network
 https://w1.eosforce.cn/v1/chain/get_info 
 
 
-## BP节点部署
+## BP Node Deployment
 
-### 准备工作
+### Preparation
 
-生成一对公私钥给BP节点使用，执行如下命令生成
+Generate a public/private key pair for BP node. Execute the command as follows:
+
 
 ```bash
 cleos create key
 ```
 
-执行结果如下：
+Execution result as follows:
 
 ```bash
 Private key: 5KidVdxbLKbJo9QiTyrbYULNTdKFTzdCb9oZgdaWye2CZfXz2hC
 Public key: EOS6Z4fD6isTKZwaeH6Req7QXZLK3Yvb2rQoTxefVcsGXaXsFrBap
 ```
 
-其中 Private key为私钥 Public key为公钥, Private  注意Public key在后面注册bp时用到，即执行updatebp
+Public key will be used during BP registration later, that is, updatebp.
 
-**基于以上部署好的同步节点进行修改，只需修改2个地方:**
+Modify 2 places based on the already deployed syncronous node:
 
-config.ini修改如下：
+config.ini:
 
-第一修改的地方：
+(1) producer-name = bpname (bpname being the name you have as a BP)
 
-producer-name = bpname （bpname为你的bp的名称）
+(2) signature-provider = EOSpubkey = KEY:EOSprivkey (EOSpubkey & EOSprivkey being the public/private keys generated earlier)
 
-第二修改地方：
+### Launch node, execute the following commands:
 
-signature-provider = EOSpubkey=KEY:EOSprivkey （其中EOSpubkey准备工作中生成的公钥，EOSprivkey为准备工作中生成的私钥）
-
-### 启动节点,执行如下命令
-
-删除旧的数据
+Delete old data:
 
 ```bash
 rm -rf ~/.local/share/eosio/nodeos/data
 ```
 
-启动
+Launch:
 
 ```bash
 cd build/programs/nodeos && ./nodeos
 ```
 
-## BP节点注册
+## BP Node Registration
 
-准备工作：
-首先要注册一个原力eos账户名，并需要给这个账户转100个eos，注册时需要注册费，账户名必须和bp的名字一样，也为bpname，这样
-就有了公钥pub_key,私钥pri_key,账户名 bpname（和bp的名字同名），这个步骤就不详细介绍
+Preparation: first register a EOSForce account name and transfer 100 EOSC to this account. Make sure the account name is the same as bpname. Right now you should have pub_key, pri_key, and bpname.
 
-创建一个钱包
+Create a wallet:
 
 ```bash
 cleos wallet create
 ```
 
-结果如下：
+Results as follows:
   
 ```bash
 Creating wallet: default
@@ -132,21 +127,21 @@ Without password imported keys will not be retrievable.
 "PW5HwhcFEfN2Up63iK5LfQwXX7FmkUNkwV1t4TG73tMNxj59YeQws"
 ```
 
-生成默认的钱包，最后一行为钱包的密码
-  
-导入账户私钥到钱包
+Default wallet. The last line being the wallet password.
+
+Import account private key to the wallet:
 
 ```bash
 cleos wallet import pri_key
 ```
 
-执行命令进行注册
+Execute command to register:
 
 ```bash
 cleos -u https://p1.eosforce.cn push action eosio updatebp '{"bpname":"bpname","block_signing_key":"block_signing_key","commission_rate":"commission_rate","url":"https://eosforce.io"}' -p bpname
 ```
 
-注册成功返回如下结果：
+Successful registration returns the following result:
 
 ```bash
 executed transaction: 34dbe8bb08d0f7c3d5a4453d1e068e35f03c96f25d200c4e2a795e6aec472d60  160 bytes  6782 us
@@ -154,15 +149,16 @@ executed transaction: 34dbe8bb08d0f7c3d5a4453d1e068e35f03c96f25d200c4e2a795e6aec
 warning: transaction executed locally, but may not be confirmed by the network yet
 ```
 
-其中bpname 为bp的名称。block_signing_key为BP的公钥，commission_rate为佣金比例，设置3000，就是给用户分红70%，bp为30%，详细介绍可以参考 https://github.com/eosforce/contracts/tree/master/System
+bpname being the name of the BP. block_signing_key being BP’s public key. commission_rate being the amount of BP reward allocated to the BP itself(e.g. 3000 would be giving 70% of the reward back to the voters and 30% to BP itself). Refer to the details at: 
+https://github.com/eosforce/contracts/tree/master/System
 
 
-### 最后如何检验出块
+### How to verify block production
 
-出块的2个条件:
+2 conditions for block production:
 
-* 投票后排名前23名，可出块
-* 本地bp节点同步已完成
+- Top 23 BPs can produce blocks
+- Local BP node syncronization is complete
 
-可以下载我们的eosforce钱包并安装，查看自己的BP有没有出块
-(钱包下载地址：https://github.com/eosforce/wallet-desktop/releases)
+Download EOSForce local wallet to check if your BP is producing blocks: 
+https://github.com/eosforce/wallet-desktop/releases

@@ -56,8 +56,11 @@
     - [WASM虚拟机相关整理](zh-cn/code/wasm.md)
     - [EOS中的异常](zh-cn/code/eos_exceptions.md)
 
-- 更新记录
-    - [[2018年8月15日]更新预演说明](zh-cn/update_guild/eosforce_update_guild_0815.md) 
+- 升级记录
+- [[2018年8月15日]更新预演说明](zh-cn/update_guild/eosforce_update_guild_0815.md)
+- [[2018年10月17日]更新预演说明](zh-cn/update_guild/eosforce_update_test_guild_1018.md)
+- [[2018年10月18日]更新说明](zh-cn/update_guild/eosforce_update_guild_1018.md)
+- [v1.2.0主网升级说明](zh-cn/update_guild/eosforce_update_guild_v1.2.0.md) 
 
 - 关于文档的文档
     - [文档搭建介绍](example/doc_introduction.md)

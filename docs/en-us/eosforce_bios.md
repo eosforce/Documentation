@@ -183,10 +183,16 @@ mv ./genesis.json ./config/
 **不是** **不是** **不是**  ~~eosforce/contracts/eosio.system~~
 
 ```bash
-cp ../contracts/eosio.token/eosio.token.abi ./config/
-cp ../contracts/eosio.token/eosio.token.wasm ./config/
 cp ../contracts/System/System.abi ./config/
 cp ../contracts/System/System.wasm ./config/
+cp ../contracts/System01/System01.abi ./config/
+cp ../contracts/System01/System01.wasm ./config/
+cp ../contracts/eosio.token/eosio.token.abi ./config/
+cp ../contracts/eosio.token/eosio.token.wasm ./config/
+cp ../contracts/eosio.msig/eosio.msig.abi ./config/
+cp ../contracts/eosio.msig/eosio.msig.wasm ./config/
+cp ../contracts/eosio.bios/eosio.bios.abi ./config/
+cp ../contracts/eosio.bios/eosio.bios.wasm ./config/
 echo "" > ./config/config.ini
 ```
 

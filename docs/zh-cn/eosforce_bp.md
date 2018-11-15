@@ -106,15 +106,11 @@ signature-provider = EOSpubkey=KEY:EOSprivkey （其中EOSpubkey准备工作中�
 
 ### 启动节点,执行如下命令
 
-删除旧的数据
-
-```bash
-rm -rf ~/.local/share/eosio/nodeos/data
-```
-
 启动
 
 ```bash
+ps -aux|grep nodeos
+kill -2 'nodeos pid'
 cd build/programs/nodeos && ./nodeos
 ```
 

@@ -96,15 +96,11 @@ config.ini:
 
 ### Launch node, execute the following commands:
 
-Delete old data:
-
-```bash
-rm -rf ~/.local/share/eosio/nodeos/data
-```
-
 Launch:
 
 ```bash
+ps -aux|grep nodeos
+kill -2 'nodeos pid'
 cd build/programs/nodeos && ./nodeos
 ```
 

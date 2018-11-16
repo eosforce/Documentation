@@ -40,15 +40,14 @@ p2p-peer-address = 116.62.16.248:9076
 (其他启动文件包含在docker镜像中无需单独下载,  配置目录仅包含config.ini即可。)
 
 ```shell
-config_path='~/eosforcetest/config' #修改为本地配置文件目录
-data_path='~/eosforcetest/data'	#修改为本地数据文件目录
+#  需手动建立数据与配置目录 eg: /datatest1.2.0
+docker run -d --name test1.2.0 -v /datatest1.2.0/eosforce:/opt/eosio/bin/data-dir -v /datatest1.2.0/nodeos:/root/.local/share/eosio/nodeos -p 9076:9076 -p 19001:19001 eosforce/eos:v1.2.0.test nodeosd.sh
 
-docker run -d --name eosforce-v1.2.0.test -v $config_path':/opt/eosio/bin/data-dir' -v $data_path':/root/.local/share/eosio/nodeos' -p 19001:19001 -p 9076:9076 eosforce/eos:v1.2.0.test nodeosd.sh
 ```
 
 查看日志，观察同步或出块是否正常
 ```shell
-docker logs -f --tail 100 eosforce-v1.2.0.test
+docker logs -f --tail 100 testv1.2.0
 ```
 
 ----

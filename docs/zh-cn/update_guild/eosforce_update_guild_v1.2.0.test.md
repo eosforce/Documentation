@@ -128,7 +128,6 @@ p2p-peer-address = 116.62.16.248:9076
 
 ### 4. 启动
 
-启动新版docker进程
 
 ```shell
 configpath='~/eosforcetest/config' #修改为本地配置文件目录

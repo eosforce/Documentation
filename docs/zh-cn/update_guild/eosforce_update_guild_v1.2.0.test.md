@@ -47,7 +47,7 @@ docker run -d --name test1.2.0 -v /datatest1.2.0/eosforce:/opt/eosio/bin/data-di
 
 查看日志，观察同步或出块是否正常
 ```shell
-docker logs -f --tail 100 testv1.2.0
+docker logs -f --tail 100 test1.2.0
 ```
 
 ----
@@ -69,16 +69,16 @@ git submodule update --init --recursive
 ### 2.配置启动文件
 
 ```shell
-config_path='~/eosforcetest/config'
-# wget https://raw.githubusercontent.com/eosforce/genesis/master/genesis.json -O $config_path'/genesis.json' #原有文件即可
+configpath='~/eosforcetest/config'
+# wget https://raw.githubusercontent.com/eosforce/genesis/master/genesis.json -O $configpath'/genesis.json' #原有文件即可
 
-cp build/contracts/System/System.abi build/contracts/System/System.wasm $config_path
+cp build/contracts/System/System.abi build/contracts/System/System.wasm $configpath
 
-cp build/contracts/System01/System01.abi build/contracts/System01/System01.wasm $config_path
+cp build/contracts/System01/System01.abi build/contracts/System01/System01.wasm $configpath
 
-cp build/contracts/eosio.token/eosio.token.abi build/contracts/eosio.token/eosio.token.wasm $config_path
+cp build/contracts/eosio.token/eosio.token.abi build/contracts/eosio.token/eosio.token.wasm $configpath
 
-cp build/contracts/eosio.msig/eosio.msig.abi build/contracts/eosio.msig/eosio.msig.wasm $config_path
+cp build/contracts/eosio.msig/eosio.msig.abi build/contracts/eosio.msig/eosio.msig.wasm $configpath
 
 ```
 注意：若使用原有配置目录，注意abi文件有变化，仍需使用最新abi文件替换。
@@ -123,17 +123,17 @@ p2p-peer-address = 116.62.16.248:9076
 启动新版docker进程
 
 ```shell
-config_path='~/eosforcetest/config' #修改为本地配置文件目录
-data_path='~/eosforcetest/data'	#修改为本地数据文件目录
-log_path='./nodeostest.log'	#修改为本地日志文件
+configpath='~/eosforcetest/config' #修改为本地配置文件目录
+datapath='~/eosforcetest/data'	#修改为本地数据文件目录
+logpath='./nodeostest.log'	#修改为本地日志文件
 
-nohup ./build/programs/nodeos/nodeos --config-dir $config_path --data-dir $data_path > $log_path 2>&1 &
+nohup ./build/programs/nodeos/nodeos --config-dir $configpath --data-dir $datapath > $logpath 2>&1 &
 ```
 
 查看日志，观察同步或出块是否正常
 
 ```shell
-tail -100f $log_path
+tail -100f $logpath
 ```
 
 ------

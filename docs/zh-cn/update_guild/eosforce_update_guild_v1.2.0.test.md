@@ -66,6 +66,14 @@ git submodule update --init --recursive
 ./eosio_build.sh
 ```
 
+编译产生的可执行文件(直接使用或拷贝至所需机器目录, 启动节点仅需nodeos):
+
+- eosforce/build/programs/nodeos/nodeos
+- eosforce/build/programs/cleos/cleos
+- eosforce/build/programs/keosd/keosd
+
+(或 eosforce/build/bin/ 目录下)
+
 ### 2.配置启动文件
 
 ```shell

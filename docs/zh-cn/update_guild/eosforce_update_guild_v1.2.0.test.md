@@ -11,8 +11,6 @@ docker版本启动 与 源码编译启动方式取一即可，注意两种版本
 docker pull eosforce/eos:v1.2.0.test
 ```
 
-其他启动文件包含在docker镜像中无需单独下载
-
 ### 2. 配置文件 config.ini
 
 配置p2p地址，端口、bp等
@@ -39,11 +37,13 @@ p2p-peer-address = 116.62.16.248:9076
 
 启动新版docker进程
 
+(其他启动文件包含在docker镜像中无需单独下载,  配置目录仅包含config.ini即可。)
+
 ```shell
 config_path='~/eosforcetest/config' #修改为本地配置文件目录
 data_path='~/eosforcetest/data'	#修改为本地数据文件目录
 
-docker run -d --name eosforce-v1.2.0.test -v $config_path':/opt/eosio/bin/data-dir' -v $data_path':/root/.local/share/eosio/nodeos' -p 8888:8888 -p 9876:9876 eosforce/eos:v1.2.0.test nodeosd.sh
+docker run -d --name eosforce-v1.2.0.test -v $config_path':/opt/eosio/bin/data-dir' -v $data_path':/root/.local/share/eosio/nodeos' -p 19001:19001 -p 9076:9076 eosforce/eos:v1.2.0.test nodeosd.sh
 ```
 
 查看日志，观察同步或出块是否正常

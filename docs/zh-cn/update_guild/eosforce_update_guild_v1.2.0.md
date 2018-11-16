@@ -19,7 +19,7 @@ docker pull eosforce/eos:v1.2.0
 
 其他启动文件已经包含于docker镜像中，无需单独下载。
 
-### 3. 修改配置文件 config.ini
+### 2. 修改配置文件 config.ini
 
 配置p2p地址，bp等，已有可不变。
 
@@ -37,7 +37,7 @@ signature-provider = 出块公钥=KEY:出块私钥
 # unlock-timeout = 900
 ```
 
-### 4. 启动
+### 3. 启动
 
 停止或删除原节点docker容器
 
@@ -50,9 +50,9 @@ docker stop '原docker容器名'
 备份原数据，防止重启异常污染数据。
 
 ```shell
-data_path='~/eosforce/data'	#修改为本地数据文件目录
-data_backup_path='~/eosforce/nodeos_backup'	#修改为本地数据备份文件目录
-cp -r $data_path $data_path
+datapath='~/eosforce/data'	#修改为本地数据文件目录
+databackuppath='~/eosforce/nodeos_backup'	#修改为本地数据备份文件目录
+cp -r $datapath $datapath
 ```
 
 启动新版docker进程

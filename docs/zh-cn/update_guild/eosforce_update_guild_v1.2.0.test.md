@@ -78,7 +78,11 @@ git submodule update --init --recursive
 
 ```shell
 configpath='~/eosforcetest/config'
-# wget https://raw.githubusercontent.com/eosforce/genesis/master/genesis.json -O $configpath'/genesis.json' #原有文件即可
+
+git clone https://github.com/eosforce/dockerfile.git
+git checkout test.v1.2.0
+git pull
+cp dockerfile/eosforce/genesis.json $configpath
 
 cp build/contracts/System/System.abi build/contracts/System/System.wasm $configpath
 

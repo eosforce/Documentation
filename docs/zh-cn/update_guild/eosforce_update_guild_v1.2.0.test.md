@@ -80,8 +80,10 @@ git submodule update --init --recursive
 configpath='~/eosforcetest/config'
 
 git clone https://github.com/eosforce/dockerfile.git
+cd dockerfile
 git checkout test.v1.2.0
 git pull
+cd ..
 cp dockerfile/eosforce/genesis.json $configpath
 
 cp build/contracts/System/System.abi build/contracts/System/System.wasm $configpath

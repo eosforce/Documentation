@@ -1,6 +1,9 @@
 # eosforce v1.2.0 主网升级说明
 
-更新说明：
+#### Tag标签:
+v1.2.0
+
+#### 更新说明：
 - 合并eosio v1.4.2 代码
 - 优化性能，优化插件与编译器
 - 增加延时交易，多重签名合约
@@ -8,6 +11,17 @@
 （未启动，最新代码未更新）
 
 docker版本启动 与 源码编译启动方式取一即可，注意两种版本启动节点产生的data文件互不兼容。
+
+#### get info信息：
+```shell
+cleos get info
+{
+  "server_version": "12b3ec59",
+  "chain_id": "bd61ae3a031e8ef2f97ee3b0e62776d6d30d4833c8f7c1645c657b149151004b",
+	...
+  "server_version_string": "v1.2.0"
+}
+```
 
 -----
 ## docker 版本：
@@ -117,16 +131,16 @@ wget https://raw.githubusercontent.com/eosforce/genesis/master/genesis.json -O $
 
 config目录所有必备文件如下：
 
-config.ini
-genesis.json
-System.abi  
-System.wasm  
-System01.abi 
-System01.wasm  
-eosio.msig.abi  
-eosio.msig.wasm  
-eosio.token.abi  
-eosio.token.wasm  
+- config.ini
+- genesis.json
+- System.abi  
+- System.wasm  
+- System01.abi 
+- System01.wasm  
+- eosio.msig.abi  
+- eosio.msig.wasm  
+- eosio.token.abi  
+- eosio.token.wasm  
 
 
 ### 3.修改配置文件 config.ini

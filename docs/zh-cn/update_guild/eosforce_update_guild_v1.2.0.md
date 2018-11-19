@@ -55,20 +55,11 @@ signature-provider = 出块公钥=KEY:出块私钥
 
 ### 3. 启动
 
-停止或删除原节点docker容器
+停止原节点docker容器
 
 ```shell
 docker ps
 docker stop '原docker容器名'
-# docker rm -f '原docker容器名' 
-```
-
-备份原数据，防止重启异常污染数据。
-
-```shell
-datapath='~/eosforce/data'	#修改为本地数据文件目录
-databackuppath='~/eosforce/nodeos_backup'	#修改为本地数据备份文件目录
-cp -r $datapath $databackuppath
 ```
 
 启动新版docker进程
@@ -168,14 +159,6 @@ signature-provider = 出块公钥=KEY:出块私钥
 ```shell
 ps -aux|grep nodeos
 kill -2 '原进程pid'
-```
-
-备份原数据，防止重启异常污染数据。
-
-```shell
-datapath='~/eosforce/data'	#修改为本地数据文件目录
-databackuppath='~/eosforce/nodeosbackup'	#修改为本地数据备份文件目录
-cp -r $datapath $databackuppath
 ```
 
 启动nodeos

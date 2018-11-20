@@ -28,6 +28,7 @@ docker start '容器名'
 - docker版本： https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/data/eosforce-data-docker-v1.2.1.tar.gz
 - 源码编译版本：https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/data/bin/eosforce-data-bin-v1.2.1.tar.gz
 
+[v1.2.1主网升级重建state操作说明](zh-cn/update_guild/eosforce_update_guild_v1.2.1_rebuild_state.md)
 
 #### get info信息：
 ```shell

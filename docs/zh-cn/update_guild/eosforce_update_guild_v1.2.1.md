@@ -1,7 +1,7 @@
-# eosforce v1.2.0 主网升级说明
+# eosforce v1.2.1 主网升级说明
 
 #### Tag标签:
-v1.2.0
+v1.2.1
 
 #### 更新说明：
 - 合并eosio v1.4.2 代码
@@ -23,6 +23,10 @@ docker start '容器名'
 # 或nohup ./build/programs/nodeos/nodeos --config-dir $configpath --data-dir $datapath > $log 2>&1 &
 ```
 
+#### 常见问题：
+- 如果出现 “std::exception::what: unrecognised option” 报错，可按照错误信息删除config.ini中相应的失效配置，可仅保留必要配置。
+- 如果出现“memory does not match data expected by executable”此报错， 需要删除数据目录下state文件夹，并启动重建state(预计耗时1小时左右)， 
+
 #### get info信息：
 ```shell
 cleos get info
@@ -30,7 +34,7 @@ cleos get info
   "server_version": "12b3ec59",
   "chain_id": "bd61ae3a031e8ef2f97ee3b0e62776d6d30d4833c8f7c1645c657b149151004b",
 	...
-  "server_version_string": "v1.2.0"
+  "server_version_string": "v1.2.1"
 }
 ```
 
@@ -40,12 +44,13 @@ cleos get info
 ### 1. 拉取最新版本镜像
 
 ```shell
-docker pull eosforce/eos:v1.2.0
+docker pull eosforce/eos:v1.2.1
 ```
 
-其他启动文件已经包含于docker镜像中，无需单独下载。
-
 ### 2. 修改配置文件 config.ini
+
+其他启动文件已经包含于docker镜像中，无需单独下载。
+config配置目录可以仅保留config.ini文件
 
 删除钱包插件等无效配置：
 ```ini
@@ -72,7 +77,7 @@ docker stop '原docker容器名'
 ```shell
 #下面映射路径 ‘~/eosforce/config’ 需修改为本地配置文件目录；‘~/eosforce/data’ 需修改为本地数据文件目录；
 #可修改默认http端口8888 ，p2p网络端口9876
-docker run -d --name eosforce -v ~/eosforce/config:/opt/eosio/bin/data-dir -v ~/eosforce/data:/root/.local/share/eosio/nodeos -p 8888:8888 -p 9876:9876 eosforce/eos:v1.2.0 nodeosd.sh
+docker run -d --name eosforce -v ~/eosforce/config:/opt/eosio/bin/data-dir -v ~/eosforce/data:/root/.local/share/eosio/nodeos -p 8888:8888 -p 9876:9876 eosforce/eos:v1.2.1 nodeosd.sh
 ```
 
 查看日志，观察同步或出块是否正常
@@ -91,7 +96,7 @@ docker logs -f --tail 100 eosforce
 git clone https://github.com/eosforce/eosforce.git eosforce
 cd eosforce
 git fetch
-git checkout v1.2.0
+git checkout v1.2.1
 git submodule update --init --recursive
 ./eosio_build.sh
 ```

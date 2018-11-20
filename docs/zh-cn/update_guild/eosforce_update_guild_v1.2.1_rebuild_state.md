@@ -1,8 +1,10 @@
 
 ## 重建state具体操作步骤：（提前准备好v1.2.1版本 docker镜像或编译好的nodeos）
 
-以默认文件路径 ~/.local/share/eosio/nodeos 为例：
-DATA_PATH=~/.local/share/eosio/nodeos
+以默认文件路径
+ '~/.local/share/eosio/nodeos' 为例：
+
+DATA_PATH='~/.local/share/eosio/nodeos'
 ls $DATA_PATH
 #下面应有：config  data
 
@@ -12,8 +14,12 @@ docker stop '原容器'
 kill -2 原nodeos进程
 
 ### 2. 拷贝原数据
-DATA_NEW_PATH=~/.local/share/eosio/nodeos-v1.2.0	#可改为自己指定目录
+DATA_NEW_PATH=~/.local/share/eosio/nodeos-v1.2.0	
+可改为自己指定目录
+
+```shell
 cp -r $DATA_PATH $DATA_NEW_PATH
+```
 
 ### 3. 重启原服务
 docker start '原容器'

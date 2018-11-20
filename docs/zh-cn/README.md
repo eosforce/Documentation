@@ -61,7 +61,7 @@
 - [[2018年10月17日]更新预演说明](zh-cn/update_guild/eosforce_update_test_guild_1018.md)
 - [[2018年10月18日]更新说明](zh-cn/update_guild/eosforce_update_guild_1018.md)
 - [[2018年11月16日]v1.2.0.test更新预演说明](zh-cn/update_guild/eosforce_update_guild_v1.2.0.test.md)
-- [v1.2.0主网升级说明](zh-cn/update_guild/eosforce_update_guild_v1.2.0.md) 
+- [v1.2.0主网升级说明](zh-cn/update_guild/eosforce_update_guild_v1.2.1.md) 
 
 - 关于文档的文档
     - [文档搭建介绍](example/doc_introduction.md)

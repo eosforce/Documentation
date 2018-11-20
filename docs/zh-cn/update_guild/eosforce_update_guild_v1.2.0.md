@@ -12,6 +12,17 @@ v1.2.0
 
 docker版本启动 与 源码编译启动方式取一即可，注意两种版本启动节点产生的data文件互不兼容。
 
+注意：需提前备份原数据文件，以防止异常情况污染数据文件。需暂停服务，拷贝后重启；
+```shell
+docker stop '容器名'
+#或 kill -2 'nodeos pid' 
+
+cp -r '原数据目录' '备份数据目录' 
+
+docker start '容器名'
+# 或nohup ./build/programs/nodeos/nodeos --config-dir $configpath --data-dir $datapath > $log 2>&1 &
+```
+
 #### get info信息：
 ```shell
 cleos get info
@@ -36,22 +47,16 @@ docker pull eosforce/eos:v1.2.0
 
 ### 2. 修改配置文件 config.ini
 
-配置p2p地址，bp等，可用原有配置不变。
-
-```ini
-p2p-peer-address =IP:端口
-producer-name = bp名
-signature-provider = 出块公钥=KEY:出块私钥
-```
-
-注意：必须删除所有eosio::wallet_plugin的config.ini配置，及其他无用配置项。如仍有std::exception::what: unrecognised option 报错，可按照错误信息删除相应配置，可仅保留必要配置。
-
-
-删除钱包插件配置：
+删除钱包插件等无效配置：
 ```ini
 # wallet-dir = "."
 # unlock-timeout = 900
 ```
+
+注意：必须删除所有eosio::wallet_plugin的config.ini配置，及其他无用配置项。
+可以预先配置一个空数据目录启动测试，如仍有std::exception::what: unrecognised option 报错，可按照错误信息删除相应配置，可仅保留必要配置。
+
+其他配置可以不变.
 
 ### 3. 启动
 
@@ -136,21 +141,18 @@ config目录所有必备文件如下：
 
 ### 3.修改配置文件 config.ini
 
-配置p2p地址，bp等，原有配置可不变。
-
-```ini
-p2p-peer-address =IP:端口
-producer-name = bp名
-signature-provider = 出块公钥=KEY:出块私钥
-```
-
-注意：必须删除或注释所有eosio::wallet_plugin的config.ini配置，及其他无用配置项。如仍有std::exception::what: unrecognised option 报错可按照错误信息删除相应配置，可仅保留必要配置。
-
+删除钱包插件等无效配置：
 ```ini
 # wallet-dir = "."
 # unlock-timeout = 900
 # required-participation = 33
 ```
+
+注意：必须删除所有eosio::wallet_plugin的config.ini配置，及其他无用配置项。
+可以预先配置一个空数据目录启动测试，如仍有std::exception::what: unrecognised option 报错，可按照错误信息删除相应配置，可仅保留必要配置。
+
+其他配置可以不变.
+
 
 ### 4. 启动
 

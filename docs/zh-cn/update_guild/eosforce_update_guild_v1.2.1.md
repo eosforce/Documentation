@@ -4,11 +4,9 @@
 v1.2.1
 
 #### 更新说明：
-- 合并eosio v1.4.2 代码
+- 合并eosio最新代码
 - 优化性能，优化插件与编译器
 - 增加延时交易，多重签名合约
-
-（未启动，最新代码未更新）
 
 docker版本启动 与 源码编译启动方式取一即可，注意两种版本启动节点产生的data文件互不兼容。
 
@@ -26,6 +24,10 @@ docker start '容器名'
 #### 常见问题：
 - 如果出现 “std::exception::what: unrecognised option” 报错，可按照错误信息删除config.ini中相应的失效配置，可仅保留必要配置。
 - 如果出现“memory does not match data expected by executable”此报错， 需要删除数据目录下state文件夹，并启动重建state(预计耗时1小时左右)， 
+或直接下载使用新版本数据文件：
+- docker版本： https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/data/eosforce-data-docker-v1.2.1.tar.gz
+- 源码编译版本：https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/data/bin/eosforce-data-bin-v1.2.1.tar.gz
+
 
 #### get info信息：
 ```shell
@@ -63,7 +65,11 @@ config配置目录可以仅保留config.ini文件
 
 其他配置可以不变.
 
-### 3. 启动
+### 3. 新建数据与配置目录，并重建state文件
+
+
+
+### 4. 启动
 
 停止原节点docker容器
 

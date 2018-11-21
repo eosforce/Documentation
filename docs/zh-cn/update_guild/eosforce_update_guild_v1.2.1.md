@@ -59,6 +59,9 @@ config配置目录可以仅保留config.ini文件
 ```ini
 # wallet-dir = "."
 # unlock-timeout = 900
+# genesis-json = "/root/.local/share/eosio/nodeos/config/genesis.json"
+# get-actions-on = true
+# required-participation = 33
 ```
 
 注意：必须删除所有eosio::wallet_plugin的config.ini配置，及其他无用配置项。
@@ -68,7 +71,7 @@ config配置目录可以仅保留config.ini文件
 
 ### 3. 新建数据与配置目录，并重建state文件
 
-
+[v1.2.1主网升级重建state操作说明](zh-cn/update_guild/eosforce_update_guild_v1.2.1_rebuild_state.md)
 
 ### 4. 启动
 
@@ -157,6 +160,8 @@ config目录所有必备文件如下：
 ```ini
 # wallet-dir = "."
 # unlock-timeout = 900
+# genesis-json = "/root/.local/share/eosio/nodeos/config/genesis.json"
+# get-actions-on = true
 # required-participation = 33
 ```
 
@@ -165,8 +170,11 @@ config目录所有必备文件如下：
 
 其他配置可以不变.
 
+#### 4. 重建state操 
 
-### 4. 启动
+[v1.2.1主网升级重建state操作说明](zh-cn/update_guild/eosforce_update_guild_v1.2.1_rebuild_state.md)
+
+### 5. 启动
 
 停止原节点nodeos进程
 

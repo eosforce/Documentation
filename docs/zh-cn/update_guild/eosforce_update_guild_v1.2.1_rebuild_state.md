@@ -75,8 +75,9 @@ nohup 新版本nodeos --config-dir $DATANEWPATH'config' --data-dir $DATANEWPATH'
 ```
 ----
 ## 或者从该链接下载，使用提供的数据文件。
-- docker版本： https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/data/eosforce-data-docker-v1.2.1.tar.gz
-- 源码编译版本：https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/data/bin/eosforce-data-bin-v1.2.1.tar.gz
+- docker版本(包含配置目录，data数据文件在下面位置 data-bp/nodeos/eosforce/data)： https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/data/eosforce-data-docker-v1.2.1.tar.gz
+- 源码编译版本(不包含配置文件,如需可从下面链接下载)：https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/data/bin/eosforce-data-bin-v1.2.1.tar.gz
+- 配置、genesis、abi、wasm文件：https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/data/eosforce-config-v1.2.1.tar.gz
 
 直接启动v1.2.0版本服务，指定下载的数据文件目录.
 

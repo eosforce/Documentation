@@ -18,7 +18,7 @@ eosforce/eos:v1.3.0.test
 > 配置目录仅放入 config.ini
 >
 
-### 编译笨笨
+### 编译版本
 
 1. 使用分支编译： develop
 
@@ -38,6 +38,10 @@ cp build/contracts/eosio.token/eosio.token.abi build/contracts/eosio.token/eosio
 
 cp build/contracts/eosio.msig/eosio.msig.abi build/contracts/eosio.msig/eosio.msig.wasm $configpath
 ```
+
+- genesis.json 文件下载链接：https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/data/genesis.json
+
+- config.ini 自行创建配置
 
 > 启动等其他操作与之前一样
 >

@@ -63,6 +63,7 @@
 - [[2018年11月16日]v1.2.0.test更新预演说明](zh-cn/update_guild/eosforce_update_guild_v1.2.0.test.md)
 - [v1.2.1主网升级说明](zh-cn/update_guild/eosforce_update_guild_v1.2.1.md) 
 - [v1.2.1主网升级重建state操作说明](zh-cn/update_guild/eosforce_update_guild_v1.2.1_rebuild_state.md) 
+- [v1.3.0.test测试网接入说明](zh-cn/update_guild/eosforce_update_guild_v1.3.0.test.md)
 
 
 - 关于文档的文档

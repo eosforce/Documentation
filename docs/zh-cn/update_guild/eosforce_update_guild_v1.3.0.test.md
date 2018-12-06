@@ -23,6 +23,7 @@ eosforce/eos:v1.3.0.test
 1. 使用分支编译： develop
 
 2. 需要拷贝至config配置目录的文件：
+
 ```shell
 configpath='~/eosforce/config'
 

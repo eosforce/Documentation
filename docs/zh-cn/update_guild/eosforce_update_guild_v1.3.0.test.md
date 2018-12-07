@@ -54,6 +54,40 @@ cp build/contracts/eosio.msig/eosio.msig.abi build/contracts/eosio.msig/eosio.ms
 - config.ini 自行创建配置
 
 
+> config.ini 配置示例
+
+```shell
+blocks-dir = "blocks"
+chain-state-db-size-mb = 8192
+reversible-blocks-db-size-mb = 340
+contracts-console = false
+filter-on = *
+verbose-http-errors = true
+http-validate-host = false
+https-client-validate-peers = false
+http-server-address = 0.0.0.0:19000
+access-control-allow-origin = *
+access-control-allow-headers = Content-Type
+access-control-allow-credentials = false
+p2p-listen-endpoint = 0.0.0.0:9076
+p2p-peer-address = 172.16.133.35:9076
+p2p-max-nodes-per-host = 1
+allowed-connection = any
+max-clients = 50
+connection-cleanup-period = 30
+network-version-match = 0
+sync-fetch-span = 100
+max-implicit-request = 1500
+enable-stale-production = false
+pause-on-startup = true
+max-transaction-time = 1000
+max-irreversible-block-age = -1
+plugin = eosio::chain_api_plugin
+plugin = eosio::history_plugin
+plugin = eosio::history_api_plugin
+producer-name = sbp.i
+signature-provider = EOS8LUba7qUNToMSvHdK6tFvmipY6JDCFubpSKz7C83rMvYwf4ebf=KEY:aaaaaaaaaaaaaaaaaaaaaaaaaaaa
+```
 ## 测试
 
 #### 1. 冻结未激活的创世账号80% EOS，以等量的eosio.lock合约EOSLOCK代币作为凭证。(从0重启后自动运行，节点可验证初始账号EOS余额是否正常)

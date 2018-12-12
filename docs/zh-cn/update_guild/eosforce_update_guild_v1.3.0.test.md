@@ -29,7 +29,7 @@ eosforce/eos:v1.3.0.test
 
 ### 编译版本
 
-1. 使用分支编译： develop
+1. 使用分支编译： release
 
 2. 需要拷贝至config配置目录的文件：
 

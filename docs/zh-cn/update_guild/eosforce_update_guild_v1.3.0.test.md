@@ -30,6 +30,14 @@ eosforce/eos:v1.3.0.test
 ### 编译版本
 
 1. 使用分支编译： release
+```shell
+git clone https://github.com/eosforce/eosforce.git
+cd eosforce
+git checkout release
+git pull
+git submodule update --init --recursive
+./eosio_build.sh
+```
 
 2. 需要拷贝至config配置目录的文件：
 

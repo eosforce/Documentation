@@ -21,6 +21,7 @@ docker rm -f 容器名
 docker run -d --name 容器名 -v 本地配置目录:/opt/eosio/bin/data-dir -v 本地数据目录:/root/.local/share/eosio/nodeos -p 9076:9076 -p 19000:19000 eosforce/eos:v1.3.1.test nodeosd.sh
 docker start 容器名
 ```
+源码编译方式：使用tag: force-v1.3.1_RC1 编译后重启
 
 ## 3. 验证：冻结未激活的创世账号80% EOS，以等量的eosio.lock合约EOSLOCK代币作为凭证。
 ```shell

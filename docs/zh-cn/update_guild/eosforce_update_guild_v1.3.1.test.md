@@ -23,6 +23,9 @@ docker start 容器名
 ```
 源码编译方式：使用tag: force-v1.3.1_RC1 编译后重启
 
+#### 验证版本信息：cleos get info
+"server_version_string": "force-v1.3.1_RC1"
+
 ## 3. 验证：冻结未激活的创世账号80% EOS，以等量的eosio.lock合约EOSLOCK代币作为凭证。
 ```shell
 cleos -u http://47.99.138.131:19000 get table eosio eosio accounts -k ge3tegenesis

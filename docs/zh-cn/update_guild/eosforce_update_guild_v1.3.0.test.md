@@ -126,19 +126,11 @@ cleos multisig exec sss pab1 sss
 ## 1. 演练设置 链紧急状态 true，暂停链上交易。需超过2/3节点设置此紧急状态才会生效。
 
 cleos -u http://47.99.138.131:19000 push action eosio setemergency '["BP账户名", true]' -p BP账户名@active
-cleos -u http://47.99.138.131:19000 push action eosio setemergency '["sbp.p", true]' -p sbp.p@active
-cleos -u http://47.99.138.131:19000 push action eosio setemergency '["sbp.o", true]' -p sbp.o@active
-cleos -u http://47.99.138.131:19000 push action eosio setemergency '["sbp.k", true]' -p sbp.k@active
-cleos -u http://47.99.138.131:19000 push action eosio setemergency '["sbp.l", true]' -p sbp.l@active
-cleos -u http://47.99.138.131:19000 push action eosio setemergency '["sbp.m", true]' -p sbp.m@active
-cleos -u http://47.99.138.131:19000 push action eosio setemergency '["sbp.n", true]' -p sbp.n@active
-cleos -u http://47.99.138.131:19000 push action eosio setemergency '["sbp.p", true]' -p sbp.p@active
-cleos -u http://47.99.138.131:19000 push action eosio setemergency '["sbp.p", true]' -p sbp.p@active
 
 ### 检验：
 #### 查看自己是否成功设置，字段为 "emergency": 1
 
-cleos -u http://47.99.138.131:19000 get table eosio eosio bps -k sbp.p
+cleos -u http://47.99.138.131:19000 get table eosio eosio bps -k bp账号名
 
 #### 查看链紧急状态是否设置成功
 
@@ -151,13 +143,12 @@ cleos -u http://47.99.138.131:19000 get table eosio eosio chainstatus
 ## 3. 设置链紧急状态 false，恢复链上交易
 
 cleos -u http://47.99.138.131:19000 push action eosio setemergency '["BP账户名", false]' -p BP账户名@active
-cleos -u http://47.99.138.131:19000 push action eosio setemergency '["sbp.p", false]' -p sbp.p@active
 
 
 ### 检验：
 #### 查看自己是否成功设置，字段为 "emergency": 0
 
-cleos -u http://47.99.138.131:19000 get table eosio eosio bps -k sbp.p
+cleos -u http://47.99.138.131:19000 get table eosio eosio bps -k bp账号名
 
 #### 查看链紧急状态是否恢复成功
 

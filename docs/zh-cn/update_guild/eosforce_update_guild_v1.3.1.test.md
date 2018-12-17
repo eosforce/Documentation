@@ -1,5 +1,7 @@
 # v1.3.1.test 测试网演练操作步骤
 
+注意：每一步要等其他节点操作完成后，再进行下一步操作。
+
 ## 1. ‘设置链紧急状态’, 暂停链上action执行
 ```shell
 cleos -u http://47.99.138.131:19000 push action eosio setemergency '["BP账户名", true]' -p BP账户名@active

@@ -1,6 +1,6 @@
 # v1.3.1.test 测试网演练操作步骤
 
-## 1. 大家通过下面的说明演练一下‘设置链紧急状态’，同样需要超过2/3节点设置后生效
+## 1. ‘设置链紧急状态’, 暂停链上action执行
 ```shell
 cleos -u http://47.99.138.131:19000 push action eosio setemergency '["BP账户名", true]' -p BP账户名@active
 ```
@@ -8,16 +8,16 @@ cleos -u http://47.99.138.131:19000 push action eosio setemergency '["BP账户�
 ```shell
 cleos -u http://47.99.138.131:19000 get table eosio eosio bps -k bp账号名
 ```
-#### 查看链紧急状态是否设置成功
+#### 查看链紧急状态是否设置成功, 需要超过2/3节点设置后生效
 ```shell
 cleos -u http://47.99.138.131:19000 get table eosio eosio chainstatus
 ```
 
-## 2. 节点升级，在原测试网机器上操作，更新原测试节点 (v1.3.0.test有更新)
-docker pull eosforce/eos:v1.3.0.test
+## 2. 节点升级，在原测试网机器上操作，更新原测试节点 (v1.3.1.test有更新)
+docker pull eosforce/eos:v1.3.1.test
 docker stop 容器名
 docker rm -f 容器名
-docker run -d --name 容器名 -v 本地配置目录:/opt/eosio/bin/data-dir -v 本地数据目录:/root/.local/share/eosio/nodeos -p 9076:9076 -p 19000:19000 eosforce/eos:v1.3.0.test nodeosd.sh
+docker run -d --name 容器名 -v 本地配置目录:/opt/eosio/bin/data-dir -v 本地数据目录:/root/.local/share/eosio/nodeos -p 9076:9076 -p 19000:19000 eosforce/eos:v1.3.1.test nodeosd.sh
 docker start 容器名
 
 ## 3. 升级完成后，恢复‘链紧急状态’
@@ -27,9 +27,10 @@ cleos -u http://47.99.138.131:19000 push action eosio setemergency '["BP账户�
 
 
 ## 4. 验证：冻结未激活的创世账号80% EOS，以等量的eosio.lock合约EOSLOCK代币作为凭证。
+```shell
 cleos -u http://47.99.138.131:19000 get table eosio eosio accounts -k ge3tegenesis
 cleos -u http://47.99.138.131:19000 get table eosio.lock eosio.lock accounts -k ge3tegenesis
-
+```
 ## 5. 多签更新系统合约
 原力发起多签提议后，节点执行(需要使用命令行创建钱包导入节点账户私钥)：
 ```shell

@@ -68,6 +68,7 @@
         - [v1.2.1主网升级说明](zh-cn/update_guild/eosforce_update_guild_v1.2.1.md)
         - [v1.2.1主网升级重建state操作说明](zh-cn/update_guild/eosforce_update_guild_v1.2.1_rebuild_state.md)
 		- [v1.3.0.test测试网接入说明](zh-cn/update_guild/eosforce_update_guild_v1.3.0.test.md)
+		- [v1.3.1.test测试网更新与演练](zh-cn/update_guild/eosforce_update_guild_v1.3.1.test.md)
 
 - 博客
     - 源码备忘

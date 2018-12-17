@@ -26,11 +26,12 @@ docker start 容器名
 #### 验证版本信息：cleos get info
 "server_version_string": "force-v1.3.1_RC1"
 
-## 3. 验证：冻结未激活的创世账号80% EOS，以等量的eosio.lock合约EOSLOCK代币作为凭证。
+
+## 3. 升级完成后，恢复‘链紧急状态’
 ```shell
-cleos -u http://47.99.138.131:19000 get table eosio eosio accounts -k ge3tegenesis
-cleos -u http://47.99.138.131:19000 get table eosio.lock eosio.lock accounts -k ge3tegenesis
+cleos -u http://47.99.138.131:19000 push action eosio setemergency '["BP账户名", false]' -p BP账户名@active
 ```
+
 ## 4. 多签更新系统合约
 原力发起多签提议后，节点执行(需要使用命令行创建钱包导入节点账户私钥)：
 ```shell
@@ -45,11 +46,12 @@ cleos  -u http://47.99.138.131:19000 multisig approve v.test p.blocknum '{"actor
 ```
 超过2/3节点执行通过，即可执行。
 
-## 6. 升级完成后，恢复‘链紧急状态’
-```shell
-cleos -u http://47.99.138.131:19000 push action eosio setemergency '["BP账户名", false]' -p BP账户名@active
-```
 
+## 6. 验证：冻结未激活的创世账号80% EOS，以等量的eosio.lock合约EOSLOCK代币作为凭证。
+```shell
+cleos -u http://47.99.138.131:19000 get table eosio eosio accounts -k ge3tegenesis
+cleos -u http://47.99.138.131:19000 get table eosio.lock eosio.lock accounts -k ge3tegenesis
+```
 
 
 

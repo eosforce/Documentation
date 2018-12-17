@@ -30,14 +30,14 @@ cleos -u http://47.99.138.131:19000 get table eosio.lock eosio.lock accounts -k 
 ## 4. 多签更新系统合约
 原力发起多签提议后，节点执行(需要使用命令行创建钱包导入节点账户私钥)：
 ```shell
-cleos multisig approve v.test p.upsyscode '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
+cleos  -u http://47.99.138.131:19000 multisig approve v.test p.upsyscode '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
 ```
 超过2/3节点执行通过，即可执行多签更新系统合约。
 
 ## 5. 多签设置块高度生效
 原力发起多签提议后，节点执行(需要使用命令行创建钱包导入节点账户私钥)：
 ```shell
-cleos multisig approve v.test p.blocknum '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
+cleos  -u http://47.99.138.131:19000 multisig approve v.test p.blocknum '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
 ```
 超过2/3节点执行通过，即可执行。
 

@@ -14,12 +14,13 @@ cleos -u http://47.99.138.131:19000 get table eosio eosio chainstatus
 ```
 
 ## 2. 节点升级，在原测试网机器上操作，更新原测试节点 (v1.3.1.test有更新)
+```shell
 docker pull eosforce/eos:v1.3.1.test
 docker stop 容器名
 docker rm -f 容器名
 docker run -d --name 容器名 -v 本地配置目录:/opt/eosio/bin/data-dir -v 本地数据目录:/root/.local/share/eosio/nodeos -p 9076:9076 -p 19000:19000 eosforce/eos:v1.3.1.test nodeosd.sh
 docker start 容器名
-
+```
 ## 3. 升级完成后，恢复‘链紧急状态’
 ```shell
 cleos -u http://47.99.138.131:19000 push action eosio setemergency '["BP账户名", false]' -p BP账户名@active

@@ -22,7 +22,7 @@ cleos -u https://w1.eosforce.cn get table eosio eosio chainstatus
 
 ## 2. 节点升级 (v1.3.1)
 
-新建空的本地数据目录，使用空数据启动，重新从主网上同步数据。(从空数据启动才会重新初始化创世账号，冻结未激活创世账号)
+必须新建空的本地数据目录，使用空数据启动，重新从主网上同步数据。(从空数据启动才会重新初始化创世账号，冻结未激活创世账号)
 
 ### docker方式
 ```shell
@@ -36,7 +36,7 @@ docker logs -f --tail 100 容器名
 ```
 需检查配置目录中activeacc.json是否正确。(完成第1步后会提供md5sum值)
 
-###源码编译方式：使用tag: force-v1.3.1 
+### 源码编译方式：使用tag: force-v1.3.1 
 
 ```shell
 # 进入eosforce工程目录
@@ -65,7 +65,7 @@ cp build/contracts/eosio.msig/eosio.msig.abi build/contracts/eosio.msig/eosio.ms
 ```
 其他需要配置的文件:
 - activeacc.json 使用我们第1步完成之后提供的链接下载。需检查配置目录中activeacc.json是否正确。(完成第1步后会提供md5sum值)
-- genesis.json 使用原有文件或重新下载，链接：https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/data/genesis.json
+- genesis.json 使用原有文件
 - config.ini 使用原有文件或自行创建配置
 
 #### 启动：
@@ -82,7 +82,7 @@ nohup ./build/bin/nodeos --config-dir $configpath --data-dir $datapath > $log 2>
 tail -100f $logpath
 ```
 
-### 验证版本信息：cleos get info
+### 验证版本信息：cleos -u http://127.0.0.1:8888 get info
 "server_version_string": "force-v1.3.1"
 
 所有节点完成升级后，等待统一指令再执行后续步骤。

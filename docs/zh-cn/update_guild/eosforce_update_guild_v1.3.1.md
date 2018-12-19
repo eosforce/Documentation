@@ -15,28 +15,42 @@ cleos -u https://w1.eosforce.cn get table eosio eosio bps -k bp账号名
 cleos -u https://w1.eosforce.cn get table eosio eosio chainstatus
 ```
 
-暂停主网后，我们会统计截止此时的所有激活的创世账号(约2小时)，生成activeacc.json，BP节点以此名单为准启动，冻结所有未激活的创世账号80%EOS.
+暂停主网后，我们会统计截止此时的所有激活的创世账号(约1小时)，生成activeacc.json，BP节点以此名单为准启动，冻结所有未激活的创世账号80%EOS.
 并创建包含此名单的docker v1.3.1镜像。供下一步升级使用。
 若使用源码编译方式启动的，需要使用我们之后提供的链接下载。
 (所有人可以核查此名单)
 
-## 2. 节点升级，新启动一个同步节点 (v1.3.1)	
+## 2. 节点升级 (v1.3.1)	
 
-**必须新建空的本地数据目录启动，重新通过主网节点同步数据** (从空数据启动才会重新初始化创世账号，冻结未激活创世账号)(**可能需要5小时同步,或等待原力同步完成后发布下载数据包**)
+> 等待第一步完成后发布activeacc.json文件，或包含最新activeacc.json文件的docker镜像 后进行。
 
-### docker方式
+### 数据文件， **必须新建空的本地数据目录启动, 或删除state文件夹重建state** (从空state数据启动重新初始化创世账号，冻结未激活创世账号部分余额)
+
+执行方法，取一种即可
+1. 由于本地升级block数据可兼容，state数据需重建，拷贝原数据后删除其中state文件夹数据，启动重建state。(约2小时)
+2. 新启动同步节点，config.ini仅配置自己的老节点的p2p端口，从本机老节点同步数据。同步好后，将原节点的bp配置移至新节点上，重启即可。(约3-4小时)
+3. 等待原力同步完成后发布数据包(约3-4小时), 下载并使用此数据包启动。
+
+### 新启动一个同步节点: docker方式
 ```shell
+# 容器名：eosforce-v1.3.1
 docker pull eosforce/eos:v1.3.1
-docker stop 容器名
-docker rm -f 容器名
-docker run -d --name 容器名 -v 本地配置目录:/opt/eosio/bin/data-dir -v 空的本地数据目录:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.3.1 nodeosd.sh
-docker start 容器名
+docker stop eosforce-v1.3.1
+docker rm -f eosforce-v1.3.1
+docker run -d --name eosforce-v1.3.1 -v 本地配置目录:/opt/eosio/bin/data-dir -v 空的本地数据目录:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.3.1 nodeosd.sh
+docker start eosforce-v1.3.1
 # 查看日志
-docker logs -f --tail 100 容器名
+docker logs -f --tail 100 eosforce-v1.3.1
+```
+验证升级结果, 版本信息：
+```shell
+docker exec -it eosforce-v1.3.1 opt/eosio/bin/cleos get info
+"server_version_string": "force-v1.3.1"
 ```
 需检查配置目录中activeacc.json是否正确。(完成第1步后会提供md5sum值)
 
-### 源码编译方式：使用tag: force-v1.3.1 
+### 新启动一个同步节点: 源码编译方式
+使用tag: force-v1.3.1 
 
 ```shell
 # 进入eosforce工程目录
@@ -49,7 +63,7 @@ git submodule update --init --recursive
 
 (启动服务仅使用 nodeos)
 
-#### 需要配置的文件
+#### 源码编译方式 需要配置的文件
 ```shell
 configpath='~/eosforce/config' #修改为自己本地服务配置目录
 
@@ -68,7 +82,7 @@ cp build/contracts/eosio.msig/eosio.msig.abi build/contracts/eosio.msig/eosio.ms
 - genesis.json 使用原有文件
 - config.ini 使用原有文件或自行创建配置
 
-#### 启动：
+#### 源码编译方式 启动：
 启动nodeos
 
 ```shell
@@ -82,7 +96,7 @@ nohup ./build/bin/nodeos --config-dir $configpath --data-dir $datapath > $log 2>
 tail -100f $logpath
 ```
 
-### 验证升级结果
+#### 编译方式启动后， 验证升级结果
 版本信息：
 ```shell
 cleos -u http://127.0.0.1:8888 get info

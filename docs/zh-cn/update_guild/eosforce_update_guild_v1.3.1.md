@@ -20,9 +20,9 @@ cleos -u https://w1.eosforce.cn get table eosio eosio chainstatus
 若使用源码编译方式启动的，需要使用我们之后提供的链接下载。
 (所有人可以核查此名单)
 
-## 2. 节点升级 (v1.3.1)
+## 2. 节点升级，新启动一个同步节点 (v1.3.1)	
 
-必须新建空的本地数据目录，使用空数据启动，重新从主网上同步数据。(从空数据启动才会重新初始化创世账号，冻结未激活创世账号)
+必须新建空的本地数据目录，使用空数据启动，重新从主网上同步数据。(从空数据启动才会重新初始化创世账号，冻结未激活创世账号)(可能需要5小时,或等待原力同步完成后发布下载数据包)
 
 ### docker方式
 ```shell
@@ -99,6 +99,8 @@ docker start
 # nohup ./build/bin/nodeos --config-dir $configpath --data-dir $datapath > $log 2>&1 &
 ```
 
+### 同步节点完成后，将原BP配置(包括出块公私钥对)移至新节点的配置文件中，重启。关闭老bp节点。
+
 > 所有节点完成升级后，等待统一指令再执行后续步骤。
 
 ## 3. 升级完成后，恢复‘链紧急状态’
@@ -107,27 +109,24 @@ cleos -u https://w1.eosforce.cn push action eosio setemergency '["BP账户名", 
 ```
 检查正常操作是否恢复执行
 
-## 4. 多签更新系统合约code
-原力发起多签提议后，节点执行(需要使用命令行创建钱包导入节点账户私钥)：
-```shell
-cleos  -u https://w1.eosforce.cn multisig approve force.msig p.upsyscode '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
-```
-超过2/3节点执行通过，即可执行多签更新系统合约。
+## 4. 多签更新系统合约
 
-## 5. 多签更新系统合约abi
-原力发起多签提议后，节点执行(需要使用命令行创建钱包导入节点账户私钥)：
+原力force.msig账号发起多签提议后，节点执行(需要使用命令行创建钱包导入节点账户私钥)：
+
 ```shell
+# 批准更新系统合约code多签提议
+cleos  -u https://w1.eosforce.cn multisig approve force.msig p.upsyscode '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
+# 批准更新系统合约abi多签提议
 cleos  -u https://w1.eosforce.cn multisig approve force.msig p.upsysabi '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
 ```
 超过2/3节点执行通过，即可执行多签更新系统合约。
 
 
-## 6. 验证：冻结未激活的创世账号80% EOS，以等量的eosio.lock合约EOSLOCK代币作为凭证。
+
+## 验证冻结未激活的创世账号执行强开, (冻结80% EOS，以等量的eosio.lock合约EOSLOCK代币作为凭证。)
 调用自己机器的服务，查看是否冻结，是否升级成功。
 ```shell
 cleos -u http://127.0.0.1:8888 get table eosio eosio accounts -k ge3tegenesis
 cleos -u http://127.0.0.1:8888 get table eosio.lock eosio.lock accounts -k ge3tegenesis
 ```
-
-
 

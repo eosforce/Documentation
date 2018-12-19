@@ -135,6 +135,10 @@ cleos  -u https://w1.eosforce.cn multisig approve force.msig p.upsysabi '{"actor
 ```
 超过2/3节点执行通过，即可执行多签更新系统合约。
 
+```shell
+# 查看提议批准情况
+cleos  -u https://w1.eosforce.cn get table eosio.msig force.msig approvals
+```
 
 
 ## 验证冻结未激活的创世账号执行强开, (冻结80% EOS，以等量的eosio.lock合约EOSLOCK代币作为凭证。)

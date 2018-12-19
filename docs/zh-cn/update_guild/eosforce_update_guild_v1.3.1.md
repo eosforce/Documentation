@@ -24,20 +24,22 @@ cleos -u https://w1.eosforce.cn get table eosio eosio chainstatus
 
 > 等待第一步完成后发布activeacc.json文件，或包含最新activeacc.json文件的docker镜像 后进行。
 
-### 数据文件， **必须新建空的本地数据目录启动, 或删除state文件夹重建state** (从空state数据启动重新初始化创世账号，冻结未激活创世账号部分余额)
-
-执行方法，取一种即可
-1. 由于本地升级block数据可兼容，state数据需重建，拷贝原数据后删除其中state文件夹数据，启动重建state。(约2小时)
-2. 新启动同步节点，config.ini仅配置自己的老节点的p2p端口，从本机老节点同步数据。同步好后，将原节点的bp配置移至新节点上，重启即可。(约3-4小时)
-3. 等待原力同步完成后发布数据包(约3-4小时), 下载并使用此数据包启动。
+### 数据文件说明: **必须删除state文件夹重建state, 或新建空的本地数据目录启动重新同步**  (从空state数据启动重新初始化创世账号，冻结未激活创世账号部分余额)
+>  由于本地升级block数据可兼容，state数据需重建，拷贝原数据后删除其中state文件夹数据，用新版程序启动重建state。(约1~2小时)
+> 其他方法
+> 1. 新启动同步节点，config.ini仅配置自己的老节点的p2p端口，从本机老节点同步数据。同步好后，将原节点的bp配置移至新节点上，重启即可。(约3-4小时)
+> 2. 或等待原力同步完成后发布数据包(约3-4小时), 下载并使用此数据包启动。
 
 ### 新启动一个同步节点: docker方式
 ```shell
 # 容器名：eosforce-v1.3.1
+docker stop 原有容器
+# 拷贝数据
+cp -r 原有数据文件夹 新数据文件夹
+# 删除state，以重建
+rm -rf 新数据文件夹/state/
 docker pull eosforce/eos:v1.3.1
-docker stop eosforce-v1.3.1
-docker rm -f eosforce-v1.3.1
-docker run -d --name eosforce-v1.3.1 -v 本地配置目录:/opt/eosio/bin/data-dir -v 空的本地数据目录:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.3.1 nodeosd.sh
+docker run -d --name eosforce-v1.3.1 -v 本地配置目录:/opt/eosio/bin/data-dir -v 新数据目录:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.3.1 nodeosd.sh
 docker start eosforce-v1.3.1
 # 查看日志
 docker logs -f --tail 100 eosforce-v1.3.1
@@ -86,14 +88,17 @@ cp build/contracts/eosio.msig/eosio.msig.abi build/contracts/eosio.msig/eosio.ms
 启动nodeos
 
 ```shell
-configpath='~/eosforce/config' #修改为本地配置文件目录
-datapath='~/eosforce/data'	#修改为本地数据文件目录(必须是空的)
-log='./nodeos.log'	#修改为本地日志文件
-
-nohup ./build/bin/nodeos --config-dir $configpath --data-dir $datapath > $log 2>&1 &
+# 停止原nodeos进程
+kill -2 原nodeos进程pid
+# 拷贝数据
+cp -r 原有数据文件夹 新数据文件夹
+# 删除state，以重建
+rm -rf 新数据文件夹/state/
+# 启动
+nohup ./build/bin/nodeos --config-dir 配置目录 --data-dir 新数据目录 > eos.log 2>&1 &
 
 # 查看日志，观察同步或出块是否正常
-tail -100f $logpath
+tail -100f eos.log
 ```
 
 #### 编译方式启动后， 验证升级结果
@@ -106,11 +111,11 @@ cleos -u http://127.0.0.1:8888 get info
 ```shell
 # 暂停原服务
 docker stop xxx
-# kill -2 xxx
+# 或 kill -2 xxx
 cp -r 数据目录 备份目录
 # 重启服务
 docker start
-# nohup ./build/bin/nodeos --config-dir $configpath --data-dir $datapath > $log 2>&1 &
+# 或 nohup ./build/bin/nodeos --config-dir 配置目录 --data-dir 数据目录 > eos.log 2>&1 &
 ```
 
 ### 同步节点完成后，将原BP配置(包括出块公私钥对)移至新节点的配置文件中，重启。关闭老bp节点。

@@ -82,10 +82,24 @@ nohup ./build/bin/nodeos --config-dir $configpath --data-dir $datapath > $log 2>
 tail -100f $logpath
 ```
 
-### 验证版本信息：cleos -u http://127.0.0.1:8888 get info
+### 验证升级结果
+版本信息：
+```shell
+cleos -u http://127.0.0.1:8888 get info
 "server_version_string": "force-v1.3.1"
+```
+### 同步完成后备份现有数据
+```shell
+# 暂停原服务
+docker stop xxx
+# kill -2 xxx
+cp -r 数据目录 备份目录
+# 重启服务
+docker start
+# nohup ./build/bin/nodeos --config-dir $configpath --data-dir $datapath > $log 2>&1 &
+```
 
-所有节点完成升级后，等待统一指令再执行后续步骤。
+> 所有节点完成升级后，等待统一指令再执行后续步骤。
 
 ## 3. 升级完成后，恢复‘链紧急状态’
 ```shell

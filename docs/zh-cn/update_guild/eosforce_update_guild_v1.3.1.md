@@ -82,7 +82,7 @@ cp build/contracts/eosio.token/eosio.token.abi build/contracts/eosio.token/eosio
 cp build/contracts/eosio.msig/eosio.msig.abi build/contracts/eosio.msig/eosio.msig.wasm $configpath
 ```
 其他需要配置的文件:
-- activeacc.json 使用我们第1步完成之后提供的链接下载。需检查配置目录中activeacc.json是否正确。(完成第1步后会提供md5sum值)
+- activeacc.json https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/activeacc.json (md5sum b7c295454e6e81ab3023baeebf2d9131)
 - genesis.json 使用原有文件
 - config.ini 使用原有文件或自行创建配置
 

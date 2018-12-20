@@ -1,4 +1,4 @@
-# v1.3.1 主网更新操作步骤
+# v1.3.2 主网更新操作步骤
 
 注意：每一步要等其他节点操作完成后，再进行下一步操作。
 
@@ -16,11 +16,11 @@ cleos -u https://w1.eosforce.cn get table eosio eosio chainstatus
 ```
 
 暂停主网后，我们会统计截止此时的所有激活的创世账号(约1小时)，生成activeacc.json，BP节点以此名单为准启动，冻结所有未激活的创世账号80%EOS.
-并创建包含此名单的docker v1.3.1镜像。供下一步升级使用。
+并创建包含此名单的docker v1.3.2镜像。供下一步升级使用。
 若使用源码编译方式启动的，需要使用我们之后提供的链接下载。
 (所有人可以核查此名单)
 
-## 2. 节点升级 (v1.3.1)	
+## 2. 节点升级 (v1.3.2)	
 
 > 等待第一步完成后发布activeacc.json文件，或包含最新activeacc.json文件的docker镜像 后进行。
 > 正式的激活创世账号名单:activeacc.json (md5sum b7c295454e6e81ab3023baeebf2d9131)
@@ -34,32 +34,32 @@ cleos -u https://w1.eosforce.cn get table eosio eosio chainstatus
 
 ### 新启动一个同步节点: docker方式
 ```shell
-# 容器名：eosforce-v1.3.1
+# 容器名：eosforce-v1.3.2
 docker stop 原有容器
 # 拷贝数据
 cp -r 原有数据文件夹 新数据文件夹
 # 删除state，以重建
 rm -rf 新数据文件夹/state/
-docker pull eosforce/eos:v1.3.1
-docker run -d --name eosforce-v1.3.1 -v 本地配置目录:/opt/eosio/bin/data-dir -v 新数据目录:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.3.1 nodeosd.sh
-docker start eosforce-v1.3.1
+docker pull eosforce/eos:v1.3.2
+docker run -d --name eosforce-v1.3.2 -v 本地配置目录:/opt/eosio/bin/data-dir -v 新数据目录:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.3.2 nodeosd.sh
+docker start eosforce-v1.3.2
 # 查看日志
-docker logs -f --tail 100 eosforce-v1.3.1
+docker logs -f --tail 100 eosforce-v1.3.2
 ```
 验证升级结果, 版本信息：
 ```shell
-docker exec -it eosforce-v1.3.1 opt/eosio/bin/cleos get info
-"server_version_string": "force-v1.3.1"
+docker exec -it eosforce-v1.3.2 opt/eosio/bin/cleos get info
+"server_version_string": "force-v1.3.2"
 ```
 需检查配置目录中activeacc.json是否正确。(完成第1步后会提供md5sum值)
 
 ### 新启动一个同步节点: 源码编译方式
-使用tag: force-v1.3.1 
+使用tag: force-v1.3.2
 
 ```shell
 # 进入eosforce工程目录
 git fetch
-git checkout force-v1.3.1
+git checkout force-v1.3.2
 git submodule update --init --recursive
 ./eosio_build.sh
 ```
@@ -107,7 +107,7 @@ tail -100f eos.log
 版本信息：
 ```shell
 cleos -u http://127.0.0.1:8888 get info
-"server_version_string": "force-v1.3.1"
+"server_version_string": "force-v1.3.2"
 ```
 ### 同步完成后备份现有数据
 ```shell

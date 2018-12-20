@@ -26,23 +26,15 @@ cleos -u https://w1.eosforce.cn get table eosio eosio chainstatus
 > 正式的激活创世账号名单:activeacc.json (md5sum b7c295454e6e81ab3023baeebf2d9131)
 > https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/activeacc.json
 
-### 数据文件说明: **必须删除state文件夹重建state, 或新建空的本地数据目录启动重新同步**  (从空state数据启动重新初始化创世账号，冻结未激活创世账号部分余额)
->  由于本地升级block数据可兼容，state数据需重建，拷贝原数据后删除其中state文件夹数据，用新版程序启动重建state。(约1~2小时)
-> 其他方法
+### 数据文件说明: 新建空的本地数据目录启动重新同步(从空数据启动重新初始化创世账号，冻结未激活创世账号部分余额)
 > 1. 新启动同步节点，config.ini仅配置自己的老节点的p2p端口，从本机老节点同步数据。同步好后，将原节点的bp配置移至新节点上，重启即可。(约3-4小时)
 > 2. 或等待原力同步完成后发布数据包(约3-4小时), 下载并使用此数据包启动。
 
 ### 新启动一个同步节点: docker方式
 ```shell
 # 容器名：eosforce-v1.3.2
-docker stop 原有容器
-# 拷贝数据
-cp -r 原有数据文件夹 新数据文件夹
-# 删除state，以重建
-rm -rf 新数据文件夹/state/
 docker pull eosforce/eos:v1.3.2
 docker run -d --name eosforce-v1.3.2 -v 本地配置目录:/opt/eosio/bin/data-dir -v 新数据目录:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.3.2 nodeosd.sh
-docker start eosforce-v1.3.2
 # 查看日志
 docker logs -f --tail 100 eosforce-v1.3.2
 ```
@@ -90,12 +82,6 @@ cp build/contracts/eosio.msig/eosio.msig.abi build/contracts/eosio.msig/eosio.ms
 启动nodeos
 
 ```shell
-# 停止原nodeos进程
-kill -2 原nodeos进程pid
-# 拷贝数据
-cp -r 原有数据文件夹 新数据文件夹
-# 删除state，以重建
-rm -rf 新数据文件夹/state/
 # 启动
 nohup ./build/bin/nodeos --config-dir 配置目录 --data-dir 新数据目录 > eos.log 2>&1 &
 

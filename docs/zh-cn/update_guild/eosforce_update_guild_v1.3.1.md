@@ -23,6 +23,8 @@ cleos -u https://w1.eosforce.cn get table eosio eosio chainstatus
 ## 2. 节点升级 (v1.3.1)	
 
 > 等待第一步完成后发布activeacc.json文件，或包含最新activeacc.json文件的docker镜像 后进行。
+> 正式的激活创世账号名单:activeacc.json (md5sum b7c295454e6e81ab3023baeebf2d9131)
+> https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/activeacc.json
 
 ### 数据文件说明: **必须删除state文件夹重建state, 或新建空的本地数据目录启动重新同步**  (从空state数据启动重新初始化创世账号，冻结未激活创世账号部分余额)
 >  由于本地升级block数据可兼容，state数据需重建，拷贝原数据后删除其中state文件夹数据，用新版程序启动重建state。(约1~2小时)

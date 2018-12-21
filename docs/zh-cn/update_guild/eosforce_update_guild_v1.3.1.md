@@ -22,13 +22,9 @@ cleos -u https://w1.eosforce.cn get table eosio eosio chainstatus
 
 ## 2. 节点升级 (v1.3.2)	
 
-> 等待第一步完成后发布activeacc.json文件，或包含最新activeacc.json文件的docker镜像 后进行。
-> 正式的激活创世账号名单:activeacc.json (md5sum b7c295454e6e81ab3023baeebf2d9131)
-> https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/activeacc.json
-
 ### 数据文件说明: 新建空的本地数据目录启动重新同步(从空数据启动重新初始化创世账号，冻结未激活创世账号部分余额)
 > 1. 新启动同步节点，config.ini仅配置自己的老节点的p2p端口，从本机老节点同步数据。同步好后，将原节点的bp配置移至新节点上，重启即可。(约3-4小时)
-> 2. 或等待原力同步完成后发布数据包(约3-4小时), 下载并使用此数据包启动。
+> 2. 或使用数据包(https://updatewallet.oss-cn-hangzhou.aliyuncs.com/dokcer-nodeos.tar.gz), 下载并使用此数据包启动。
 
 ### 新启动一个同步节点: docker方式
 ```shell

@@ -22,7 +22,7 @@ cleos -u https://w1.eosforce.cn get table eosio eosio chainstatus
 
 ## 2. 节点升级 (v1.3.2)	
 
-### 数据文件说明: 新建空的本地数据目录启动重新同步(从空数据启动重新初始化创世账号，冻结未激活创世账号部分余额)
+### 数据文件说明: 新建空的本地数据目录启动, 或使用我们提供的数据包 (从空数据启动重新初始化创世账号，冻结未激活创世账号部分余额)
 > 1. 新启动同步节点，config.ini仅配置自己的老节点的p2p端口，从本机老节点同步数据。同步好后，将原节点的bp配置移至新节点上，重启即可。(约3-4小时)
 > 2. 或使用数据包(https://updatewallet.oss-cn-hangzhou.aliyuncs.com/dokcer-nodeos.tar.gz), 下载并使用此数据包启动。
 

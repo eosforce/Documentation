@@ -25,7 +25,7 @@ git clone https://github.com/eosforce/eosforce.git eosforce
 ### 2. 执行如下命令安装原力eos
 
 ```bash
-cd eosforce && git submodule update --init --recursive && ./eosio_build.sh
+cd eosforce &&git fetch && git checkout force-v1.3.2 &&  git submodule update --init --recursive && ./eosio_build.sh
 mkdir -p ~/.local/share/eosio/nodeos/config
 curl https://raw.githubusercontent.com/eosforce/genesis/master/genesis.json -o ~/.local/share/eosio/nodeos/config/genesis.json
 cp build/contracts/System/System.abi build/contracts/System/System.wasm ~/.local/share/eosio/nodeos/config

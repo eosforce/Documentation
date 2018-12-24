@@ -13,7 +13,7 @@
 
 ## 同步节点部署
 
-基于linux操作系统 ubuntu 16.04版本 原力eos源码部署方案，docker部署请参考  https://github.com/eosforce/genesis
+基于linux操作系统 ubuntu 16.04版本 原力eos源码部署方案
 
 ### 1. 下载源码
 
@@ -29,18 +29,19 @@ cd eosforce && git submodule update --init --recursive && ./eosio_build.sh
 mkdir -p ~/.local/share/eosio/nodeos/config
 curl https://raw.githubusercontent.com/eosforce/genesis/master/genesis.json -o ~/.local/share/eosio/nodeos/config/genesis.json
 cp build/contracts/System/System.abi build/contracts/System/System.wasm ~/.local/share/eosio/nodeos/config
+cp build/contracts/eosio.lock/eosio.lock.abi  build/contracts/eosio.lock/eosio.lock.wasm ~/.local/share/eosio/nodeos/config
 cp build/contracts/System01/System01.abi build/contracts/System01/System01.wasm ~/.local/share/eosio/nodeos/config
 cp build/contracts/eosio.token/eosio.token.abi build/contracts/eosio.token/eosio.token.wasm ~/.local/share/eosio/nodeos/config
 cp build/contracts/eosio.msig/eosio.msig.abi build/contracts/eosio.msig/eosio.msig.wasm ~/.local/share/eosio/nodeos/config
-cp build/contracts/eosio.bios/eosio.bios.abi build/contracts/eosio.bios/eosio.bios.wasm ~/.local/share/eosio/nodeos/config
-cd build && make install
 ```
 
 ### 3. config核心配置文件获取并修改(若想修改p2p地址请参考第二节)
 
 ```bash
-wget http://download.aitimeout.site/config.ini
-cp config.ini ~/.local/share/eosio/nodeos/config/
+wget https://updatewallet.oss-cn-hangzhou.aliyuncs.com/config.ini
+wget https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/activeacc.json 
+
+cp config.ini activeacc.json  ~/.local/share/eosio/nodeos/config/
 ```
 
 config.ini文件需要修改2个地方：

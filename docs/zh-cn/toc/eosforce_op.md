@@ -4,7 +4,7 @@
        - [超级节点部署说明](zh-cn/eosforce_bp.md)
        - [测试网搭建说明](zh-cn/eosforce_bios.md)
    - 命令行工具
-       - [Cleos说明](zh-cn/eosforce_cleos_introduction.md)
+       - [Cleos说明](zh-cn/eosforce_cleos.md)
        - [Cleos命令参考](zh-cn/eosforce_cleos_res.md)
        - [Keosd说明](zh-cn/eosforce_keosd_introduction.md)
        - [Keosd API 参考](zh-cn/eosforce_keosd_res.md)

@@ -4,7 +4,7 @@
 
 ## 本次升级增加候选节点签到功能
 
-需要候选节点周期性调用签到action(缺省10分钟签到一次，超过60分钟不签到，则取消该候选节点分红, 暂停链上action执行需要超过2/3节点设置后生效）
+需要候选节点周期性调用签到action(缺省10分钟签到一次，超过60分钟不签到，则取消该候选节点分红）
 
 
 
@@ -24,7 +24,7 @@ plugin = eosio::heartbeat_plugin
 
 bp-mapping=biosbpa=KEY:biosbpaa
 
-(biospa 为bp的名字，biosppa需要单独创建，并公钥和出块的公钥必须相同)
+(例如bp的名字为biosbpa，需要单独创建一个账号名例如biosbpaa，并公钥和出块的公钥必须相同)
 
 ##### 其他配置的文件保持原有不变:
 
@@ -46,7 +46,7 @@ docker logs -f --tail 100 eosforce-v1.4.0
 验证升级结果, 版本信息：
 ```shell
 docker exec -it eosforce-v1.4.0 opt/eosio/bin/cleos get info
-"server_version_string": "force-v1.4.0"
+"server_version_string": "force-v1.4.0-1-g0e4e0990b"
 ```
 
 ### 源码编译方式
@@ -84,7 +84,7 @@ cp build/contracts/eosio.msig/eosio.msig.abi build/contracts/eosio.msig/eosio.ms
 
 ```shell
 # 启动
-nohup ./build/bin/nodeos --config-dir 配置目录 --data-dir 新数据目录 > eos.log 2>&1 &
+nohup ./build/bin/nodeos --config-dir 配置目录 --data-dir 数据目录 > eos.log 2>&1 &
 
 # 查看日志，观察同步或出块是否正常
 tail -100f eos.log
@@ -94,7 +94,7 @@ tail -100f eos.log
 版本信息：
 ```shell
 cleos -u http://127.0.0.1:8888 get info
-"server_version_string": "force-v1.4.0"
+"server_version_string": "force-v1.4.0-1-g0e4e0990b"
 ```
 
 
@@ -102,4 +102,18 @@ cleos -u http://127.0.0.1:8888 get info
 
 ## 2. 多签更新系统合约
 
+原力force.msig账号发起多签提议后，节点执行(需要使用命令行创建钱包导入节点账户私钥)：
+
+```shell
+# 批准更新系统合约code多签提议
+cleos  -u https://w1.eosforce.cn multisig approve force.msig p.upsyscode '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
+# 批准更新系统合约abi多签提议
+cleos  -u https://w1.eosforce.cn multisig approve force.msig p.upsysabi '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
+```
+超过2/3节点执行通过，即可执行多签更新系统合约。
+
+```shell
+# 查看提议批准情况
+cleos  -u https://w1.eosforce.cn get table eosio.msig force.msig approvals
+```
 

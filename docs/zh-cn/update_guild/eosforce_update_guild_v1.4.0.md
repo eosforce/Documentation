@@ -24,7 +24,7 @@ plugin = eosio::heartbeat_plugin
 
 bp-mapping=biosbpa=KEY:biosbpaa
 
-(biospa 为bp的名字，biosppa需要单独创建，并公钥和出块的公钥必须相同)
+(例如bp的名字为biosbpa，需要单独创建一个账号名例如biosbpaa，并公钥和出块的公钥必须相同)
 
 ##### 其他配置的文件保持原有不变:
 
@@ -46,7 +46,7 @@ docker logs -f --tail 100 eosforce-v1.4.0
 验证升级结果, 版本信息：
 ```shell
 docker exec -it eosforce-v1.4.0 opt/eosio/bin/cleos get info
-"server_version_string": "force-v1.4.0"
+"server_version_string": "force-v1.4.0-1-g0e4e0990b"
 ```
 
 ### 源码编译方式
@@ -84,7 +84,7 @@ cp build/contracts/eosio.msig/eosio.msig.abi build/contracts/eosio.msig/eosio.ms
 
 ```shell
 # 启动
-nohup ./build/bin/nodeos --config-dir 配置目录 --data-dir 新数据目录 > eos.log 2>&1 &
+nohup ./build/bin/nodeos --config-dir 配置目录 --data-dir 数据目录 > eos.log 2>&1 &
 
 # 查看日志，观察同步或出块是否正常
 tail -100f eos.log
@@ -94,7 +94,7 @@ tail -100f eos.log
 版本信息：
 ```shell
 cleos -u http://127.0.0.1:8888 get info
-"server_version_string": "force-v1.4.0"
+"server_version_string": "force-v1.4.0-1-g0e4e0990b"
 ```
 
 

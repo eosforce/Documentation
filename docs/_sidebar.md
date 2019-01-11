@@ -1,10 +1,18 @@
 - [Main Page](en-us/README.md)
 
-- Introduction
-    - [What is Eosforce](en-us/what_is_eosforce.md)
-    - [Getting Started](en-us/getting_started_eosforce.md)
-    - [Wallet Client](en-us/eosforce_wallet_introduction.md)
-    - [Resources](en-us/eosforce_res.md)
+- [About Eosforce](zh-cn/toc/about_eosforce.md)
+    - Introduction
+        - [What is Eosforce](en-us/what_is_eosforce.md)
+        - [Getting Started](en-us/getting_started_eosforce.md)
+        - [Wallet Client](en-us/eosforce_wallet_introduction.md)
+        - [Resources](en-us/eosforce_res.md)
+    - Functions
+        - [System](en-us/contract/System/System.md)
+        - [token](en-us/contract/eosio.token/token.md)
+        - [account](en-us/contract/contract_eosio_bios.md)
+        - [account transfer](en-us/eosforce_username_tran.md)
+        - [multi sign](en-us/contract/eosio.msig/msig.md)
+        - [fee](zh-cn/fee.md)
 - Deploy
     - [How to deploy BP node](en-us/eosforce_bp.md)
     - [How to deploy a test net](en-us/eosforce_bios.md)
@@ -13,13 +21,7 @@
     - [Cleos Resources](en-us/eosforce_cleos_res.md)
     - [Introduction to Keosd](en-us/eosforce_keosd_introduction.md)
     - [Keosd API Resources](en-us/eosforce_keosd_res.md)
-- Functions
-    - [System](en-us/contract/System/System.md)
-    - [token](en-us/contract/eosio.token/token.md)
-    - [account](en-us/contract/contract_eosio_bios.md)
-    - [account transfer](en-us/eosforce_username_tran.md)
-    - [multi sign](en-us/contract/eosio.msig/msig.md)
-    - [fee](zh-cn/fee.md)
+
 - Contract
     - [overview](en-us/contract/overview.md)       
     - [Tutorials](en-us/contract/tutorials.md) 

@@ -4,16 +4,20 @@
 
 ## 安装
 
-!> 注意：这是当前稳定版本安装方式，不是npm install eos.
-
+if you are using npm 
 ```bash
-    npm install git+https://github.com/eosforce/eosjs.git#2da68b5
+    npm install eosforce
     npm install bignumber.js //处理javascript大数字处理精准度不够的问题
+```
+if you are using yarn
+```bash
+    yarn add eosforce
+    yarn add bignumber.js //处理javascript大数字处理精准度不够的问题
 ```
 
 ## 基础配置和需要的信息
 
-```json
+```javascript
     {
         httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
         keyProvider: privateKey, //私钥,部分接口需要
@@ -26,14 +30,16 @@
 接口都有可以运行的示例，可直接运行示例测试
 
 ```javascript
-    import Eos from 'eosjs';
+    import Eos from 'eosforce';
     const config = { 
         httpEndpoint: node_rpc_url //节点rpc端口基础路径,如 http://192.168.82.173:8888
     }
     //获取节点基本信息
-    Eos(config).getInfo({}).then(res => {
+    const test_get_info = async () => {
+        let res = await  Eos(config).getInfo({});
         console.log(res);
-    });
+    }
+    test_get_info()
 ```
 
 ## 接口列表
@@ -65,15 +71,14 @@
 | virtual_block_net_limit     |            |
 
 示例:
+```javascript
+ const test_get_info = async () => {
+    let res = await  Eos(config).getInfo({});
+    console.log(res);
+ }
+ test_get_info()
 
-    Eos({ 
-        httpEndpoint: node_rpc_url
-    })
-    .getInfo({})
-    .then(res => {
-        console.log(res);
-    });
-
+```
 ### getBlock
 
 获取区块详细信息
@@ -103,15 +108,11 @@
 | transaction_mroot  |                                              |
 
 ```javascript
-    Eos({ 
-        httpEndpoint: node_rpc_url
-    })
-    .getBlock({
-        block_num_or_id: 100
-    })
-    .then(res => {
-        log(res);
-    })
+const test_get_block = async () => {
+    let result = await Eos({ httpEndpoint: node_rpc_url}).getBlock({ block_num_or_id: 100 });
+    console.log(result);
+}
+test_get_block()
 ```
     
 ### getKeyAccounts
@@ -126,18 +127,16 @@
 
 
 ```javascript
-    import EOS from 'eosjs'
+    import EOS from 'eosforce'
     //从库中引入ecc
     const { ecc } = Eos.modules;
     //根据私钥算出公钥
-    let publickKey = ecc.privateToPublic(privateKey)
-    Eos({ 
-        httpEndpoint: node_rpc_url
-    })
-    .getKeyAccounts({ public_key: publicKey })
-    .then(result => {
-      console.log(result);
-    });
+    const test_get_key_accounts = async () => {
+        let publickKey = ecc.privateToPublic(privateKey)
+        let result = Eos({ httpEndpoint: node_rpc_url}).getKeyAccounts({ public_key: publicKey });
+        console.log( result );
+    }
+    test_get_key_accounts();
 ```
 
 ### getActions
@@ -153,18 +152,16 @@
 | limit        | 最大筛选量                                    |
 
 ```javascript
-    Eos({ 
-        httpEndpoint: node_rpc_url
-    })
-    .getActions({ 
-        account_name: accountName, 
-        pos: pos, 
-        offset: offset, 
-        limit: 100 
-    })
-    .then(res => {
-        console.log(res);
-    })
+    const test_get_action = async () => {
+    let result = await Eos({ httpEndpoint: node_rpc_url })
+                    .getActions({
+                            account_name: accountName, 
+                            pos: pos, 
+                            offset: offset, 
+                            limit: 100 
+                    });
+        console.log(result);
+    }
 ```
 
 ### getTransaction
@@ -177,13 +174,11 @@
 | id           | 订单ID                                     |
 
 ```javascript
-    Eos({
-    httpEndpoint: node_rpc_url 
-    })
-    .getTransaction({ id: trx_id })
-    .then(res => {
-        console.log(res);
-    });
+    const test_get_transaction = async () => {
+        let result = Eos({ httpEndpoint: node_rpc_url }).getTransaction({ id: trx_id });
+        console.log(result);
+    }
+    test_get_transaction();
 ```
 
 ### getTableRows
@@ -221,6 +216,8 @@ getTableRows涉及参数比较多，当前的功能有:
     .then(result => {
         console.log(result);
     });
+    
+    
     //获取用户token
     Eos({
         httpEndpoint: node_rpc_url 
@@ -235,6 +232,8 @@ getTableRows涉及参数比较多，当前的功能有:
     .then(data => {
         console.log(data);
     });
+    
+    
     //获取节点投票信息
     Eos({
         httpEndpoint: node_rpc_url 
@@ -249,6 +248,8 @@ getTableRows涉及参数比较多，当前的功能有:
     .then(data => {
         console.log(data);    
     });
+    
+    
     //获取用户投票信息
     Eos({
         httpEndpoint: node_rpc_url 
@@ -263,6 +264,8 @@ getTableRows涉及参数比较多，当前的功能有:
     .then(data => {
         console.log(data);
     });
+    
+    
     //获取当届超级节点
     Eos({ 
         httpEndpoint: node_rpc_url
@@ -292,15 +295,15 @@ getTableRows涉及参数比较多，当前的功能有:
 | chaninId     | 通过getInfo接口获得，返回数据里边的chanin_id           |
 
 ```javascript
-    Eos({
-        httpEndpoint: node_rpc_url,
-        keyProvider: privateKey,
-        chainId
-    })
-    .newaccount('bandon', 'apple', publicKey, publicKey)
-    .catch(err => {
-        console.log(err);
-    });
+const test_newaccount = async () => {
+    let result = Eos({
+                    httpEndpoint: node_rpc_url,
+                    keyProvider: privateKey,
+                    chainId
+                })
+                .newaccount('bandon', 'apple', publicKey, publicKey);
+    console.log(result);
+}
 ```
 
 ### transfer
@@ -325,6 +328,7 @@ getTableRows涉及参数比较多，当前的功能有:
         tokenSymbol = 'EOS', 
         precision = '4';
     import BigNumber from 'bignumber.js';
+    
     const toBigNumber = asset => {
       if (BigNumber.isBigNumber(asset)) {
         return asset;
@@ -337,15 +341,18 @@ getTableRows涉及参数比较多，当前的功能有:
         return new BigNumber(asset);
       }
     };
+    
     const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
       const amount = toBigNumber(_amount).toFixed(Number(precision));
       return [amount, symbol].join(' ');
     };
+    
     const config ={
         httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
         keyProvider: privateKey, //私钥
         chainId: 'chainId'
     }
+    
     Eos(config)
     .contract(tokenSymbol === 'EOS' ? 'eosio' : 'eosio.token')
     .then(token => {
@@ -385,16 +392,19 @@ getTableRows涉及参数比较多，当前的功能有:
         return new BigNumber(asset);
       }
     };
+    
     //为了数据准确性，toAsset函数是必要的，可以加入自己的公共函数
     const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
       const amount = toBigNumber(_amount).toFixed(Number(precision));
       return [amount, symbol].join(' ');
     };
-    Eos(config)
-    .vote('xxx', 'eosforce', toAsset(1.9))
-    .catch(err => {
-        return handleApiError(err);
-    });
+    
+    const test_vote = async () => {
+       let result = await Eos(config).vote('xxx', 'eosforce', toAsset(1.9));
+       console.log(result);
+    }
+    
+    test_vote();
 ```
 
 ### unfreeze
@@ -417,11 +427,13 @@ getTableRows涉及参数比较多，当前的功能有:
         keyProvider: privateKey, //私钥
         chainId: 'chainId'
     }
-    Eos(config)
-    .unfreeze(voter, bpname)
-    .catch(err => {
-      return handleApiError(err);
-    });
+    
+    const test_unfreeze = async () => {
+       let result = await Eos(config).unfreeze(voter, bpname);    
+       console.log(result);
+    }
+    
+    test_unfreeze();
 ```
 
 
@@ -445,17 +457,19 @@ getTableRows涉及参数比较多，当前的功能有:
         keyProvider: privateKey, //私钥
         chainId: 'chainId'
     }
-    Eos(config)
-    .claim(voter, bpname)
-    .catch(err => {
-      return handleApiError(err);
-    });
+    
+    const test_claim = async (voter, bpname) => {
+        let result = await Eos(config).claim(voter, bpname);
+        console.log(result);
+    }
+    
+    test_claim();
 ```
 
 ### 私钥转公钥函数
 
 ```javascript
-    import EOS from 'eosjs'
+    import EOS from 'eosforce'
     //从库中引入ecc
     const { ecc } = Eos.modules;
     //根据私钥算出公钥
@@ -468,6 +482,7 @@ getTableRows涉及参数比较多，当前的功能有:
 
 ```javascript
     import BigNumber from 'bignumber.js';
+    
     const toBigNumber = asset => {
       if (BigNumber.isBigNumber(asset)) {
         return asset;
@@ -480,8 +495,10 @@ getTableRows涉及参数比较多，当前的功能有:
         return new BigNumber(asset);
       }
     };
+    
     const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
       const amount = toBigNumber(_amount).toFixed(Number(precision));
       return [amount, symbol].join(' ');
     };
+    
 ```

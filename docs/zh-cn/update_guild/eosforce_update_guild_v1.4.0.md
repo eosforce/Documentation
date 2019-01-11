@@ -10,9 +10,9 @@
 
 ## 1. 节点升级 (v1.4.0)
 
-###配置文件修改
+### 配置文件修改
 
-#####需要变动的配置文件config.ini
+##### 需要变动的配置文件config.ini
 
 - 前23 bp节点保持config.ini 保持不变
 
@@ -25,7 +25,7 @@ plugin = eosio::heartbeat_plugin
 bp-mapping=biosbpa=KEY:biosbpaa
 
 
-#####其他配置的文件保持原有不变:
+##### 其他配置的文件保持原有不变:
 
 - activeacc.json https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/activeacc.json (md5sum b7c295454e6e81ab3023baeebf2d9131)
 - genesis.json 使用原有文件

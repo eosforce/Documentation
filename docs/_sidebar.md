@@ -1,6 +1,6 @@
 - [Main Page](en-us/README.md)
 
-- [About Eosforce](zh-cn/toc/about_eosforce.md)
+- [About Eosforce](en-us/toc/about_eosforce.md)
     - Introduction
         - [What is Eosforce](en-us/what_is_eosforce.md)
         - [Getting Started](en-us/getting_started_eosforce.md)

@@ -1,10 +1,10 @@
-# EOSForce介绍
+# EOSForce Introduction
 
 <!-- vim-markdown-toc GFM -->
 
-* [引言](#引言)
-* [模型](#模型)
-    * [用户资产](#用户资产)
+* [Preface](#Preface)
+* [Model](#Model)
+    * [User Assets](#User Assets)
     * [区块奖励](#区块奖励)
     * [交易手续费](#交易手续费)
 * [治理](#治理)
@@ -20,7 +20,7 @@
 
 [English Version](README_en.md)
 
-## 引言
+## Preface
 
 EOS Force 是基于 [EOSIO 软件](https://github.com/EOSIO/eos) 并加以进化的区块链。
 
@@ -30,9 +30,9 @@ EOS Force 是基于 [EOSIO 软件](https://github.com/EOSIO/eos) 并加以进化
 
 通过调整出块时间，收取交易手续费，鼓励超级节点分红，分阶段释放自主部署合约功能等诸多途径，EOS Force 致力于进一步提高链的稳定性与安全性。
 
-## 模型
+## Model
 
-### 用户资产
+### User Assets
 
 EOS Force 支持对以太坊上 EOS ERC20 代币的用户进行映射，EOS Force 的用户资产具备以下属性：
 

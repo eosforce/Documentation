@@ -6,23 +6,23 @@
 
 if you are using npm 
 ```bash
-    npm install eosforce
-    npm install bignumber.js //处理javascript大数字处理精准度不够的问题
+npm install eosforce
+npm install bignumber.js //处理javascript大数字处理精准度不够的问题
 ```
 if you are using yarn
 ```bash
-    yarn add eosforce
-    yarn add bignumber.js //处理javascript大数字处理精准度不够的问题
+yarn add eosforce
+yarn add bignumber.js //处理javascript大数字处理精准度不够的问题
 ```
 
 ## 基础配置和需要的信息
 
 ```javascript
-    {
-        httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
-        keyProvider: privateKey, //私钥,部分接口需要
-        chainId: 'chainId'//部分接口需要, 通过getBlock获得
-    }
+{
+    httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
+    keyProvider: privateKey, //私钥,部分接口需要
+    chainId: 'chainId'//部分接口需要, 通过getBlock获得
+}
 ```
 
 ## 示例
@@ -39,6 +39,7 @@ const test_get_info = async () => {
     let res = await  Eos(config).getInfo({});
     console.log(res);
 }
+
 test_get_info()
 ```
 
@@ -76,6 +77,7 @@ test_get_info()
     let res = await  Eos(config).getInfo({});
     console.log(res);
  }
+ 
  test_get_info()
 
 ```
@@ -112,6 +114,7 @@ const test_get_block = async () => {
     let result = await Eos({ httpEndpoint: node_rpc_url}).getBlock({ block_num_or_id: 100 });
     console.log(result);
 }
+
 test_get_block()
 ```
     
@@ -154,15 +157,18 @@ test_get_key_accounts();
 
 ```javascript
 const test_get_action = async () => {
-let result = await Eos({ httpEndpoint: node_rpc_url })
-                .getActions({
-                        account_name: accountName, 
-                        pos: pos, 
-                        offset: offset, 
-                        limit: 100 
-                });
+    let result = await Eos({ httpEndpoint: node_rpc_url })
+                    .getActions({
+                            account_name: accountName, 
+                            pos: pos, 
+                            offset: offset, 
+                            limit: 100 
+                    });
     console.log(result);
 }
+
+test_get_action();
+
 ```
 
 ### getTransaction
@@ -175,10 +181,12 @@ let result = await Eos({ httpEndpoint: node_rpc_url })
 | id           | 订单ID                                     |
 
 ```javascript
+
 const test_get_transaction = async () => {
     let result = Eos({ httpEndpoint: node_rpc_url }).getTransaction({ id: trx_id });
     console.log(result);
 }
+
 test_get_transaction();
 ```
 
@@ -302,7 +310,7 @@ const test_newaccount = async () => {
                     keyProvider: privateKey,
                     chainId
                 })
-                .newaccount('bandon', 'apple', publicKey, publicKey);
+                .newaccount('creator', 'need_created_name', publicKey, publicKey);
     console.log(result);
 }
 
@@ -377,12 +385,14 @@ Eos(config)
 
 ```javascript
 // '字符串或数字或 bignumber 格式转化为 XXX EOS 格式'
-import BigNumber from 'bignumber.js';
+import BigNumber from 'bignumber.js'
+
 const config ={
     httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
     keyProvider: privateKey, //私钥
     chainId: 'chainId'
 }
+
 const toBigNumber = asset => {
   if (BigNumber.isBigNumber(asset)) {
     return asset;
@@ -425,18 +435,18 @@ test_vote();
 
 
 ```javascript
-    const config ={
-        httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
-        keyProvider: privateKey, //私钥
-        chainId: 'chainId'
-    }
-    
-    const test_unfreeze = async () => {
-       let result = await Eos(config).unfreeze(voter, bpname);    
-       console.log(result);
-    }
-    
-    test_unfreeze();
+const config ={
+    httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
+    keyProvider: privateKey, //私钥
+    chainId: 'chainId'
+}
+
+const test_unfreeze = async () => {
+   let result = await Eos(config).unfreeze(voter, bpname);    
+   console.log(result);
+}
+
+test_unfreeze();
 ```
 
 

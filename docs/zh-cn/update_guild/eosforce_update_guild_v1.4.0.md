@@ -24,6 +24,7 @@ plugin = eosio::heartbeat_plugin
 
 bp-mapping=biosbpa=KEY:biosbpaa
 
+(biospa 为bp的名字，biosppa需要单独创建，并公钥和出块的公钥必须相同)
 
 ##### 其他配置的文件保持原有不变:
 

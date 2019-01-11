@@ -68,7 +68,7 @@ action hello hi name not include in feemap or db
     thread-0  txfee_manager.cpp:84 get_required_fee
 ```
 
-这是因为系统获取不到手续费信息，需要调用setfee action来设置fee，在测试网中setfee的权限是公开的，先导入对应的私钥：
+这是因为系统获取不到手续费信息，需要调用setfee action来设置fee
 
 ```
 cleos wallet import --private-key 5K7DmCWxMnqtAPraoPVGWFvQ1r3BrbRnHoPPRv3UxNGNixUAudv
@@ -77,7 +77,7 @@ cleos wallet import --private-key 5K7DmCWxMnqtAPraoPVGWFvQ1r3BrbRnHoPPRv3UxNGNix
 可以使用cleos 设置action的手续费，注意一个合约下的action需要单独设置，如hello的hi action，我们设置手续费：
 
 ```
-cleos set setfee hello hi "1.0000 EOS" 6400 1000 64
+cleos set setfee hello hi "1.0000 EOS" 0 0 0
 ```
 
 setfee 命令使用方式如下：
@@ -100,9 +100,9 @@ Positionals:
 - account 合约账户名
 - action 要设置手续费的action名
 - fee 手续费，只接受eos
-- cpu_limit 每次执行合约使用的cpu资源上限，单位为us
-- net_limit 每次执行合约使用的net资源上限，单位为byte
-- ram_limit 每次执行合约使用的ram资源上限，单位为byte
+- cpu_limit 每次执行合约使用的cpu资源上限，单位为us， 对于用户合约来说此项为0
+- net_limit 每次执行合约使用的net资源上限，单位为byte， 对于用户合约来说此项为0
+- ram_limit 每次执行合约使用的ram资源上限，单位为byte， 对于用户合约来说此项为0
 
 ## 3. 执行合约
 

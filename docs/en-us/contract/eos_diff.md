@@ -39,12 +39,65 @@ PK='合约账户公钥'
 cleos set account permission $account active '{"threshold": 1,"keys": [{"key":"'$PK'", "weight":1}],"accounts": [{"permission":{"actor":"'$account'","permission":"eosio.code"},"weight":1}]}' owner -p $account'@owner'
 ```
 
-### 2. 合约审核与手续费机制。
+### 2. 手续费机制。
 
-免除了内存、CPU、NET的购买与使用操作。仅对action设置资源限制。
-合约内对multi_index表emplace()\modify()操作的资源使用者payer参数，可以设置为0或_self本合约账号。
+首先，可以参考 [资源模型介绍文档](https://eosforce.github.io/Documentation/#/zh-cn/res_limit) 。
 
-目前开发者开发完成智能合约后，需提交至eos原力开发者委员会进行审核。委员会对合约进行安全性审核，并对每个action通过评估设置合理手续费与资源限制后，此合约才能正常使用。
+在EOSForce中每个action执行时需要预先设置手续费，如果一个action没有指定手续费，则会导致如下错误：
+
+```shell
+error 2019-01-11T07:23:20.785 thread-0  http_plugin.cpp:580           handle_exception     ] FC Exception encountered while processing chain.push_transaction
+debug 2019-01-11T07:23:20.785 thread-0  http_plugin.cpp:581           handle_exception     ] Exception Details: 3050000 action_validate_exception: Action validate exception
+action testd hi name not include in feemap or db
+    {"acc":"testd","act":"hi"}
+    thread-0  txfee_manager.cpp:76 get_required_fee
+
+```
+
+这里是调用部署在`testd`账户中的`hi`action，在请求的节点的日志中会详细打印信息。
+
+在Eosforce中，我们需要用户为其所触发的每一个action支付手续费，这一方式类似与以太坊。 每一笔手续费会为其action提供一个CPU和NET的资源使用上限， 对于系统原生的action如转账、创建用户、更新权限等action，则是采用固定手续费和限制的方式，便于用户使用， 对于用户定义的action，其中的换算比例是由BP通过多签来设置的，在默认情况下，每支付0.01 EOSC，该action会被赋予 200 us cpu使用限制和 500 byte net使用限制，为了便于用户使用，开发者需要为自己提交的合约中action设置手续费额度，这样用户则不需自行设置手续费额度，同时也激励开发者优化合约资源使用效率，为用户提供更好的体验。
+
+对于DApp开发者来说，首先需要评估自己合约action所消耗的资源，之后自行为自己的账户设置手续费：
+
+使用 setfee：
+
+```shell
+./cleos set setfee testd hi "0.0500 EOS" 0 0 0
+debug 2019-01-11T07:27:14.427 thread-0  main.cpp:2465                 operator()           ] set fee hi, 0.0500 SYS
+executed transaction: 247de68c2815eec4fa46b1356bd6bec247a43aa2c22f68c6cc976cf6accc9a4d  136 bytes  250 us
+#         eosio <= eosio::setfee                "000000008094b1ca000000000000806bf4010000000000000453595300000000000000000000000000000000"
+#   eosio.token <= eosio.token::fee             {"payer":"testd","quantity":"0.1000 EOS"}
+warning: transaction executed locally, but may not be confirmed by the network yet         ] 
+```
+
+这里将testd::hi action的手续费设置为 0.05 EOS， 注意后面的三个零。
+
+注意设置手续费需要合约账户权限。
+
+setfee 命令使用方式如下：
+
+```
+Set Fee need to action
+Usage: ./cleos set setfee [OPTIONS] account action fee cpu_limit net_limit ram_limit
+
+Positionals:
+  account TEXT                The account to set the Fee for (required)
+  action TEXT                 The action to set the Fee for (required)
+  fee TEXT                    The Fee to set to action (required)
+  cpu_limit UINT              The cpu max use limit to set to action (required)
+  net_limit UINT              The net max use limit to set to action (required)
+  ram_limit UINT              The ram max use limit to set to action (required)
+```
+
+其中
+
+- account 合约账户名
+- action 要设置手续费的action名
+- fee 手续费，只接受eos
+- cpu_limit 每次执行合约使用的cpu资源上限，单位为us， 对于用户合约来说此项为0
+- net_limit 每次执行合约使用的net资源上限，单位为byte， 对于用户合约来说此项为0
+- ram_limit 每次执行合约使用的ram资源上限，单位为byte， 对于用户合约来说此项为0
 
 开发者需set code 、set abi上传合约。
 

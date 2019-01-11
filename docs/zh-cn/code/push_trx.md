@@ -148,7 +148,7 @@ transaction_id_type transaction::id() const {
       vector<action>         context_free_actions;
       vector<action>         actions;
       extensions_type        transaction_extensions;
-      asset                  fee; // EOSForce 增加的手续费，在客户端push trx时需要写入
+      asset                  fee; // EOSForce 增加的手续费
 
       transaction_id_type        id()const;
       digest_type                sig_digest( const chain_id_type& chain_id, const vector<bytes>& cfd = vector<bytes>() )const;

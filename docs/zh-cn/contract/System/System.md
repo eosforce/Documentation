@@ -90,18 +90,6 @@ void onblock(…const account_name bpname,const uint32_t schedule_version);
 3. 每个出块将奖励1个EOS给b1账号(block.one)
 4. 每100个块(即5分钟)更新一次超级节点排行. 刷新选举的23个超级节点，遍历所有bp查前23个，调用wasm接口set_proposed_producers重置BP,修改数据库数据
 
-### 扣除手续费    (系统内部使用)
-```C++
-void onfee( const account_name actor, const asset fee, const account_name bpname );
-```
- 
-所有操作的手续费最终调此action执行，根据手续费扣除账号余额，并增加到打包此区块的节点余额中。
-
-参数: 
-- actor : 执行者
-- fee : 手续费
-- bpname : 打包的节点名
- 
 ### 设置链紧急状态
 ```C++
 void setemergency( const account_name bpname, const bool emergency );

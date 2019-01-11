@@ -245,16 +245,6 @@ eosforce无效
 - transaction : json, REQUIRED  Provide the transaction object
 - available_keys : array of strings , REQUIRED Provide the available keys
 
-## /get_required_fee
-
-获取交易所需的手续费
-
-参数:
-- transaction : json, the transaction that will be pushed
-
-RETURN :
-{"required_fee":"0.1000 EOS"}
-
 ## /abi_json_to_bin
 
 json序列化，序列化结果用于push_transaction的data字段。

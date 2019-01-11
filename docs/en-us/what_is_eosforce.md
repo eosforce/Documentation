@@ -5,16 +5,16 @@
 * [Preface](#Preface)
 * [Model](#Model)
     * [User Assets](#User Assets)
-    * [区块奖励](#区块奖励)
-    * [交易手续费](#交易手续费)
-* [治理](#治理)
-    * [投票分红](#投票分红)
-    * [一票一投](#一票一投)
-    * [23 个超级节点](#23-个超级节点)
-    * [紧急状态](#紧急状态)
-* [启动](#启动)
-* [结束语](#结束语)
-* [致谢](#致谢)
+    * [Block Rewards](#Block Rewards)
+    * [Transaction Fees](#Transaction Fees)
+* [Governance](#Governance)
+    * [Voting Dividends](#Voting Dividends)
+    * [One Vote One Vote](#One Vote One Vote)
+    * [23 Block Producers](#23 Block Producers)
+    * [Emergency State](#Emergency State)
+* [Launch](#Launch)
+* [Conclusions](#Conclusions)
+* [Thanks](#Thanks)
 
 <!-- vim-markdown-toc -->
 
@@ -22,26 +22,26 @@
 
 ## Preface
 
-EOS Force 是基于 [EOSIO 软件](https://github.com/EOSIO/eos) 并加以进化的区块链。
+EOS Force is EOSIO-based blockchain software (https://github.com/EOSIO/eos) and will evolve from it。
 
-在深入研究 EOSIO 软件的过程中，我们发现了很多可能会导致链不稳定的因素，比如用 C++ 编写基于 WASM 虚拟机智能合约的安全性，一票 30 投可能导致的“超级节点联盟” 等等。如果按照 [EOSIO](https://github.com/EOSIO) 官方指引进行链的启动，推进链的选举、投票，支持用户转账、部署合约，那么用户的资产安全将很难得到保证。
+During deep research of EOSIO software，we found many factors that could result in instability，such as WAVM-based smart contract's security developped by C++，"super node alliance" resulting from one vote thirty votes etc. If we lauch the mainnet、elect the BPs、vote and deploy smart contracts according to official's guide [EOSIO](https://github.com/EOSIO) ，then users' assets could be difficult to be guaranteed。
 
-本着以用户资产安全为第一要素的原则，我们对 [EOSIO/eos](https://github.com/EOSIO/eos) 进行了多层次演绎，并最终提出 EOS Force 的解决方案。
+In line with the principle of user asset security as the first element，we evolve from EOSIO [EOSIO/eos](https://github.com/EOSIO/eos) and finally proposed EOS Force solutions。
 
-通过调整出块时间，收取交易手续费，鼓励超级节点分红，分阶段释放自主部署合约功能等诸多途径，EOS Force 致力于进一步提高链的稳定性与安全性。
+By adjusting block production interval，levying transaction fees，encouraging BPS to distribute dividends，Releasing self-deploy smart contracts functions gradually，EOS Force was devoted to increase the blockchain's stability and security。
 
 ## Model
 
 ### User Assets
 
-EOS Force 支持对以太坊上 EOS ERC20 代币的用户进行映射，EOS Force 的用户资产具备以下属性：
+EOS Force support mapping of EOS ERC20 tokens on ETH blockchain，user assets on EOS Force blockchain has following attributes：
 
-- 可用余额：可用于转账、投票。
-- 投票金额：投给不同节点的金额，处于锁定状态，减少投票后变为赎回金额。
+- Available balance：could be transfered、voted。
+- Voting amount：amount voting for different BPs，处于锁定状态，减少投票后变为赎回金额。
 - 赎回金额：撤销的投票金额，有 3 天冻结期，3 天后可以提取成可用余额。
 - 待领分红：用户根据对节点选举的币量和时间贡献，占有节点奖励池的一部分，提取后变为可用余额。
 
-### 区块奖励
+### Block Rewards
 
 EOSIO 默认 0.5s 的出块速度在全球性的分布式网络中尚未得到有效验证，网络延迟很可能会造成区块链分叉和停止。因此，EOS Force 在链的启动阶段将出块时间设为 3 秒，每个节点每次只出一个块，每个块奖励为 9 个 EOS。待链运行稳定后，EOS Force 将会恢复 0.5s 的出块时间，在稳定的基础上进一步提升链的性能。
 

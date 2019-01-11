@@ -30,16 +30,16 @@ if you are using yarn
 接口都有可以运行的示例，可直接运行示例测试
 
 ```javascript
-    import Eos from 'eosforce';
-    const config = { 
-        httpEndpoint: node_rpc_url //节点rpc端口基础路径,如 http://192.168.82.173:8888
-    }
-    //获取节点基本信息
-    const test_get_info = async () => {
-        let res = await  Eos(config).getInfo({});
-        console.log(res);
-    }
-    test_get_info()
+import Eos from 'eosforce';
+const config = { 
+    httpEndpoint: node_rpc_url //节点rpc端口基础路径,如 http://192.168.82.173:8888
+}
+//获取节点基本信息
+const test_get_info = async () => {
+    let res = await  Eos(config).getInfo({});
+    console.log(res);
+}
+test_get_info()
 ```
 
 ## 接口列表
@@ -127,16 +127,17 @@ test_get_block()
 
 
 ```javascript
-    import EOS from 'eosforce'
-    //从库中引入ecc
-    const { ecc } = Eos.modules;
-    //根据私钥算出公钥
-    const test_get_key_accounts = async () => {
-        let publickKey = ecc.privateToPublic(privateKey)
-        let result = Eos({ httpEndpoint: node_rpc_url}).getKeyAccounts({ public_key: publicKey });
-        console.log( result );
-    }
-    test_get_key_accounts();
+import EOS from 'eosforce'
+//从库中引入ecc
+const { ecc } = Eos.modules;
+//根据私钥算出公钥
+const test_get_key_accounts = async () => {
+    let publickKey = ecc.privateToPublic(privateKey)
+    let result = Eos({ httpEndpoint: node_rpc_url}).getKeyAccounts({ public_key: publicKey });
+    console.log( result );
+}
+
+test_get_key_accounts();
 ```
 
 ### getActions
@@ -152,16 +153,16 @@ test_get_block()
 | limit        | 最大筛选量                                    |
 
 ```javascript
-    const test_get_action = async () => {
-    let result = await Eos({ httpEndpoint: node_rpc_url })
-                    .getActions({
-                            account_name: accountName, 
-                            pos: pos, 
-                            offset: offset, 
-                            limit: 100 
-                    });
-        console.log(result);
-    }
+const test_get_action = async () => {
+let result = await Eos({ httpEndpoint: node_rpc_url })
+                .getActions({
+                        account_name: accountName, 
+                        pos: pos, 
+                        offset: offset, 
+                        limit: 100 
+                });
+    console.log(result);
+}
 ```
 
 ### getTransaction
@@ -174,11 +175,11 @@ test_get_block()
 | id           | 订单ID                                     |
 
 ```javascript
-    const test_get_transaction = async () => {
-        let result = Eos({ httpEndpoint: node_rpc_url }).getTransaction({ id: trx_id });
-        console.log(result);
-    }
-    test_get_transaction();
+const test_get_transaction = async () => {
+    let result = Eos({ httpEndpoint: node_rpc_url }).getTransaction({ id: trx_id });
+    console.log(result);
+}
+test_get_transaction();
 ```
 
 ### getTableRows
@@ -304,6 +305,8 @@ const test_newaccount = async () => {
                 .newaccount('bandon', 'apple', publicKey, publicKey);
     console.log(result);
 }
+
+test_newaccount();
 ```
 
 ### transfer
@@ -321,43 +324,43 @@ const test_newaccount = async () => {
 | memo         | 转账说明                                     |
 
 ```javascript
-    let from = 'xxx', 
-        to = 'apple2', 
-        amount = 0.3, 
-        memo = '你好', 
-        tokenSymbol = 'EOS', 
-        precision = '4';
-    import BigNumber from 'bignumber.js';
-    
-    const toBigNumber = asset => {
-      if (BigNumber.isBigNumber(asset)) {
-        return asset;
-      } else if (isNaN(asset)) {
-        if (!asset) return new BigNumber('0');
-        const match = asset.match(/^([0-9.]+) EOS$/);
-        const amount = match ? match[1] : '0';
-        return new BigNumber(amount);
-      } else {
-        return new BigNumber(asset);
-      }
-    };
-    
-    const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
-      const amount = toBigNumber(_amount).toFixed(Number(precision));
-      return [amount, symbol].join(' ');
-    };
-    
-    const config ={
-        httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
-        keyProvider: privateKey, //私钥
-        chainId: 'chainId'
-    }
-    
-    Eos(config)
-    .contract(tokenSymbol === 'EOS' ? 'eosio' : 'eosio.token')
-    .then(token => {
-        return token.transfer(from, to, toAsset(amount, tokenSymbol, { precision }), memo);
-    });
+let from = 'xxx', 
+    to = 'apple2', 
+    amount = 0.3, 
+    memo = '你好', 
+    tokenSymbol = 'EOS', 
+    precision = '4';
+import BigNumber from 'bignumber.js';
+
+const toBigNumber = asset => {
+  if (BigNumber.isBigNumber(asset)) {
+    return asset;
+  } else if (isNaN(asset)) {
+    if (!asset) return new BigNumber('0');
+    const match = asset.match(/^([0-9.]+) EOS$/);
+    const amount = match ? match[1] : '0';
+    return new BigNumber(amount);
+  } else {
+    return new BigNumber(asset);
+  }
+};
+
+const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
+  const amount = toBigNumber(_amount).toFixed(Number(precision));
+  return [amount, symbol].join(' ');
+};
+
+const config ={
+    httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
+    keyProvider: privateKey, //私钥
+    chainId: 'chainId'
+}
+
+Eos(config)
+.contract(tokenSymbol === 'EOS' ? 'eosio' : 'eosio.token')
+.then(token => {
+    return token.transfer(from, to, toAsset(amount, tokenSymbol, { precision }), memo);
+});
 ```
 
 ### vote
@@ -373,38 +376,38 @@ const test_newaccount = async () => {
 
 
 ```javascript
-    // '字符串或数字或 bignumber 格式转化为 XXX EOS 格式'
-    import BigNumber from 'bignumber.js';
-    const config ={
-        httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
-        keyProvider: privateKey, //私钥
-        chainId: 'chainId'
-    }
-    const toBigNumber = asset => {
-      if (BigNumber.isBigNumber(asset)) {
-        return asset;
-      } else if (isNaN(asset)) {
-        if (!asset) return new BigNumber('0');
-        const match = asset.match(/^([0-9.]+) EOS$/);
-        const amount = match ? match[1] : '0';
-        return new BigNumber(amount);
-      } else {
-        return new BigNumber(asset);
-      }
-    };
-    
-    //为了数据准确性，toAsset函数是必要的，可以加入自己的公共函数
-    const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
-      const amount = toBigNumber(_amount).toFixed(Number(precision));
-      return [amount, symbol].join(' ');
-    };
-    
-    const test_vote = async () => {
-       let result = await Eos(config).vote('xxx', 'eosforce', toAsset(1.9));
-       console.log(result);
-    }
-    
-    test_vote();
+// '字符串或数字或 bignumber 格式转化为 XXX EOS 格式'
+import BigNumber from 'bignumber.js';
+const config ={
+    httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
+    keyProvider: privateKey, //私钥
+    chainId: 'chainId'
+}
+const toBigNumber = asset => {
+  if (BigNumber.isBigNumber(asset)) {
+    return asset;
+  } else if (isNaN(asset)) {
+    if (!asset) return new BigNumber('0');
+    const match = asset.match(/^([0-9.]+) EOS$/);
+    const amount = match ? match[1] : '0';
+    return new BigNumber(amount);
+  } else {
+    return new BigNumber(asset);
+  }
+};
+
+//为了数据准确性，toAsset函数是必要的，可以加入自己的公共函数
+const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
+  const amount = toBigNumber(_amount).toFixed(Number(precision));
+  return [amount, symbol].join(' ');
+};
+
+const test_vote = async () => {
+   let result = await Eos(config).vote('xxx', 'eosforce', toAsset(1.9));
+   console.log(result);
+}
+
+test_vote();
 ```
 
 ### unfreeze
@@ -452,28 +455,28 @@ const test_newaccount = async () => {
 
 
 ```javascript
-    const config ={
-        httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
-        keyProvider: privateKey, //私钥
-        chainId: 'chainId'
-    }
-    
-    const test_claim = async (voter, bpname) => {
-        let result = await Eos(config).claim(voter, bpname);
-        console.log(result);
-    }
-    
-    test_claim();
+const config ={
+    httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
+    keyProvider: privateKey, //私钥
+    chainId: 'chainId'
+}
+
+const test_claim = async (voter, bpname) => {
+    let result = await Eos(config).claim(voter, bpname);
+    console.log(result);
+}
+
+test_claim();
 ```
 
 ### 私钥转公钥函数
 
 ```javascript
-    import EOS from 'eosforce'
-    //从库中引入ecc
-    const { ecc } = Eos.modules;
-    //根据私钥算出公钥
-    let publickKey = ecc.privateToPublic(privateKey)
+import EOS from 'eosforce'
+//从库中引入ecc
+const { ecc } = Eos.modules;
+//根据私钥算出公钥
+let publickKey = ecc.privateToPublic(privateKey)
 ```
 
 ### 输入数字转为接口需要的格式
@@ -481,24 +484,24 @@ const test_newaccount = async () => {
 接口中用到的toAsset函数，都可以用此函数
 
 ```javascript
-    import BigNumber from 'bignumber.js';
-    
-    const toBigNumber = asset => {
-      if (BigNumber.isBigNumber(asset)) {
-        return asset;
-      } else if (isNaN(asset)) {
-        if (!asset) return new BigNumber('0');
-        const match = asset.match(/^([0-9.]+) EOS$/);
-        const amount = match ? match[1] : '0';
-        return new BigNumber(amount);
-      } else {
-        return new BigNumber(asset);
-      }
-    };
-    
-    const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
-      const amount = toBigNumber(_amount).toFixed(Number(precision));
-      return [amount, symbol].join(' ');
-    };
+import BigNumber from 'bignumber.js';
+
+const toBigNumber = asset => {
+  if (BigNumber.isBigNumber(asset)) {
+    return asset;
+  } else if (isNaN(asset)) {
+    if (!asset) return new BigNumber('0');
+    const match = asset.match(/^([0-9.]+) EOS$/);
+    const amount = match ? match[1] : '0';
+    return new BigNumber(amount);
+  } else {
+    return new BigNumber(asset);
+  }
+};
+
+const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
+  const amount = toBigNumber(_amount).toFixed(Number(precision));
+  return [amount, symbol].join(' ');
+};
     
 ```

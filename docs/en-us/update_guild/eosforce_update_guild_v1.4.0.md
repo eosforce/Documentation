@@ -87,9 +87,9 @@ cleos -u http://127.0.0.1:8888 get info
 After force.msig initiates multisig proposal, the BP node execute the following command: (Need to import BP account private key into wallets)
 
 # approve update system contract code multisig proposal
-cleos  -u https://w1.eosforce.cn multisig approve force.msig p.upsyscode '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
+cleos  -u https://w1.eosforce.cn multisig approve force.msig p.upsyscode '{"actor":"node account name","permission":"active"}' -p node account name@active
 # approve update system contract abi multisig proposal
-cleos  -u https://w1.eosforce.cn multisig approve force.msig p.upsysabi '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
+cleos  -u https://w1.eosforce.cn multisig approve force.msig p.upsysabi '{"actor":"node account name","permission":"active"}' -p node account name@active
 
 The proposal can be executed after more than 2/3 BP nodes approved it.
 

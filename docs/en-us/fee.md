@@ -1,4 +1,4 @@
-# 手续费 fee
+# fee
 
 ## eosio.bios
         [N(newaccount)]      = asset(1000);

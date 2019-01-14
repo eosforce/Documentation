@@ -7,21 +7,21 @@
 if you are using npm 
 ```bash
 npm install eosforce
-npm install bignumber.js //处理javascript大数字处理精准度不够的问题
+npm install bignumber.js 
 ```
 if you are using yarn
 ```bash
 yarn add eosforce
-yarn add bignumber.js //处理javascript大数字处理精准度不够的问题
+yarn add bignumber.js 
 ```
 
 ## Base Config
 
 ```javascript
 {
-    httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
-    keyProvider: privateKey, //私钥,部分接口需要
-    chainId: 'chainId'//部分接口需要, 通过getBlock获得
+    httpEndpoint: node_rpc_url, //like http://192.168.82.173:8888
+    keyProvider: privateKey, 
+    chainId: 'chainId'//you can get chain Id though getInfo
 }
 ```
 
@@ -31,9 +31,9 @@ yarn add bignumber.js //处理javascript大数字处理精准度不够的问题
 ```javascript
 import Eos from 'eosforce';
 const config = { 
-    httpEndpoint: node_rpc_url //节点rpc端口基础路径,如 http://192.168.82.173:8888
+    httpEndpoint: node_rpc_url
 }
-//获取节点基本信息
+//get node info
 const test_get_info = async () => {
     let res = await  Eos(config).getInfo({});
     console.log(res);
@@ -48,19 +48,19 @@ test_get_info()
 
 get node info
 
-| 参数           | 说明                                       |
+| params           | des                                       |
 | ------------ | ---------------------------------------- |
-| httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
+| httpEndpoint | like http://192.168.82.173:8888 |
 
-returnn：
+return：
 
-| 字段                          | 说明         |
+| params                          | des         |
 | --------------------------- | ---------- |
 | block_cpu_limit             |            |
 | block_net_limit             |            |
 | chain_id                    |            |
-| head_block_id               | 当前区块最高高度id |
-| head_block_num              | 当前区块最高高度数量 |
+| head_block_id               | current block id |
+| head_block_num              | current block block_num |
 | head_block_producer         |            |
 | head_block_time             |            |
 | last_irreversible_block_id  |            |
@@ -84,26 +84,26 @@ returnn：
 get block infomation by block num or block id
 params:
 
-| 参数           | 说明                                       |
+| params           | des                                       |
 | ------------ | ---------------------------------------- |
-| httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
+| httpEndpoint |  |
 
 return:
 
-| 字段                 | 说明                                           |
+| key                 | des                                           |
 | ------------------ | -------------------------------------------- |
 | action_mroot       |                                              |
 | block_extensions   |                                              |
-| block_num          | 区块总数中的序列                                     |
+| block_num          |                                    |
 | confirmed          |                                              |
 | header_extensions  |                                              |
 | id                 |                                              |
 | new_producers      |                                              |
 | previous           |                                              |
-| producer           | 创建者                                          |
+| producer           |                                          |
 | producer_signature |                                              |
 | ref_block_prefix   |                                              |
-| schedule_version   | 投票届数，若是是当前最高区块，可以获得当前是第几届投票届.最高区块通过getInfo获得 |
+| schedule_version   |  |
 | timestamp          |                                              |
 | transaction_mroot  |                                              |
 
@@ -118,12 +118,12 @@ test_get_block()
     
 ### getKeyAccounts
 
-get accounts though key
+get accounts by key
 
 | parmas       | des                                       |
 | ------------ | ---------------------------------------- |
-| httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
-| public_key   | 根据私钥算出来的公钥                               |
+| httpEndpoint | like http://192.168.82.173:8888 |
+| public_key   | you can get it from private key                             |
 
 
 
@@ -145,13 +145,13 @@ test_get_key_accounts();
 
 get account transactions
 
-| 参数           | 说明                                       |
+| params           | des                                      |
 | ------------ | ---------------------------------------- |
-| httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
-| accountName  | 用户名                                      |
-| pos          | 起始位置                                     |
-| offset       | 基于起始位置，偏移量                               |
-| limit        | 最大筛选量                                    |
+| httpEndpoint |                                        |
+| accountName  |                                       |
+| pos          |                                      |
+| offset       |                            |
+| limit        |                                   |
 
 ```javascript
 const test_get_action = async () => {
@@ -173,10 +173,10 @@ test_get_action();
 
 get transaction details by transaction id 
 
-| 参数           | 说明                                       |
+| params           | des                                       |
 | ------------ | ---------------------------------------- |
-| httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
-| id           | 订单ID                                     |
+| httpEndpoint | like http://192.168.82.173:8888 |
+| id           | transaction id                                     |
 
 ```javascript
 
@@ -195,12 +195,12 @@ test_get_transaction();
 2. get account tokens
 3. get votes table
 4. get account votes table
-5. get BP list
+5. get BP list (BP is short for Block Producer, EOSForce have 23 Block Product)
 
 
-| 参数           | 说明                                       |
+| params           | des                                       |
 | ------------ | ---------------------------------------- |
-| httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
+| httpEndpoint | like http://192.168.82.173:8888 |
 | scope        |                                          |
 | code         |                                          |
 | table        |                                          |
@@ -294,11 +294,11 @@ test_get_transaction();
 
 newaccount
 
-| 参数           | 说明                                       |
+| params           | des                                       |
 | ------------ | ---------------------------------------- |
-| httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
-| keyProvider  | 私钥                                       |
-| chaninId     | 通过getInfo接口获得，返回数据里边的chanin_id           |
+| httpEndpoint | like http://192.168.82.173:8888 |
+| keyProvider  | private key                                      |
+| chaninId     | you can get it though getInfo        |
 
 ```javascript
 const test_newaccount = async () => {
@@ -318,15 +318,15 @@ test_newaccount();
 
 transfer
 
-| 参数           |                                          |
+| params           | des                                    |
 | ------------ | ---------------------------------------- |
-| httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
-| keyProvider  | 私钥                                       |
-| chainId      | 当前最高区块的chanin_id, 通过getBlock获得           |
-| from         | 转账方，必须是当前私钥下边的账户                         |
-| to           | 转账给谁                                     |
-| amount       | 转账金额                                     |
-| memo         | 转账说明                                     |
+| httpEndpoint | like http://192.168.82.173:8888 |
+| keyProvider  | private key                                       |
+| chainId      | get it though getInfo           |
+| from         |                          |
+| to           |                                    |
+| amount       |                                   |
+| memo         |                               |
 
 ```javascript
 let from = 'xxx', 
@@ -372,11 +372,11 @@ Eos(config)
 
 vote
 
-| 参数           | 说明                                       |
+| params           | des                                      |
 | ------------ | ---------------------------------------- |
-| httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
-| keyProvider  | 私钥                                       |
-| chaninId     | 通过getInfo接口获得，返回数据里边的chanin_id           |
+| httpEndpoint | like http://192.168.82.173:8888 |
+| keyProvider  | private key                                       |
+| chaninId     | you can get it though getInfo          |
 
 
 
@@ -421,20 +421,20 @@ test_vote();
 
 unfreeze
 
-| 参数           | 说明                                       |
+| params           | des                                       |
 | ------------ | ---------------------------------------- |
-| httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
-| keyProvider  | 私钥                                       |
-| chaninId     | 通过getInfo接口获得，返回数据里边的chanin_id           |
-| voter        | 投票人名称，拥有此私钥的账户中的一个                       |
-| bpname       | 节点                                       |
+| httpEndpoint |  |
+| keyProvider  | private key                                       |
+| chaninId     | get this though getInfo API           |
+| voter        |                        |
+| bpname       |                                       |
 
 
 
 ```javascript
 const config ={
-    httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
-    keyProvider: privateKey, //私钥
+    httpEndpoint: node_rpc_url, 
+    keyProvider: privateKey,
     chainId: 'chainId'
 }
 
@@ -451,20 +451,20 @@ test_unfreeze();
 
 claim
 
-| 参数           | 说明                                       |
+| params           | des                                     |
 | ------------ | ---------------------------------------- |
-| httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
-| keyProvider  | 私钥                                       |
-| chaninId     | 通过getInfo接口获得，返回数据里边的chanin_id           |
-| voter        | 投票人名称，拥有此私钥的账户中的一个                       |
-| bpname       | 节点                                       |
+| httpEndpoint | like http://192.168.82.173:8888 |
+| keyProvider  | private key                                       |
+| chaninId     | you can get this though getInfo          |
+| voter        |                        |
+| bpname       |                                        |
 
 
 
 ```javascript
 const config ={
-    httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
-    keyProvider: privateKey, //私钥
+    httpEndpoint: node_rpc_url, //like http://192.168.82.173:8888
+    keyProvider: privateKey, 
     chainId: 'chainId'
 }
 
@@ -480,13 +480,12 @@ test_claim();
 
 ```javascript
 import EOS from 'eosforce'
-//从库中引入ecc
 const { ecc } = Eos.modules;
-//根据私钥算出公钥
+//get public key from private key
 let publickKey = ecc.privateToPublic(privateKey)
 ```
 
-### Number to BiggerNumber
+### BigNumber deal number
 
 you can use this function let your number more precision
 

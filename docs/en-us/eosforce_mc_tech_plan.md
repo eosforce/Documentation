@@ -1,16 +1,16 @@
-# Eosforce多链架构技术规划
+# Eosforce Multi-chain Architecture Technical Planning
 
 ------------------------
 
-## 1. 介绍
+## 1. Introduction
 
-支持多链是Eosforce的一个重要的开发方向，通过多链我们可以在兼顾当前链安全的同时，为用户和DApp开发者提供丰富的功能，另外一方面，通过跨链可以允许社区启动不同的公链或私链，为DApp提供最适合的运行环境。
+Supporting multi-chain is an important direction for Eosforce，we can provide both blockchain securty and rich capabilitis for DAPP developpers by multi-chain, on the other hand，multi-chain enable communitities to launch different public chain or private chain and provide the best running environment.
 
-### 1.1 问题
+### 1.1 Problems
 
-Eosforce对EOS项目作出了很多修改，其重要的原因之一就是为了保障链运行的稳定性和安全性，为此，Eosforce选择了先以最小的功能启动，
-但是这也意味着DApp开发者在初期无法自由的部署智能合约，考虑到现在EOS开发尚不完善，所以贸然放开功能会带来很多问题，影响整个链的安全性，
-同时，不同的应用和交易对于安全性的要求并不相同，从架构角度看，将所有的交易和合约都放在一起执行并不是良好的设计。
+Eosforce has made many changes to EOS software，one of the most import reasons is to guarantee stability and security，so，Eosforce chose to lanch the mainnet with minimal functions first，
+this implies DAPP developpers can not deploy smart contract freely at initial stage，considering that EOS is not fully-fleged，so open too many functions hasily could bring many problems and endager the whole blockchain，
+meanwhile，different applications and transactions require different sescuities，from the architecture's point of view，putting all this together is not a good design.
 
 目前几乎所有区块链项目都面临DApp运营成本过高的问题，EOS通过使用BFT-DPOS使整个链有很高TPS，但是对于超级节点，很多资源在一定时间内依旧是有限的，如RAM，虽然依照摩尔定律，随着时间的推移，整个链会得到更多的资源，但是相对于DApp旺盛且快速增长的需求，短期内很大程度上会出现资源的相对稀缺，加上某些炒作行为的推动，会严重加大开发者的运营成本，这对于整个EOS发展是个很大的阻碍。
 

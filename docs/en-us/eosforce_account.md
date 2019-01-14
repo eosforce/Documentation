@@ -3,5 +3,5 @@
 eos is an account-oriented blockchain operating system，account and permission is the most important support structure。
 
 
-## [newaccount](zh-cn/contract/eosio.bios/newaccount.md) : create account 
-## [updateauth](zh-cn/contract/eosio.bios/updateauth.md) : modify permissions
+## [create account](zh-cn/contract/eosio.bios/newaccount.md)
+## [modify permissions](zh-cn/contract/eosio.bios/updateauth.md)

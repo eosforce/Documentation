@@ -153,7 +153,18 @@ transaction			用于签名的transaction  json格式的字符串或存放transac
 ```bash
 ./cleos sign ./trx.txt  -k 5KhfDXX2iXR54ktXVuuCC7a4UJxAZaSxnH4BnEfuMRbBMH576TW
 ```
-
+### get
+详情参见[get](zh-cn/eosforce_cleos_get.md) 
+### set
+详情参见[set](zh-cn/eosforce_cleos_set.md)
+### wallet
+详情参见[wallet](zh-cn/eosforce_cleos_wallet.md)
+### multisig
+详情参见[multisig](zh-cn/contract/eosio.msig/msig.md)
+### system
+详情参见[system](zh-cn/eosforce_cleos_system.md)
+### voteproducer
+详情参见[voteproducer](zh-cn/eosforce_cleos_voteproducer.md)
 
 
 

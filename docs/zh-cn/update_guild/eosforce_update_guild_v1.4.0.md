@@ -1,4 +1,4 @@
-# v1.4.0 主网更新操作步骤
+# v1.4.1 主网更新操作步骤
 
 
 
@@ -8,7 +8,7 @@
 
 
 
-## 1. 节点升级 (v1.4.0)
+## 1. 节点升级 (v1.4.1)
 
 ### 配置文件修改
 
@@ -35,27 +35,27 @@ bp-mapping=biosbpa=KEY:biosbpaa
 ### docker部署
 
 ```
-# 容器名：eosforce-v1.4.0
-docker pull eosforce/eos:v1.4.0
+# 容器名：eosforce-v1.4.1
+docker pull eosforce/eos:v1.4.1
 docker stop 原容器名
-docker run -d --name eosforce-v1.4.0 -v 本地配置目录:/opt/eosio/bin/data-dir -v 本地数据目录:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.4.0 nodeosd.sh
+docker run -d --name eosforce-v1.4.1 -v 本地配置目录:/opt/eosio/bin/data-dir -v 本地数据目录:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.4.1 nodeosd.sh
 # 查看日志
-docker logs -f --tail 100 eosforce-v1.4.0
+docker logs -f --tail 100 eosforce-v1.4.1
     
 ```
 验证升级结果, 版本信息：
 ```shell
-docker exec -it eosforce-v1.4.0 opt/eosio/bin/cleos get info
-"server_version_string": "force-v1.4.0-1-g0e4e0990b"
+docker exec -it eosforce-v1.4.1 opt/eosio/bin/cleos get info
+"server_version_string": "force-v1.4.1"
 ```
 
 ### 源码编译方式
-使用tag: force-v1.4.0
+使用tag: force-v1.4.1
 
 ```shell
 # 进入eosforce工程目录
 git fetch
-git checkout force-v1.4.0
+git checkout force-v1.4.1
 git submodule update --init --recursive
 ./eosio_build.sh
 ```
@@ -94,7 +94,7 @@ tail -100f eos.log
 版本信息：
 ```shell
 cleos -u http://127.0.0.1:8888 get info
-"server_version_string": "force-v1.4.0-1-g0e4e0990b"
+"server_version_string": "force-v1.4.1"
 ```
 
 

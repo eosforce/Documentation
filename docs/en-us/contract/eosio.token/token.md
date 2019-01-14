@@ -1,53 +1,51 @@
-# eosio.token 代币合约
+# eosio.token 
 
 ## 1. Action
 
-### 1.1 create 创建代币
+### 1.1 create token
 
-创建代币符号
+create token symbol
 
-参数：
-- issuer : 类型 account_name, 发行人
+Parameters：
+- issuer : type account_name, issuer
 
-- maximum_supply :  类型 asset, 代币及最大供应量
+- maximum_supply :  type asset, token and maximum supply
 
-> asset '数量 代币符号' eg:'100 RMB'
+> asset 'ammount token symbol' eg:'100 RMB'
   
-### 1.2 issue 发行代币
+### 1.2 issue token
 
-发行一定数量代币到指定账户
+issue certain amounts of token to specified account
 
-参数:
-- to : 类型 account_name
-- quantity : 类型 asset
-- memo : 类型 string
+Parameters：:
+- to : type account_name
+- quantity : type asset
+- memo : type string
 
-### 1.3 transfer 代币转账
+### 1.3 transfer token
 
-代币转账操作
-
-参数:
+Parameters：:
 - from : 类型 account_name
 - to : 类型 account_name
 - quantity : 类型 asset
 - memo : 类型 string
 
-## 2. 表
+## 2. table
 
 ### 2.1 accounts
-代币账户表
+token account table
 
-主键: currency
+primary key: currency
 
-字段: balance 余额
+field: balance 
 
 
 ### 2.2 stat
-代码状态表
+stat table
 
-主键:   currency : 代币符号
+primary key:   currency 
 
-字段:
+fields:
         supply : asset
         max_supply : asset
         issuer : account_name

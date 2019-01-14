@@ -485,7 +485,7 @@ const { ecc } = Eos.modules;
 let publickKey = ecc.privateToPublic(privateKey)
 ```
 
-### Number to BiggerNumber
+### BigNumber deal number
 
 you can use this function let your number more precision
 

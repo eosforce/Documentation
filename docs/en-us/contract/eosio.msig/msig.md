@@ -1,8 +1,8 @@
-# 多重签名
+# Multiple Signature
 
-## 功能概述
+## Function Overview
 
-eos账号权限体系支持了多重签名功能，一个账户创建时默认有owner、active两个权限，每个权限的开启阈值为1，由公钥key组成，每个key的权重为1。当key权重和大于等于权限阈值时，该权限才能被成功授权。默认的配置就需要一个签名就可以授权来做某些行为。因为每个key的权重>=开启阈值。
+eos sccount and permission system support multiple signature function，An account has owner、active permissions by default when created，every pemission 's  threshold is 1，is  comprise of public key，every key's weight is 1。when the key weight's sum are great than or equal to permission threshold，the permission can be granted successfully。Default's configuration requires one signature to be granted to execute some actions, because every key's weight is great than or equal to threshold。
 
 ```bash
 ./cleos get account user1
@@ -11,11 +11,11 @@ permissions:
         active     1:    1 EOS8T5BG84e9L9BdUFxg7a5xiTfbE51zBPt4mKkesuhm4ZWx7jAe5
 ```
 
-设置账号权限有多个key，并且权限开启阈值大于单个key的权重时，就需要多个key签名同时授权才能生效，即多重签名。
+Suppose account permission has my keys, and permission threshold is greater than every key's single weight, permission could be granted only when multiple keys are signed.
 
-示例：
+For example：
 
-设置ssh3账号active权限阈值为2，accounts为alice何bob的active权限，权重各为1。这样ssh3账号就只能通过alice与bob两个账号授权才能进行active权限的操作了。
+Setting up ssh3 account active permission threshold to 2，accounts to alice and bob's active permission，weight is 1。Thus actions that can be executed by ssh3 account can only be granted by alice and bob together.
 
 ```bash
 ./cleos set account permission ssh3 active '{ "threshold": 2, "keys": [], "accounts":[ { "permission": { "actor": "alice", "permission": "active" }, "weight": 1 }, { "permission": { "actor": "bob", "permission": "active" }, "weight": 1 } ] }' owner
@@ -26,66 +26,66 @@ permissions:
         active     2:    1 alice@active, 1 bob@active,
 ```
 
-> 账号权限可以设置为公钥，也可以是其他账号。
+> account permissions can be set to public keys，also can be other accounts.。
 
-## eosio.msig 多签合约
+## eosio.msig contract
 
-当多签账号的key分布在不同钱包中，就需要一种异步协同的机制实现多签授权执行交易。eos提供了**eosio.msig**合约，合约提供了一个同步侧通道，数据在这个通道中传输并签名。 Eosio.msig是一个对用户更加友好的方式，异步提出、批准并最终发布多方同意的交易。
+When  multisig account's key is distributed in different wallets，an asynchronous collaboration mechanism is need to execute the transaction. EOS provides eosio.msig contract，the contract provides synchronous-side channel，data was signed and transfered in this channel。 Eosio.msig proposes an proposal asynchronous、approve and execute the transaction finally。
 
-**eosio.msig**合约 action：
+**eosio.msig** contract action：
 
-1. propose 提议
-2. approve 批准 
-3. unapprove 取消批准
-4. exec 执行
-5. cancel 取消提议
+1. propose
+2. approve
+3. unapprove
+4. exec
+5. cancel
 
-## 多签执行流程
+## multiple signature execution process
 
-### 1. 创建提议
+### 1. initiate a proposal
 
 ```bash
 ./cleos multisig propose pab1 '[{"actor":"alice","permission":"active"},{"actor":"bob","permission":"active"}]' '[{"actor":"ssh3","permission":"active"}]' eosio transfer '{"from":"ssh3","to":"ssh","quantity":"66.0000 EOS","memo":"msig transfer"}' ssh2
 ```
 
-cleos multisig propose 命令参数解释：
+cleos multisig propose parameters：
 
-- proposal_name 议题名
-- requested_permissions 请求权限, json格式
-- trx_permissions 执行的权限, json格式
-- contract 执行的合约账号
-- action 执行的动作
-- data 执行的数据, json格式
-- proposer提议人
+- proposal_name 
+- requested_permissions, json format
+- trx_permissions, json format
+- contract: contract to which deferred transaction should be delivered
+- action: action of deferred transaction
+- data: The JSON string or filename defining the action to propose
+- proposer:  Account proposing the transaction
 
-### 2. 批准提议
+### 2. approve the proposal
 
 ```bash
 ./cleos multisig approve ssh2 pab1 '{"actor":"alice","permission":"active"}' -p alice@active
 ./cleos multisig approve ssh2 pab1 '{"actor":"bob","permission":"active"}' -p bob@active
 ```
 
-cleos multisig approve 命令参数解释：
+cleos multisig approve parameters：
 
-- proposer提议人
-- proposal_name议题名
-- permissions权限许可 json
+- proposer:  proposer name
+- proposal_name: proposal name
+- permissions: The JSON string of filename defining approving permissions
 
-### 3. 执行提议
+### 3. execute the proposal
 
 ```bash
 ./cleos multisig exec ssh2 pab1 ssh2
 ```
 
-cleos multisig exec 命令参数解释：
+cleos multisig exec parameters：
 
-- proposer提议人
-- proposal_name议题名
-- executer 执行者
+- proposer: proposer name
+- proposal_name: proposal name
+- executer: account paying for execution
 
-注意：cleos需使用eosforce最新代码编译的cleos才能使用，原cleos中msig命令没有增加手续费，无法使用
+Note：cleos can be used when compiled by Eosforce recent source，old cleos can not be used because msig command has not added fee.
 
-## 示例脚本
+## example script:
 
 ```bash
 

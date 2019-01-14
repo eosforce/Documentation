@@ -1,11 +1,11 @@
-V1.4.0 mainnet update steps
+V1.4.1 mainnet update steps
 
 This update adds candinate nodes sign-in function.
 
 This function requires candinate nodes to set up heartbeat plugin, the plugin calls heartbeat system contract action periodically (default every ten minutes) to update the node state,
 if the node has not updated the states for some time (default sixty minutes), the node will not receive the dividends.
 
-1. Node update (v1.4.0) 
+1. Node update (v1.4.1) 
 
 configuration file modification
 
@@ -24,25 +24,25 @@ genesis.json: keeps unchanged
 
 docker deployment
 
-# container name£ºeosforce-v1.4.0
-docker pull eosforce/eos:v1.4.0
+# container nameÂ£Âºeosforce-v1.4.1
+docker pull eosforce/eos:v1.4.1
 docker stop container name
-docker run -d --name eosforce-v1.4.0 -v local configuration directory:/opt/eosio/bin/data-dir -v local data directory:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.4.0 nodeosd.sh
+docker run -d --name eosforce-v1.4.1 -v local configuration directory:/opt/eosio/bin/data-dir -v local data directory:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.4.1 nodeosd.sh
 # view the log
-docker logs -f --tail 100 eosforce-v1.4.0
+docker logs -f --tail 100 eosforce-v1.4.1
 
 Verify the update results, version information:
 
-docker exec -it eosforce-v1.4.0 opt/eosio/bin/cleos get info
-"server_version_string": "force-v1.4.0-1-g0e4e0990b"
+docker exec -it eosforce-v1.4.1 opt/eosio/bin/cleos get info
+"server_version_string": "force-v1.4.1"
 
 in source compling way:
 
-fetch tag: force-v1.4.0
+fetch tag: force-v1.4.1
 
 # enter eosforce project directory
 git fetch
-git checkout force-v1.4.0
+git checkout force-v1.4.1
 git submodule update --init --recursive
 ./eosio_build.sh
 
@@ -74,13 +74,13 @@ starting:
 # starting the nodeosd
 nohup ./build/bin/nodeos --config-dir configuration directory --data-dir data directory > eos.log 2>&1 &
 
-# view the log£¬watch if syncing or block production function well 
+# view the logÂ£Â¬watch if syncing or block production function well 
 tail -100f eos.log
 
 Verify update results
 
 cleos -u http://127.0.0.1:8888 get info
-"server_version_string": "force-v1.4.0-1-g0e4e0990b"
+"server_version_string": "force-v1.4.1"
 
 2. update system contract by multisig
 

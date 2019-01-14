@@ -2,52 +2,57 @@
 
 -----------------------------
 
-## 安装
+## Install
 
-!> 注意：这是当前稳定版本安装方式，不是npm install eos.
-
+if you are using npm 
 ```bash
-    npm install git+https://github.com/eosforce/eosjs.git#2da68b5
-    npm install bignumber.js //处理javascript大数字处理精准度不够的问题
+npm install eosforce
+npm install bignumber.js //处理javascript大数字处理精准度不够的问题
+```
+if you are using yarn
+```bash
+yarn add eosforce
+yarn add bignumber.js //处理javascript大数字处理精准度不够的问题
 ```
 
-## 基础配置和需要的信息
-
-```json
-    {
-        httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
-        keyProvider: privateKey, //私钥,部分接口需要
-        chainId: 'chainId'//部分接口需要, 通过getBlock获得
-    }
-```
-
-## 示例
-
-接口都有可以运行的示例，可直接运行示例测试
+## Base Config
 
 ```javascript
-    import Eos from 'eosjs';
-    const config = { 
-        httpEndpoint: node_rpc_url //节点rpc端口基础路径,如 http://192.168.82.173:8888
-    }
-    //获取节点基本信息
-    Eos(config).getInfo({}).then(res => {
-        console.log(res);
-    });
+{
+    httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
+    keyProvider: privateKey, //私钥,部分接口需要
+    chainId: 'chainId'//部分接口需要, 通过getBlock获得
+}
 ```
 
-## 接口列表
+## Example
+
+
+```javascript
+import Eos from 'eosforce';
+const config = { 
+    httpEndpoint: node_rpc_url //节点rpc端口基础路径,如 http://192.168.82.173:8888
+}
+//获取节点基本信息
+const test_get_info = async () => {
+    let res = await  Eos(config).getInfo({});
+    console.log(res);
+}
+
+test_get_info()
+```
+
+## Api
 
 ### getInfo
 
-获取节点最新同步信息
-参数:
+get node info
 
 | 参数           | 说明                                       |
 | ------------ | ---------------------------------------- |
 | httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
 
-返回数据：
+returnn：
 
 | 字段                          | 说明         |
 | --------------------------- | ---------- |
@@ -64,26 +69,26 @@
 | virtual_block_cpu_limit     |            |
 | virtual_block_net_limit     |            |
 
-示例:
 
-    Eos({ 
-        httpEndpoint: node_rpc_url
-    })
-    .getInfo({})
-    .then(res => {
-        console.log(res);
-    });
+```javascript
+ const test_get_info = async () => {
+    let res = await  Eos(config).getInfo({});
+    console.log(res);
+ }
+ 
+ test_get_info()
 
+```
 ### getBlock
 
-获取区块详细信息
-传递参数:
+get block infomation by block num or block id
+params:
 
 | 参数           | 说明                                       |
 | ------------ | ---------------------------------------- |
 | httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
 
-返回:
+return:
 
 | 字段                 | 说明                                           |
 | ------------------ | -------------------------------------------- |
@@ -103,22 +108,19 @@
 | transaction_mroot  |                                              |
 
 ```javascript
-    Eos({ 
-        httpEndpoint: node_rpc_url
-    })
-    .getBlock({
-        block_num_or_id: 100
-    })
-    .then(res => {
-        log(res);
-    })
+const test_get_block = async () => {
+    let result = await Eos({ httpEndpoint: node_rpc_url}).getBlock({ block_num_or_id: 100 });
+    console.log(result);
+}
+
+test_get_block()
 ```
     
 ### getKeyAccounts
 
-获取当前公钥下边有几个账户
+get accounts though key
 
-| 参数           | 说明                                       |
+| parmas       | des                                       |
 | ------------ | ---------------------------------------- |
 | httpEndpoint | 节点rpc端口基础路径,如 http://192.168.82.173:8888 |
 | public_key   | 根据私钥算出来的公钥                               |
@@ -126,23 +128,22 @@
 
 
 ```javascript
-    import EOS from 'eosjs'
-    //从库中引入ecc
-    const { ecc } = Eos.modules;
-    //根据私钥算出公钥
+import EOS from 'eosforce'
+//ecc
+const { ecc } = Eos.modules;
+//get your public key from private key
+const test_get_key_accounts = async () => {
     let publickKey = ecc.privateToPublic(privateKey)
-    Eos({ 
-        httpEndpoint: node_rpc_url
-    })
-    .getKeyAccounts({ public_key: publicKey })
-    .then(result => {
-      console.log(result);
-    });
+    let result = Eos({ httpEndpoint: node_rpc_url}).getKeyAccounts({ public_key: publicKey });
+    console.log( result );
+}
+
+test_get_key_accounts();
 ```
 
 ### getActions
 
-获取用户所有账单
+get account transactions
 
 | 参数           | 说明                                       |
 | ------------ | ---------------------------------------- |
@@ -153,23 +154,24 @@
 | limit        | 最大筛选量                                    |
 
 ```javascript
-    Eos({ 
-        httpEndpoint: node_rpc_url
-    })
-    .getActions({ 
-        account_name: accountName, 
-        pos: pos, 
-        offset: offset, 
-        limit: 100 
-    })
-    .then(res => {
-        console.log(res);
-    })
+const test_get_action = async () => {
+    let result = await Eos({ httpEndpoint: node_rpc_url })
+                    .getActions({
+                            account_name: accountName, 
+                            pos: pos, 
+                            offset: offset, 
+                            limit: 100 
+                    });
+    console.log(result);
+}
+
+test_get_action();
+
 ```
 
 ### getTransaction
 
-获取账单详情
+get transaction details by transaction id 
 
 | 参数           | 说明                                       |
 | ------------ | ---------------------------------------- |
@@ -177,24 +179,23 @@
 | id           | 订单ID                                     |
 
 ```javascript
-    Eos({
-    httpEndpoint: node_rpc_url 
-    })
-    .getTransaction({ id: trx_id })
-    .then(res => {
-        console.log(res);
-    });
+
+const test_get_transaction = async () => {
+    let result = Eos({ httpEndpoint: node_rpc_url }).getTransaction({ id: trx_id });
+    console.log(result);
+}
+
+test_get_transaction();
 ```
 
 ### getTableRows
 
-getTableRows涉及参数比较多，当前的功能有:
 
-1. 查询用户可用余额
-2. 获取用户token
-3. 获取节点投票信息
-4. 获取用户投票信息
-5. 获取当届超级节点
+1. get account available
+2. get account tokens
+3. get votes table
+4. get account votes table
+5. get BP list
 
 
 | 参数           | 说明                                       |
@@ -206,7 +207,7 @@ getTableRows涉及参数比较多，当前的功能有:
 
 
 ```javascript
-    //查询用户可用余额
+    //get account available
     Eos({
         httpEndpoint: node_rpc_url 
     })
@@ -221,7 +222,9 @@ getTableRows涉及参数比较多，当前的功能有:
     .then(result => {
         console.log(result);
     });
-    //获取用户token
+    
+    
+    //get account tokens
     Eos({
         httpEndpoint: node_rpc_url 
     })
@@ -235,7 +238,9 @@ getTableRows涉及参数比较多，当前的功能有:
     .then(data => {
         console.log(data);
     });
-    //获取节点投票信息
+    
+    
+    //get votes table
     Eos({
         httpEndpoint: node_rpc_url 
     })
@@ -249,7 +254,9 @@ getTableRows涉及参数比较多，当前的功能有:
     .then(data => {
         console.log(data);    
     });
-    //获取用户投票信息
+    
+    
+    //get account votes table
     Eos({
         httpEndpoint: node_rpc_url 
     })
@@ -263,7 +270,9 @@ getTableRows涉及参数比较多，当前的功能有:
     .then(data => {
         console.log(data);
     });
-    //获取当届超级节点
+    
+    
+    //get BP list
     Eos({ 
         httpEndpoint: node_rpc_url
     })
@@ -271,7 +280,7 @@ getTableRows涉及参数比较多，当前的功能有:
         scope: 'eosio',
         code: 'eosio',
         table: 'schedules',
-        table_key: schedule_version,//查看getBlock接口,有获得当前参数的方式
+        table_key: schedule_version,
         json: true, 
         limit: 1000 
     })
@@ -283,7 +292,7 @@ getTableRows涉及参数比较多，当前的功能有:
 
 ### newaccount
 
-创建账户
+newaccount
 
 | 参数           | 说明                                       |
 | ------------ | ---------------------------------------- |
@@ -292,20 +301,22 @@ getTableRows涉及参数比较多，当前的功能有:
 | chaninId     | 通过getInfo接口获得，返回数据里边的chanin_id           |
 
 ```javascript
-    Eos({
-        httpEndpoint: node_rpc_url,
-        keyProvider: privateKey,
-        chainId
-    })
-    .newaccount('bandon', 'apple', publicKey, publicKey)
-    .catch(err => {
-        console.log(err);
-    });
+const test_newaccount = async () => {
+    let result = Eos({
+                    httpEndpoint: node_rpc_url,
+                    keyProvider: privateKey,
+                    chainId
+                })
+                .newaccount('creator', 'need_created_name', publicKey, publicKey);
+    console.log(result);
+}
+
+test_newaccount();
 ```
 
 ### transfer
 
-转账
+transfer
 
 | 参数           |                                          |
 | ------------ | ---------------------------------------- |
@@ -318,44 +329,48 @@ getTableRows涉及参数比较多，当前的功能有:
 | memo         | 转账说明                                     |
 
 ```javascript
-    let from = 'xxx', 
-        to = 'apple2', 
-        amount = 0.3, 
-        memo = '你好', 
-        tokenSymbol = 'EOS', 
-        precision = '4';
-    import BigNumber from 'bignumber.js';
-    const toBigNumber = asset => {
-      if (BigNumber.isBigNumber(asset)) {
-        return asset;
-      } else if (isNaN(asset)) {
-        if (!asset) return new BigNumber('0');
-        const match = asset.match(/^([0-9.]+) EOS$/);
-        const amount = match ? match[1] : '0';
-        return new BigNumber(amount);
-      } else {
-        return new BigNumber(asset);
-      }
-    };
-    const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
-      const amount = toBigNumber(_amount).toFixed(Number(precision));
-      return [amount, symbol].join(' ');
-    };
-    const config ={
-        httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
-        keyProvider: privateKey, //私钥
-        chainId: 'chainId'
-    }
-    Eos(config)
-    .contract(tokenSymbol === 'EOS' ? 'eosio' : 'eosio.token')
-    .then(token => {
-        return token.transfer(from, to, toAsset(amount, tokenSymbol, { precision }), memo);
-    });
+let from = 'xxx', 
+    to = 'apple2', 
+    amount = 0.3, 
+    memo = 'hi', 
+    tokenSymbol = 'EOS', 
+    precision = '4';
+import BigNumber from 'bignumber.js';
+
+const toBigNumber = asset => {
+  if (BigNumber.isBigNumber(asset)) {
+    return asset;
+  } else if (isNaN(asset)) {
+    if (!asset) return new BigNumber('0');
+    const match = asset.match(/^([0-9.]+) EOS$/);
+    const amount = match ? match[1] : '0';
+    return new BigNumber(amount);
+  } else {
+    return new BigNumber(asset);
+  }
+};
+
+const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
+  const amount = toBigNumber(_amount).toFixed(Number(precision));
+  return [amount, symbol].join(' ');
+};
+
+const config ={
+    httpEndpoint: node_rpc_url, //node url, http://192.168.82.173:8888
+    keyProvider: privateKey, 
+    chainId: 'chainId'
+}
+
+Eos(config)
+.contract(tokenSymbol === 'EOS' ? 'eosio' : 'eosio.token')
+.then(token => {
+    return token.transfer(from, to, toAsset(amount, tokenSymbol, { precision }), memo);
+});
 ```
 
 ### vote
 
-投票
+vote
 
 | 参数           | 说明                                       |
 | ------------ | ---------------------------------------- |
@@ -366,40 +381,45 @@ getTableRows涉及参数比较多，当前的功能有:
 
 
 ```javascript
-    // '字符串或数字或 bignumber 格式转化为 XXX EOS 格式'
-    import BigNumber from 'bignumber.js';
-    const config ={
-        httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
-        keyProvider: privateKey, //私钥
-        chainId: 'chainId'
-    }
-    const toBigNumber = asset => {
-      if (BigNumber.isBigNumber(asset)) {
-        return asset;
-      } else if (isNaN(asset)) {
-        if (!asset) return new BigNumber('0');
-        const match = asset.match(/^([0-9.]+) EOS$/);
-        const amount = match ? match[1] : '0';
-        return new BigNumber(amount);
-      } else {
-        return new BigNumber(asset);
-      }
-    };
-    //为了数据准确性，toAsset函数是必要的，可以加入自己的公共函数
-    const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
-      const amount = toBigNumber(_amount).toFixed(Number(precision));
-      return [amount, symbol].join(' ');
-    };
-    Eos(config)
-    .vote('xxx', 'eosforce', toAsset(1.9))
-    .catch(err => {
-        return handleApiError(err);
-    });
+// the formate is  'XXX EOS'
+import BigNumber from 'bignumber.js'
+
+const config ={
+    httpEndpoint: node_rpc_url, //like http://192.168.82.173:8888
+    keyProvider: privateKey, 
+    chainId: 'chainId'
+}
+
+const toBigNumber = asset => {
+  if (BigNumber.isBigNumber(asset)) {
+    return asset;
+  } else if (isNaN(asset)) {
+    if (!asset) return new BigNumber('0');
+    const match = asset.match(/^([0-9.]+) EOS$/);
+    const amount = match ? match[1] : '0';
+    return new BigNumber(amount);
+  } else {
+    return new BigNumber(asset);
+  }
+};
+
+//
+const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
+  const amount = toBigNumber(_amount).toFixed(Number(precision));
+  return [amount, symbol].join(' ');
+};
+
+const test_vote = async () => {
+   let result = await Eos(config).vote('xxx', 'eosforce', toAsset(1.9));
+   console.log(result);
+}
+
+test_vote();
 ```
 
 ### unfreeze
 
-领取分红
+unfreeze
 
 | 参数           | 说明                                       |
 | ------------ | ---------------------------------------- |
@@ -412,22 +432,24 @@ getTableRows涉及参数比较多，当前的功能有:
 
 
 ```javascript
-    const config ={
-        httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
-        keyProvider: privateKey, //私钥
-        chainId: 'chainId'
-    }
-    Eos(config)
-    .unfreeze(voter, bpname)
-    .catch(err => {
-      return handleApiError(err);
-    });
+const config ={
+    httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
+    keyProvider: privateKey, //私钥
+    chainId: 'chainId'
+}
+
+const test_unfreeze = async () => {
+   let result = await Eos(config).unfreeze(voter, bpname);    
+   console.log(result);
+}
+
+test_unfreeze();
 ```
 
 
 ### claim
 
-解冻
+claim
 
 | 参数           | 说明                                       |
 | ------------ | ---------------------------------------- |
@@ -440,48 +462,53 @@ getTableRows涉及参数比较多，当前的功能有:
 
 
 ```javascript
-    const config ={
-        httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
-        keyProvider: privateKey, //私钥
-        chainId: 'chainId'
-    }
-    Eos(config)
-    .claim(voter, bpname)
-    .catch(err => {
-      return handleApiError(err);
-    });
+const config ={
+    httpEndpoint: node_rpc_url, //节点rpc端口基础路径,如 http://192.168.82.173:8888
+    keyProvider: privateKey, //私钥
+    chainId: 'chainId'
+}
+
+const test_claim = async (voter, bpname) => {
+    let result = await Eos(config).claim(voter, bpname);
+    console.log(result);
+}
+
+test_claim();
 ```
 
-### 私钥转公钥函数
+### Get public key from private key
 
 ```javascript
-    import EOS from 'eosjs'
-    //从库中引入ecc
-    const { ecc } = Eos.modules;
-    //根据私钥算出公钥
-    let publickKey = ecc.privateToPublic(privateKey)
+import EOS from 'eosforce'
+//从库中引入ecc
+const { ecc } = Eos.modules;
+//根据私钥算出公钥
+let publickKey = ecc.privateToPublic(privateKey)
 ```
 
-### 输入数字转为接口需要的格式
+### Number to BiggerNumber
 
-接口中用到的toAsset函数，都可以用此函数
+you can use this function let your number more precision
 
 ```javascript
-    import BigNumber from 'bignumber.js';
-    const toBigNumber = asset => {
-      if (BigNumber.isBigNumber(asset)) {
-        return asset;
-      } else if (isNaN(asset)) {
-        if (!asset) return new BigNumber('0');
-        const match = asset.match(/^([0-9.]+) EOS$/);
-        const amount = match ? match[1] : '0';
-        return new BigNumber(amount);
-      } else {
-        return new BigNumber(asset);
-      }
-    };
-    const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
-      const amount = toBigNumber(_amount).toFixed(Number(precision));
-      return [amount, symbol].join(' ');
-    };
+import BigNumber from 'bignumber.js';
+
+const toBigNumber = asset => {
+  if (BigNumber.isBigNumber(asset)) {
+    return asset;
+  } else if (isNaN(asset)) {
+    if (!asset) return new BigNumber('0');
+    const match = asset.match(/^([0-9.]+) EOS$/);
+    const amount = match ? match[1] : '0';
+    return new BigNumber(amount);
+  } else {
+    return new BigNumber(asset);
+  }
+};
+
+const toAsset = (_amount, symbol = 'EOS', { precision = '4' } = {}) => {
+  const amount = toBigNumber(_amount).toFixed(Number(precision));
+  return [amount, symbol].join(' ');
+};
+    
 ```

@@ -4,12 +4,12 @@
 
 ## 安装
 
-if you are using npm 
+npm 安装
 ```bash
 npm install eosforce
 npm install bignumber.js //处理javascript大数字处理精准度不够的问题
 ```
-if you are using yarn
+yarn 安装
 ```bash
 yarn add eosforce
 yarn add bignumber.js //处理javascript大数字处理精准度不够的问题

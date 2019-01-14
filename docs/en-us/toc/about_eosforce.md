@@ -1,7 +1,7 @@
 - Introduction
     - [EOSForce Introduction](en-us/what_is_eosforce.md)
-    - [Getting Started](zh-cn/getting_started_eosforce.md)
-    - [钱包客户端介绍](zh-cn/eosforce_wallet_introduction.md)
-    - [参考资源](zh-cn/eosforce_res.md)
+    - [Getting Started](en-us/getting_started_eosforce.md)
+    - [Wallet Client Introduction](en-us/eosforce_wallet_introduction.md)
+    - [Reference Resource](en-us/eosforce_res.md)
 - Technical Planning
-    - [Eosforce Multi-chain Architecture Planning](zh-cn/eosforce_mc_tech_plan.md)
+    - [Eosforce Multi-chain Architecture Planning](en-us/eosforce_mc_tech_plan.md)

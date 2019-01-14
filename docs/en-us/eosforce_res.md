@@ -1,4 +1,4 @@
-# Eosforce 相关资源
+# Eosforce Related Resource
 
 ## EosForce Seed List
 

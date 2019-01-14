@@ -1,106 +1,106 @@
-# eosforce System 系统合约
+# eosforce System Contract
 
-## 合约说明
-System合约是eosforce系统关键功能的实现合约，替换原eosio.system系统合约。
-包括投票、分红等，对eos原有逻辑的修改。
-改合约使用eosio账户发布，固定在初始化代码中。
+## Contract explained
+System Contract is the contract that eosforce implements the key system functions，replacing original eosio.system system contract.
+including modifications to original EOS's original logic on voting、rewarding etc.
+System contract was released using eosio account and was fixed in initializatin code.
 
-## 合约方法 action
+## Contract action
 
-### 转账
+### transfer
 ```C++
 void transfer( const account_name from, const account_name to, const asset quantity, const string memo );
 ```
-参数：
-- from : 转账账号
-- to : 收款账号
-- quantity : 金额，必须是 EOS资产
-- memo : 备注, 必须小于256字节
+Parameters：
+- from : originating account
+- to : receipient account
+- quantity : amount，must be EOS assets
+- memo : memo, must less than 256 bytes
   
-### 设置BP（区块生产者）
+### Setting up BP（Block Producer）
 ```C++
 void updatebp( const account_name bpname, const public_key producer_key,
 const uint32_t commission_rate, const std::string & url );
 ```
-  添加、修改节点信息
+  Add、modify node information
 
-参数：
-- bpnbame : 节点账号
-- producer_key : 节点公钥
-- commission_rate : 分红比列 单位:万分之1, 范围:大于等于1，小于等于10000
-- url : 官网链接， 不超过64字节
+Parameters：
+- bpnbame : node account
+- producer_key : node public_key
+- commission_rate : dividend ratio unit:one out of ten thousand, scope:great than or equal to 1，less than or equal to 10000
+- url : website url， no more than 64 bytes
 
-### 投票
+### Voting
 ```C++
 void vote( const account_name voter, const account_name bpname, const asset stake );
 ```
-  给超级节点投票
+  Voting for super node
 
-参数:
-- voter : 投票者
-- bpbame : 节点
-- statke : 票数（eos金额）
+Parameters:
+- voter : voter
+- bpbame : node
+- stake : votes（eos amount）
 
-逻辑:
-1. 设置用户的投票信息：
-投票数大于当前票数，增加投票；
-投票数小于当前票数，撤回投票；
-2. 根据投票数减少相应用户余额
-3. 增加节点的总票数， 结算节点当前总票龄
+logic:
+1. setting up voting information：
+votes greater than current votes，increase votes；
+votes less than current votes，revoke votes；
+2. decrease available balance according to votes
+3. add node's total votes， computes node's current vote age
 
-### 解冻
+### unfreeze
 ```C++
 void unfreeze( const account_name voter, const account_name bpname );
 ```
-    撤回投票要冻结3天(根据块数确定，每3秒一块)，3天后可执行解冻。
+    Revoking voting will freeze stake for 3 days(determined by block num，one block per 3 seconds)，stakes will be unfrozen 3 days later。
 
-逻辑：
+logic：
 
-将撤回票数 加到可用余额中。清空撤回票数。
+Revoked votes will be added to available balance。
 
 
-### 领取分红
+### claim  the rewards
 ```C++
 void claim( const account_name voter, const account_name bpname );
 ```
-参数:
-- voter : 投票者
-- bpname : 节点名
+Parameters:
+- voter : voter
+- bpname : node name
   
-逻辑:
-1. 计算投票账号最新票龄：上次票龄+票数*(当前块高度-上次结算时块高度)
-2. 计算节点的总票龄：上次票龄+票数*(当前块高度-节点上次结算时块高度)
-3. 计算分红数：节点奖池总数*投票者总票龄/节点总票龄
-4. 增加投票账号余额 +=分红数
-5. 投票信息票龄清零，更新结算块高度
-6. 减少节点奖池 -=分红数，总票龄减少账号票龄，更新计算块高度
+logic:
+1. compute voting account's recent vote age：last vote age+votes*(current block height-last settlement block height)
+2. compute the node's total vote age：last vote age+votes*(current block height-last settlement block height)
+3. compute rewards：node rewards pool amount*voter total vote age/node total vote age
+4. add to voter account balance +=rewards
+5. voting information vote age reset to zero，updat settlement block height
+6. decrease node rewards pool -=rewards，total vote age decrease vote account vote age，update settlement block height
 
 
-### 出块回调函数    (系统内部使用)
+### block producton callback function    (system internal use)
 ```C++
 void onblock(…const account_name bpname,const uint32_t schedule_version);
 ```
-参数:
-- bpname : 节点名
-- schedule_version : 节点排行换届版本
+Parameters:
+- bpname : node name
+- schedule_version : node schedule version
   
-逻辑:
-1. 出块节点bpname，producer.amount出块数加1
-2. 每个出块奖励9个EOS，按分红比例，将奖励加入出块节点余额，并将剩余分红加入出块节点的奖池中。
-3. 每个出块将奖励1个EOS给b1账号(block.one)
-4. 刷新选举的23个超级节点，遍历所有bp查前23个，调用wasm接口set_proposed_producers重置BP,修改数据库数据
+logic:
+1. bpname，producer.amount blocks produced increase 1
+2. 9 EOS are rewarded every block produced，rewards will be added to BP balance according to reward ratio，then remaining rewards will be added to node's reward pool.
+3. 1 EOS are rewarded to b1 (block.one) every block produced
+4. refreshing elected 23 super nodes，select top 23 BP of all BPs according to votes，reset BPs by calling wasm interface set_proposed_producers,modify database.
  
-### 设置链紧急状态
+### set emergency state
 ```C++
 void setemergency( const account_name bpname, const bool emergency );
 ```
 
-超过三分之二的节点设置紧急状态，则链将处于紧急状态。将紧急停用所有功能。
-参数: 
-- bpname : 节点
-- emergency : 紧急状态
+The blockchain will be set to emergency state aftedr more than 2/3 nodes agree，and all functions will be stopped immediately。
+Parameters: 
+- bpname : node 
+- emergency : emergency state
  
-## abi 表
+## abi table
 ```json
 "tables": [
         {
@@ -137,7 +137,7 @@ void setemergency( const account_name bpname, const bool emergency );
   ]
 ```
 
-## abi 数据结构
+## abi data structure
 ```json
 "structs": [{
       "name": "transfer",

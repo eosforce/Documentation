@@ -1,5 +1,5 @@
-# 钱包客户端介绍
+# Wallet Client Introduction
 
-钱包客户端 ： https://github.com/eosforce/wallet-desktop
+Wallet Client ： https://github.com/eosforce/wallet-desktop
 
-下载 ：  https://github.com/eosforce/wallet-desktop/releases ，支持 macOS windows，linux
+Download ：  https://github.com/eosforce/wallet-desktop/releases ，support macOS windows，linux

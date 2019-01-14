@@ -58,9 +58,9 @@ This is an example callng `hi`action deplyed in `testd`account，the node accept
 
 In Eosforce，we require the user to pay the fees for every action executed，this is similar with ETH。 Paid fees provide CPU and NET resource limit for the action， Fixed fees and limits are employed for native actions such as transfer、newaccount、updateauth for user convennience, 对于用户定义的action，其中的换算比例是由BP通过多签来设置的，在默认情况下，每支付0.01 EOSC，该action会被赋予 200 us cpu使用限制和 500 byte net使用限制，为了便于用户使用，开发者需要为自己提交的合约中action设置手续费额度，这样用户则不需自行设置手续费额度，同时也激励开发者优化合约资源使用效率，为用户提供更好的体验。
 
-对于DApp开发者来说，首先需要评估自己合约action所消耗的资源，之后自行为自己的账户设置手续费：
+DApp developpers need to evaluate how much resource contract actions could consume and then set fees for contract actions：
 
-使用 setfee：
+use setfee：
 
 ```shell
 ./cleos set setfee testd hi "0.0500 EOS" 0 0 0
@@ -71,14 +71,13 @@ executed transaction: 247de68c2815eec4fa46b1356bd6bec247a43aa2c22f68c6cc976cf6ac
 warning: transaction executed locally, but may not be confirmed by the network yet         ] 
 ```
 
-这里将testd::hi action的手续费设置为 0.05 EOS， 注意后面的三个零。
+Fees for testd::hi action was set 0.05 EOS in this example， noting the last three zeros。
 
-注意设置手续费需要合约账户权限。
+Note: Setting fees need contract account permission.
 
-setfee 命令使用方式如下：
+setfee usage：
 
 ```
-Set Fee need to action
 Usage: ./cleos set setfee [OPTIONS] account action fee cpu_limit net_limit ram_limit
 
 Positionals:
@@ -90,23 +89,23 @@ Positionals:
   ram_limit UINT              The ram max use limit to set to action (required)
 ```
 
-其中
+Among those
 
-- account 合约账户名
-- action 要设置手续费的action名
-- fee 手续费，只接受eos
-- cpu_limit 每次执行合约使用的cpu资源上限，单位为us， 对于用户合约来说此项为0
-- net_limit 每次执行合约使用的net资源上限，单位为byte， 对于用户合约来说此项为0
-- ram_limit 每次执行合约使用的ram资源上限，单位为byte， 对于用户合约来说此项为0
+- account: contract account name
+- action: contract action name fees set for
+- fee: fee ammount，only accepting eos
+- cpu_limit: used CPU resource upper limit when contract action was executed，unit us，0 for user contract action
+- net_limit: used NET resource upper limit when contract action was executed，unit us，0 for user contract action
+- ram_limit: used RAM resource upper limit when contract action was executed，unit us，0 for user contract action
 
-开发者需set code 、set abi上传合约。
+Developpers need to execute set code 、set abi to load the contract.
 
-详情可加入‘原力主网dapp开发群’微信群进行咨询。
+You could join 'Force Mainnet DAPP developpers grroup' wechat group for detailed messages.
 
-### 3. 出块速度
+### 3. Block production speed
 
-对于依赖时间的合约，需要注意的是我们是三秒出一个块。
+please note that force produce a block every 3 seconds, for time-depending contract.
 
-### 4. 延迟交易暂未开放
+### 4. Delayed transactions not open
 
-暂定下次主网升级开放支持
+Tentatve open for next Mainnet upgrade.

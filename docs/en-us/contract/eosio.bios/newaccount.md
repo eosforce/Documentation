@@ -1,6 +1,6 @@
-# newaccount 创建账号
+# Create account
 
-## cleos 命令
+## cleos command
 
 ```bash
 cleos create account [OPTIONS] creator name OwnerKey [ActiveKey]
@@ -12,14 +12,7 @@ Positionals:
   - OwnerKey TEXT               The owner public key for the new account (required)
   - ActiveKey TEXT              The active public key for the new account
 
-参数：
-  - creator TEXT                执行创建的账号 (必要)
-  - name TEXT                   创建的新账号名 (required)
-  - OwnerKey TEXT               拥有者的账号公钥 (required)
-  - ActiveKey TEXT              新账号的激活公钥，默认同拥有者的账号公钥
-
-
-## abi 数据结构
+## abi data structure
 
 ```json
     {

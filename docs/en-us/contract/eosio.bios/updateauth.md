@@ -1,17 +1,17 @@
-# 账户权限修改
+# account permission modification
 
-## 功能概述
+## Function Overview
 
-- 修改公钥（可用于实现用户名转让）
-- 设置多个公钥或授权账号（可用于实现多重签名）
-- 修改公钥的权重
-- 修改账户权限阈值
+- Modify public key（can be used for account transfer）
+- Setting up multiple public keys or granting accounts（can be used for multisig）
+- Modify public key's weight
+- Modify accout permission threshold
 
-## RPC接口执行方法
+## RPC interface
 
-调用 /v1/chain/push_transaction接口，提交 updateauth action，修改账户owner权限、active权限。
+Calling /v1/chain/push_transaction interface，submit updateauth action，modify account owner permssion、active permission。
 
-abi数据结构：
+abi data structure：
 
 ```json
 {
@@ -25,7 +25,7 @@ abi数据结构：
       ]
     }
 ```
-权限数据结构
+permission data structure：
 ```json
 {
       "name": "authority",
@@ -38,12 +38,12 @@ abi数据结构：
       ]
     }
 ```
-- threshold 权限阈值
-- keys 公钥权重数组
-- accounts 账号权重数组
-- waits 等待时长权重数组
+- threshold: permission threshold
+- keys: public key weight array
+- accounts: account weight array
+- waits: wait time weight array
 
-账号权重
+account weight
 ```json
 {
   "name": "permission_level_weight",
@@ -62,7 +62,7 @@ abi数据结构：
   ]
     }
 ```
-公钥权重
+public key weight
 ```json
 {
       "name": "key_weight",
@@ -75,48 +75,48 @@ abi数据结构：
 ```
 > 账户默认会创建owner、active权限，也可以通过updateauth action自定义权限
 
-## 修改用户权限cleos命令
+## modify user permission using cleos command
 ```bash
 cleos set account permission [OPTIONS] account permission authority [parent]
 
 Options:
-  -h,--help                   打印帮助信息
+  -h,--help                   Print this help message and exit
 
-  -x,--expiration             transaction有效时间，单位：秒，默认30秒。
+  -x,--expiration             set the time in seconds before a transaction expires, defaults to 30s
 
-  -f,--force-unique           强制交易不重复，将消耗带宽并且移除多次执行同一个交易的意外情况的所有保护
+  -f,--force-unique           force the transaction to be unique. this will consume extra bandwidth and remove any protections against accidently issuing the same transaction multiple times
 
-  -s,--skip-sign              如果解锁钱包，需要签名交易指定key
+  -s,--skip-sign              Specify if unlocked wallet keys should be used to sign transaction
 
-  -j,--json                   json格式输出  
+  -j,--json                   print result as json 
 
-  -d,--dont-broadcast         不广播消息到网络
+  -d,--dont-broadcast         don't broadcast transaction to the network (just print to stdout)
 
-  -r,--ref-block TEXT         引用的使用区块号用于股份证明 TAPOS (Transaction as Proof-of-Stake)
+  -r,--ref-block TEXT         set the reference block num or block id used for TAPOS (Transaction as Proof-of-Stake)
 
-  -p,--permission TEXT ...    认证的账号和权限 'account@permission' (默认 'account@active')
+  -p,--permission TEXT ...    An account and permission level to authorize, as in 'account@permission' (defaults to 'account@active')
   
-参数
-  account TEXT                设置权限的账户 (必要)
+Parameters
+  account TEXT                The account to set/delete a permission authority for (required)
 
-  permission TEXT             设置的权限 (必要)
+  permission TEXT             The permission name to set/delete an authority for (required)
 
-  authority TEXT              [删除] NULL, [创建或修改] 公钥key、 JSON字符串或文件名定义的权限(必要)
+  authority TEXT              [delete] NULL, [create/update] public key, JSON string, or filename defining the authority (required)
 
-  parent TEXT                 [创建] 创建此权限的父权限(默认: "Active")
+  parent TEXT                 [create] The permission name of this parents permission (Defaults to: "Active")
 ```
 
-## 命令行执行用例
+## Example
 
-1. 修改user1用户的公钥
+1. modify user1's public_key
 
 /cleos set account permission -j user1 owner EOS6hj8ozvKetcfEPonMLdUm9Ey3HYPgc6Tt94R88BejE9ojbrzD5 -p user1@owner
 
-1. 设置user1用户多重签名 (权限阈值为2，3个公钥)
+2. set user1's multple signature (permission threshold: 2, 3 public_keys)
 
 /cleos set account permission -j user1 owner authority.json -p user1@owner
 
-权限设置配置文件 authority.json：
+permission Setting configuration file authority.json：
 
 ```JSON
 {
@@ -138,6 +138,6 @@ Options:
 }
 ```
 
-> 公钥(key)必须按字符升序无重复排列。eos代码中为方便统计公钥个数而限制。
+> Public key must be arranged in ascending order uniquely. Limitation in EOS code for the convenience of counting the number of public keys。
 >
-> 所有公钥权重(weight)的和必须大于等于权限阈值(threshold)。小于阈值无法执行。
+> Sum of total public key weight must be greater than or equal to permission threshold。

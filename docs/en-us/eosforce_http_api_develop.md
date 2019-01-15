@@ -1,16 +1,16 @@
 # HTTP API
 
-## 说明
-eos提供了C++实现的官方程序:
-- 节点运行程序：nodeos
-- 命令行客户端：cleos
-- 钱包管理器：keosd
+## Introduction
+eos provides official programs written in C++:
+- node：nodeos
+- client：cleos
+- wallet manager：keosd
 
-为更方便使用或是实现更丰富的功能，开发者可以根据http api接口实现自己的客户端。
+Developpers can develop their own client by calling http API for ease of use or rich functionality.
 
-eosforce实现的PC钱包提供了本地钱包，区块链浏览器，可视化的合约操作(转账、投票、分红等)。代替了cleos与keosd。
+eosforce's PC wallet provides local wallet，blockchain explorer，visual operations(transfer、vote、reward etc) replacing cleos and keosd.
 
-## HTTP API 调用流程
+## HTTP API calling process
 
 ```mermaid
 sequenceDiagram
@@ -27,44 +27,43 @@ sequenceDiagram
 
 ```
 
-## HTTP API 文档
+## HTTP API 
 
 - [chain api](zh-cn/eosforce_http_chain_api.md)
 - [history api](zh-cn/eosforce_http_history_api.md)
 
-## HTTP API 调用具体说明
+## HTTP API description
 
-首先获取提供开放http接口调用的节点(域名或IP端口)。HTTP接口调用使用POST方式。
-通过HTTP API 文档获取所需接口url，所需参数使用json格式通过body传入。
+First get the nodes that provide HTTP interface(domain or IP)。HTTP interface uses POST mode。
+Get the required interface URL through HTTP API document, and the required parameters are passed in through body using JSON format
+.
 
-查询信息类接口比较简单，看文档说明即可。
-除了查询信息外，对区块链的所有操作，都是通过执行智能合约的action实现。
+The interface for querying informaton is simple，please refer to document。
+In addition to querying information, all operations on block chains are implemented by executing smart contract actions.。
 
-### eosforce提供的智能合约包括:
-- [System](zh-cn/contract/System/System.md) 系统合约：投票、分红等
-- eosio.token 代币合约：token的创建、发行、转账等
-- [eosio.bios](zh-cn/eosforce_account.md)(稍后开放) 内部合约：操作用户权限等
-- [eosio.msig](zh-cn/contract/eosio.msig/msig.md)(稍后开放) 多重签名合约
+### eosforce's smart contracts provided include:
+- [System](en-us/contract/System/System.md) ：system contracts, voting、rewarding etc
+- eosio.token：create、issue、transfer of tokens
+- [eosio.bios](en-us/eosforce_account.md) ：internal contracts, update user permissions etc.
+- [eosio.msig](en-us/contract/eosio.msig/msig.md) multiple signature contracts
 
-> eosforce 目前暂未开放用户提交智能合约的功能
+### action execution process：
 
-### action操作的执行流程：
+1. construct action: specify contract account，action，permission
+2. set action's data field：data needs t be packed(by calling /v1/chain/json_to_bin interface or serialize locally according to abi)
+3. construct transaction：including action, fees，reference block etc.
+4. sign the transaction
+5. calling /v1/chain/push_transaction interface，submit the transaction。
 
-1. 构造action: 指定合约账户，action名，执行权限
-2. 设置action执行数据data字段：数据需序列化打包(可调用/v1/chain/json_to_bin转换接口，或根据abi本地实现序列化逻辑)
-3. 构造transaction：包含action, 相应手续费，引用区块等信息
-4. 对交易transaction进行签名
-5. 调用 /v1/chain/push_transaction 接口，提交签名后的transaction数据。
+> eosforce transaction can only include one action
 
-> newaccount操作使用json_to_bin接口序列化失败问题已修复，稍后发布。可临时使用eos官方节点的接口
-> eosforce transaction中只能包含一个action
+### Security suggestion
+At least 2/3 BP node validation (i.e. irreversibility) should be judged to tell the user that the operation was successful.
+Through polling nodes, the irreversible block information can be returned to prompt for success. The specific technical process is as follows.
+：
 
-### 安全性建议
-执行操作应该至少判断 2/3 个BP节点确认(即不可逆)才能告诉用户执行成功。
-可以通过轮询节点，返回不可逆区块信息再提示成功，具体技术过程如下：
-
-1. push_transaction 后会得到 trx_id
-2. 请求接口 POST  /v1/history/get_transaction
+1. Get the trx_id after caling push_transaction
+2. Calling the interface POST  /v1/history/get_transaction
    ```json
     {
         "id": "100004bf44d5cc60fe0697b37de830809bef3c2fa0438c38705992f649b97eb6",
@@ -75,4 +74,4 @@ sequenceDiagram
         "traces": []
     }
    ```
-3. 返回参数中 block_num 小于等于 last_irreversible_block 即为不可逆
+3. Block_num less than or equal to last_irreversible_block in the return parameter is irreversible

@@ -33,7 +33,7 @@
     - C/C++ API
         - [C/C++ API](https://developers.eos.io/eosio-cpp/reference)
     - DB
-        - [mongoDB](zh-cn/mongodb.md)
+        - [mongoDB](en-us/mongodb.md)
 
 - Operation & Maintenance
     - Deploy

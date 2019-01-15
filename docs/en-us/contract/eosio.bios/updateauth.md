@@ -73,7 +73,8 @@ public key weight
       ]
     }
 ```
-> 账户默认会创建owner、active权限，也可以通过updateauth action自定义权限
+> Accounts create owner, activity permissions by default, can also customize permissions by updateauth action
+
 
 ## modify user permission using cleos command
 ```bash

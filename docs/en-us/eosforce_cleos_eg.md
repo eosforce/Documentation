@@ -1,14 +1,14 @@
-# 常用功能cleos命令
+# common cleos commands
 
-### 1. 获取账号余额:
+### 1. Get account balance:
 
 ```shell
 ./cleos get table eosio eosio accounts -k 账户名
 ```
 
-> 从系统合约accounts表中读取
+> read from system contract accounts table
 
-返回：
+Returns:
 ```json
 {
   "rows": [{
@@ -20,13 +20,13 @@
 }
 ```
 
-### 2. 通过公钥获取其所有账号
+### 2. Get all corresponding accounts by public key 
 
 ```shell
-./cleos get accounts 公钥
+./cleos get accounts public key
 ```
 
-返回：
+Returns:
 ```json
 {
   "account_names": [
@@ -35,10 +35,10 @@
   ]
 }
 ```
-### 3. 获取超级节点排行
+### 3. Get BP schedule
 
 ```shell
- ./cleos get table eosio eosio schedules -k 第几届
+ ./cleos get table eosio eosio schedules -k version
 ```
 ```json
 {
@@ -61,10 +61,10 @@
   "more": false
 }
 ```
-### 4. 获取超级节点信息
+### 4. Get bp info
 ```shell
 ./cleos get table eosio eosio bps
-./cleos get table eosio eosio bps -k 节点名
+./cleos get table eosio eosio bps -k node name
 ```
 ```json
 {
@@ -84,9 +84,9 @@
 }
 ```
 
-### 5. 获取投票信息
+### 5. Get voting info
 ```shell
-./cleos table eosio 账户名 votes
+./cleos table eosio account votes
 ```
 ```json
 {
@@ -110,36 +110,36 @@
 }
 ```
 
-### 6. 转账
+### 6. transfer
 
 ```shell
 ./cleos push action eosio transfer '{"from":"alice","to":"bob", "quantity":"1000.0000 EOS", "memo":"hello"}' -p alice@active
 ```
 
-> 提交System系统合约转账交易
+> submit System contract transfer transaction
 
-### 7. 投票
+### 7. Vote
 
 ```shell
 ./cleos push action eosio vote '{"voter":"alice","bpname":"bob","stake":"10.0000 EOS"}' -p alice@active
 ```
-> 提交System系统合约投票交易，stake为对bp的当前投票数
+> submit System contract vote transaction，stake is the current number of votes cast for BP
 
-### 8. 领取分红
+### 8. Claim rewards
 
 ```shell
 ./cleos push action eosio claim '{"voter":"alice","bpname":"bob"}'  -p alice@active
 ```
 
-> 提交System系统合约分红交易
+> submit System contract claim transaction
 
-### 9. 解冻
+### 9. unfreeze
 
 ```shell
 ./cleos push action eosio unfreeze '{"voter":"alice","bpname":"bob"}'  -p alice@active
 ```
 
-> 提交System系统合约解冻交易 unfreeze
+> submit System contract unfreeze transaction 
 
 
-> ./cleos push action 为cleos客户端封装好的包含一个action的交易transaction请求。eosio为System系统合约的创建账户。-p指定当前交易的执行账户与权限。
+> ./cleos push action encapsulates transaction request with an action。eosio is creating accounts for System system contracts, -p specify the execution account and permission for the current transaction。

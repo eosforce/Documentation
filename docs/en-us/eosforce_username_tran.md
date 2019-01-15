@@ -1,55 +1,36 @@
-# 账户权限修改
+# account transfer
 
-## 功能概述
+## 1 off-chain transaction
 
-- 修改公钥（可用于实现用户名转让）
-- 设置多个公钥（可用于实现多重签名）
-- 修改公钥的权重
-- 修改账户权限阈值
+Modify account's public key using [updateauth](en-us/contract/eosio.bios/updateauth.md)，public key is provided by others.
 
-## 源码修改
+> Note：eosforce transaction can only include one action，so account transfer need to submit two transactions in order。
 
-- 手续费管理器增加一个action：updateauth, 并设置其手续费。
-- 引入bios系统合约，controller类需增加初始化方法，以支持updateauth操作。
+one side：first modify active permission，then modify onwer permission. After modifying owner permission, no modifications can be executed any more。
+two sides：The owner modifies the owner permission to the recipient's public key; the recipient modifies the active permission of this account
 
-## RPC接口执行方法
 
-调用 /v1/chain/push_transaction接口，提交updateauth action，修改账户owner权限、active权限。
 
-> 账户默认会创建owner、active权限，也可以通过updateauth action自定义权限
+## 2 on-chain transaction
 
-## 命令行执行用例
+(not implmented yet)
+account transfer smart contract nametransfer
+action：
+1. The account owner submits an application for transfer and sets up the account name, transfer fee and designated purchaser account to be transferred.
+(optional)。
+void sell_name(account, price, buyer);
+2. Purchaser executes purchase transfer
+void buy_name(account);
 
-1. 修改user1用户的公钥
 
-/cleos set account permission -j user1 owner EOS6hj8ozvKetcfEPonMLdUm9Ey3HYPgc6Tt94R88BejE9ojbrzD5 -p ssh3@owner
+## 3 account auction
 
-2. 设置user1用户多重签名 (权限阈值为2，3个公钥)
+(not implmented yet)
+account auction smart contract
+1. Registration slip (account name, base price, each price increase, duration)
+2. Bidding (account name, bid)
+3. Bidding Status Query (Account Name)
+4. Cancel Registration Form (Account Name)
 
-/cleos set account permission -j user1 owner authority.json -p ssh3@owner
 
-权限设置配置文件 authority.json：
-
-```JSON
-{
-  "threshold": 2,
-  "keys": [
-    {
-      "key": "EOS6BUSXxqmBBMxnCwFowfFsr8Zi1WRtWXguGzUb9oGGpueMSaJbx",
-      "weight": 1
-    },
-    {
-      "key": "EOS6hj8ozvKetcfEPonMLdUm9Ey3HYPgc6Tt94R88BejE9ojbrzD5",
-      "weight": 1
-    },
-    {
-      "key": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
-      "weight": 1
-    }
-  ]
-}
-```
-
-> 公钥(key)必须按字符升序无重复排列。eos代码中为方便统计公钥个数而限制。
->
-> 所有公钥权重(weight)的和必须大于等于权限阈值(threshold)。小于阈值无法执行。
+> The short-name account (less than 12 characters) bidding function provided by eosio is only the creation of short-name bidding. Uncreated short names must be authorized to create this account by bidding first.

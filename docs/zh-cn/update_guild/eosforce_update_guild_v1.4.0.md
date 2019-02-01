@@ -24,7 +24,7 @@ plugin = eosio::heartbeat_plugin
 
 bp-mapping=biosbpa=KEY:biosbpaa
 
-(例如bp的名字为biosbpa，需要单独创建一个账号名例如biosbpaa，并公钥和出块的公钥必须相同)
+(例如bp的名字为biosbpa，需要单独创建一个账号名例如biosbpaa（账户需要留大于100的eosc，心跳检测需要手续费），并公钥和出块的公钥必须相同)
 
 ##### 其他配置的文件保持原有不变:
 

@@ -66,7 +66,7 @@
 - [v1.3.0.test测试网接入说明](zh-cn/update_guild/eosforce_update_guild_v1.3.0.test.md)
 - [v1.3.1.test测试网更新与演练](zh-cn/update_guild/eosforce_update_guild_v1.3.1.test.md)
 - [v1.3.1主网升级](zh-cn/update_guild/eosforce_update_guild_v1.3.1.md)
-- [v1.5.0主网升级](zh-cn/update_guild/eosforce_update_guild_v1.5.0.md)
+- [v1.5.1主网升级](zh-cn/update_guild/eosforce_update_guild_v1.5.1.md)
 
 
 - 关于文档的文档

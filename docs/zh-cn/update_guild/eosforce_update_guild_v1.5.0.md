@@ -12,24 +12,7 @@
 
 ### 配置文件修改
 
-##### 需要变动的配置文件config.ini
 
-- 前23 bp节点保持config.ini 保持不变
-
-- 针对候选节点,有如下改变
-
-config.ini 中需要添加 
-
-plugin = eosio::heartbeat_plugin
-
-bp-mapping=biosbpa=KEY:biosbpaa
-
-(例如bp的名字为biosbpa，需要单独创建一个账号名例如biosbpaa（账户需要留大于100的eosc，心跳检测需要手续费），并公钥和出块的公钥必须相同)
-
-##### 其他配置的文件保持原有不变:
-
-- activeacc.json https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/activeacc.json (md5sum b7c295454e6e81ab3023baeebf2d9131)
-- genesis.json 使用原有文件
 	
 
 ### docker部署
@@ -95,7 +78,7 @@ tail -100f eos.log
 
 ```shell
 cleos -u http://127.0.0.1:8888 get info
-"server_version_string": "force-v1.4.1"
+"server_version_string": "force-v1.5.0"
 ```
 
 

@@ -25,7 +25,7 @@ docker部署方案提供区块数据包下载地址： https://updatewallet.oss-
 # 容器名：eosforce-v1.5.1
 docker pull eosforce/eos:v1.5.1
 docker stop 原容器名
-docker run -d --name eosforce-v1.5.1 -v 本地配置目录:/opt/eosio/bin/data-dir -v 本地数据目录:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.5.0 nodeosd.sh
+docker run -d --name eosforce-v1.5.1 -v 本地配置目录:/opt/eosio/bin/data-dir -v 本地数据目录:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.5.1 nodeosd.sh
 # 查看日志
 docker logs -f --tail 100 eosforce-v1.5.1
     

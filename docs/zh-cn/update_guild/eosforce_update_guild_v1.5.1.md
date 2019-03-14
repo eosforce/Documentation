@@ -8,7 +8,7 @@
 3.手续费改良
 4.换投票免赎回期方案
 
-docker部署方案提供区块数据包下载地址： https://updatewallet.oss-cn-hangzhou.aliyuncs.com/dokcer-nodeos-latest.tar.gz
+
 
 
 

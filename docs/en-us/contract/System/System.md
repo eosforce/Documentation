@@ -48,6 +48,35 @@ votes less than current votes，revoke votes；
 2. decrease available balance according to votes
 3. add node's total votes， computes node's current vote age
 
+### 4. Change Vote
+
+**Change Vote** Can allow user change their votes from one bp to another without freeze their token.
+
+```cpp
+void revote( const account_name voter, 
+             const account_name frombp, 
+             const account_name tobp, 
+             const asset restake ) {
+```
+
+Parameters:
+
+- voter : voter
+- frombp : the bp voted
+- tobp : the bp to vote
+- restake : change votes（eos amount）
+
+Example:
+
+Suppose the user `testa` voted the `biosbpa` node with `5000.0000 EOS`,
+At this point, the user wants to switch the votes to the `biosbpb` node with `2000.0000 EOS`, then user can execute:
+
+```bash
+cleos push action eosio revote '{"voter":"testa","frombp":"biosbpa","tobp":"biosbpb","restake":"2000.0000 EOS"}' -p testa
+```
+
+After execution, the user's Token for the `biosbpa` node is `3000.0000 EOS`, and the Token voted for the `biosbpb` node is increased by `2000.0000 EOS`.
+
 ### unfreeze
 ```C++
 void unfreeze( const account_name voter, const account_name bpname );

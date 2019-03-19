@@ -78,7 +78,6 @@ void revote( const account_name voter,
              const account_name tobp, 
              const asset restake ) {
 ```
-给超级节点投票
 
 参数:
 

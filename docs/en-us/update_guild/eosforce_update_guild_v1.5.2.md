@@ -23,7 +23,7 @@
 # docker container name：eosforce-v1.5.2
 docker pull eosforce/eos:v1.5.2
 docker stop original docker container name
-docker run -d --name eosforce-v1.5.2 -v local configuration directory:/opt/eosio/bin/data-dir -v local data directory:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.5.1 nodeosd.sh
+docker run -d --name eosforce-v1.5.2 -v local configuration directory:/opt/eosio/bin/data-dir -v local data directory:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.5.2 nodeosd.sh
 # view log
 docker logs -f --tail 100 eosforce-v1.5.2
     

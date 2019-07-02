@@ -1,61 +1,48 @@
-# v1.4.1 主网更新操作步骤
+# v1.5.1 主网更新操作步骤
+
+
+### 升级内容：
+
+1.合并EOSIO代码更新
+2.BP惩罚机制
+3.手续费改良
+4.换投票免赎回期方案
 
 
 
-## 本次升级增加候选节点签到功能
-
-需要候选节点周期性调用签到action(缺省10分钟签到一次，超过60分钟不签到，则取消该候选节点分红）
 
 
+## 1. 节点升级 (v1.5.1)
 
-## 1. 节点升级 (v1.4.1)
+#### 节点升级顺序，先完成bp节点升级，后升级同步节点
 
-### 配置文件修改
 
-##### 需要变动的配置文件config.ini
-
-- 前23 bp节点保持config.ini 保持不变
-
-- 针对候选节点,有如下改变
-
-config.ini 中需要添加 
-
-plugin = eosio::heartbeat_plugin
-
-bp-mapping=biosbpa=KEY:biosbpaa
-
-(例如bp的名字为biosbpa，需要单独创建一个账号名例如biosbpaa（账户需要留大于100的eosc，心跳检测需要手续费），并公钥和出块的公钥必须相同)
-
-##### 其他配置的文件保持原有不变:
-
-- activeacc.json https://updatewallet.oss-cn-hangzhou.aliyuncs.com/eosforce/activeacc.json (md5sum b7c295454e6e81ab3023baeebf2d9131)
-- genesis.json 使用原有文件
 	
 
 ### docker部署
 
 ```
-# 容器名：eosforce-v1.4.1
-docker pull eosforce/eos:v1.4.1
+# 容器名：eosforce-v1.5.1
+docker pull eosforce/eos:v1.5.1
 docker stop 原容器名
-docker run -d --name eosforce-v1.4.1 -v 本地配置目录:/opt/eosio/bin/data-dir -v 本地数据目录:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.4.1 nodeosd.sh
+docker run -d --name eosforce-v1.5.1 -v 本地配置目录:/opt/eosio/bin/data-dir -v 本地数据目录:/root/.local/share/eosio/nodeos -p 9876:9876 -p 8888:8888 eosforce/eos:v1.5.1 nodeosd.sh
 # 查看日志
-docker logs -f --tail 100 eosforce-v1.4.1
+docker logs -f --tail 100 eosforce-v1.5.1
     
 ```
 验证升级结果, 版本信息：
 ```shell
-docker exec -it eosforce-v1.4.1 opt/eosio/bin/cleos get info
-"server_version_string": "force-v1.4.1"
+docker exec -it eosforce-v1.5.1 opt/eosio/bin/cleos get info
+"server_version_string": "force-v1.5.1"
 ```
 
 ### 源码编译方式
-使用tag: force-v1.4.1
+使用tag: force-v1.5.1
 
 ```shell
 # 进入eosforce工程目录
 git fetch
-git checkout force-v1.4.1
+git checkout force-v1.5.1
 git submodule update --init --recursive
 ./eosio_build.sh
 ```
@@ -92,9 +79,10 @@ tail -100f eos.log
 
 #### 编译方式启动后， 验证升级结果
 版本信息：
+
 ```shell
 cleos -u http://127.0.0.1:8888 get info
-"server_version_string": "force-v1.4.1"
+"server_version_string": "force-v1.5.1"
 ```
 
 

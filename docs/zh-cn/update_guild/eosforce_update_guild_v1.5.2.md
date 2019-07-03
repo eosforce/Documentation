@@ -92,14 +92,12 @@ cleos -u http://127.0.0.1:8888 get info
 原力 eosio.msig 账号发起多签提议后，节点执行(需要使用命令行创建钱包导入节点账户私钥)：
 
 ```shell
-# 批准更新系统合约code多签提议
-cleos  -u https://w1.eosforce.cn multisig approve eosio.msig p.upsyscode '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
 # 批准更新系统合约abi多签提议
-cleos  -u https://w1.eosforce.cn multisig approve eosio.msig p.upsysabi '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
+cleos  -u https://w1.eosforce.cn multisig approve force.msig p.upsysabi '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
 ```
 超过2/3节点执行通过，即可执行多签更新系统合约。
 
 ```shell
 # 查看提议批准情况
-cleos  -u https://w1.eosforce.cn get table eosio.msig eosio.msig approvals
+cleos  -u https://w1.eosforce.cn get table eosio.msig force.msig approvals
 ```

@@ -91,8 +91,11 @@ cleos -u http://127.0.0.1:8888 get info
 After the eosio.msig account initiates a multi-signature proposal, the node executes (it needs to use the command line to create a wallet to import the node account's private key)
 
 ```shell
+# Approving multi-signature proposal for updating system contract code
+cleos -u http://47.99.138.131:8888 multisig approve force.msig p.upsyscode '{"actor":"node account name","permission":"active"}' -p node account name@active
+
 # Approving multi-signature proposal for updating system contract abi
-cleos  -u https://w1.eosforce.cn multisig approve force.msig p.upsysabi '{"actor":"node account name","permission":"active"}' -p node account name@active
+cleos -u http://47.99.138.131:8888  multisig approve force.msig p.upsysabi '{"actor":"node account name","permission":"active"}' -p node account name@active
 ```
 
 After more than 2/3 nodes approve, we can execute the multi-signature update system contract.

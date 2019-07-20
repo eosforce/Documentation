@@ -111,10 +111,10 @@ cleos -u http://127.0.0.1:8888 get info
 
 ```shell
 # 批准更新系统合约code多签提议
-cleos -u http://47.99.138.131:8888 multisig approve force.msig p.upsyscode '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
+cleos -u http://47.99.138.131:8888 multisig approve force.msig f.votagen '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
 
 # 批准更新系统合约abi多签提议
-cleos -u http://47.99.138.131:8888  multisig approve force.msig p.upsysabi '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
+cleos -u http://47.99.138.131:8888  multisig approve force.msig  f.cprod '{"actor":"节点账户名","permission":"active"}' -p 节点账户名@active
 ```
 超过2/3节点执行通过，即可执行多签更新系统合约。
 

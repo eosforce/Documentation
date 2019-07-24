@@ -25,7 +25,7 @@ git clone https://github.com/eosforce/eosforce.git eosforce
 ### 2. 执行如下命令安装原力eos
 
 ```bash
-cd eosforce &&git fetch && git checkout force-v1.3.2 &&  git submodule update --init --recursive && ./eosio_build.sh
+cd eosforce &&git fetch && git checkout force-v1.6.0 &&  git submodule update --init --recursive && ./eosio_build.sh
 mkdir -p ~/.local/share/eosio/nodeos/config
 curl https://raw.githubusercontent.com/eosforce/genesis/master/genesis.json -o ~/.local/share/eosio/nodeos/config/genesis.json
 cp build/contracts/System/System.abi build/contracts/System/System.wasm ~/.local/share/eosio/nodeos/config
@@ -70,7 +70,7 @@ cleos get info
 
 打开浏览器输入如下地址查看原力eos主网区块高度
 
-https://w1.eosforce.cn/v1/chain/get_info 
+http://47.99.138.131:8888/v1/chain/get_info
 
 其中head_block_num为区块高度
 
@@ -147,7 +147,7 @@ cleos wallet import pri_key
 执行命令进行注册
 
 ```bash
-cleos -u https://p1.eosforce.cn push action eosio updatebp '{"bpname":"bpname","block_signing_key":"block_signing_key","commission_rate":"commission_rate","url":"https://eosforce.io"}' -p bpname
+cleos -u http://47.99.138.131:8888 push action eosio updatebp '{"bpname":"bpname","block_signing_key":"block_signing_key","commission_rate":"commission_rate","url":"https://eosforce.io"}' -p bpname
 ```
 
 注册成功返回如下结果：

@@ -1,29 +1,3 @@
-# EOSForce Introduction
-
-<!-- vim-markdown-toc GFM -->
-
-* [Background](#Background)
-* [Consensus Mechanism](#Consensus Mechanism)
-* [EOSC Technology Improvement](#EOSC Technology Improvement)
-    * [Fee-based Resource Model](#Fee-based Resource Model)
-    * [Smooth Update Mechanism](#Smooth Update Mechanism)
-    * [Node Heartbeat Mechanism and Stable Block-Generating Interval](#Node Heartbeat Mechanism and Stable Block-Generating Interval)
-    * [More Contract Layer API](#More Contract Layer API)
-    * [Cross-Chain Service Adaption](#Cross-Chain Service Adaption)
-    * [Highly-customizable EOSIO Blockchain Development Framework](#Highly-customizable EOSIO Blockchain Development Framework)
-* [Economic Model & Resource Model](#Economic Model & Resource Model)
-    * [Token Issue](#Token Issue)
-    * [Resource Usage](#Resource Usage)
-    * [Block Rewards](#Block Rewards)
-* [Community Governance](#Community Governance)
-    * [Time-Weighted Election Mechanism](#Time-Weighted Election Mechanism)
-    * [Decentralized Protocol Governance](#Decentralized Protocol Governance)
-    * [Decentralized Budget System on The Chain](#Decentralized Budget System on The Chain)
-
-<!-- vim-markdown-toc -->
-
-[English Version](README_en.md)
-
 # Background
 
 The Crypto economy has ushered in a critical phase from a social experiment to a mass commercial implementation.

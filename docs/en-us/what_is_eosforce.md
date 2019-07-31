@@ -28,7 +28,7 @@ In the future, the consensus mechanism of EOSC will evolve in parallel from two 
 
 
 
-##Fee-based Resource Model
+## Fee-based Resource Model
 
 EOSIO's payment model of CPU and NET is a good design from the aspect of technology but is too complicated for users. Meanwhile, it does not prompt DAPP developers to optimize their contracts. On the other hand, the purchase method of RAM by EOSIO will lead to some hoarding behaviors, which is not conducive for the development of DAPP ecology. Therefore, EOSC innovatively designed a new resource model, through the optimization in practice, exploring the fee-based resource model in the complex smart contract environment, and solving the resource problem of EOS ecology completely.
 

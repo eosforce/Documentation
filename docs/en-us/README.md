@@ -19,6 +19,7 @@
     - [account](en-us/contract/contract_eosio_bios.md)
     - [account transfer](en-us/eosforce_username_tran.md)
     - [multi sign](en-us/contract/eosio.msig/msig.md)
+    - [Deposit system](en-us/eosio.pledge.md)
 - Contract
     - [overview](en-us/contract/overview.md)
     - [build and set](en-us/contract/build_and_set.md)

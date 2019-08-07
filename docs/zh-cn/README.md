@@ -30,6 +30,7 @@
     - [用户名转让](zh-cn/eosforce_username_tran.md)
     - [多重签名](zh-cn/contract/eosio.msig/msig.md)
     - [手续费](zh-cn/fee.md)
+    - [押金系统](zh-cn/eosio.pledge.md)
     
 - HTTP API
     - [链相关api](zh-cn/eosforce_http_chain_api.md)

@@ -18,6 +18,7 @@
         - [多重签名](zh-cn/contract/eosio.msig/msig.md)
         - [手续费](zh-cn/fee.md)
         - [资源模型](zh-cn/res_limit.md)
+        - [押金系统](zh-cn/eosio.pledge.md)
 
 - [智能合约](zh-cn/toc/eosforce_contract.md)
     - [概览](zh-cn/contract/overview.md)

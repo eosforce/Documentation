@@ -1,4 +1,4 @@
-# Background
+# 1.Background
 
 The Crypto economy has ushered in a critical phase from a social experiment to a mass commercial implementation.
 
@@ -10,7 +10,7 @@ In order to accelerate the mass commercial implementation of crypto economy, the
 
 
 
-# Consensus Mechanism
+# 2.Consensus Mechanism
 
 EOSC utilizes the consensus mechanism of EOSIO, which is DPOS BFT Pipeline Consensus. EOSC enables blocks to be produced every 3 seconds with no consecutive blocks, which is different from EOSIO'S model of producing blocks every 0.5 second with 6 consecutive blocks produced by 1 node.  Even though consecutive block-generating can reduce the waiting time of unpacked trades, it may affect the chain stability because of the unsatisfactory network environment, resulting in a large number of microforks.
 
@@ -24,11 +24,11 @@ In the future, the consensus mechanism of EOSC will evolve in parallel from two 
 
 
 
-# EOSC Technology Improvement
+# 3.EOSC Technology Improvement
 
 
 
-## Fee-based Resource Model
+## 3.1Fee-based Resource Model
 
 EOSIO's payment model of CPU and NET is a good design from the aspect of technology but is too complicated for users. Meanwhile, it does not prompt DAPP developers to optimize their contracts. On the other hand, the purchase method of RAM by EOSIO will lead to some hoarding behaviors, which is not conducive for the development of DAPP ecology. Therefore, EOSC innovatively designed a new resource model, through the optimization in practice, exploring the fee-based resource model in the complex smart contract environment, and solving the resource problem of EOS ecology completely.
 
@@ -40,7 +40,7 @@ In addition to exploring new resource models, EOSC has been working on exploring
 
 
 
-## Smooth Update Mechanism
+## 3.2Smooth Update Mechanism
 
 The election mechanism of EOSC prompt Block Producers to actively participate in advancing technology upgrades. Unlike the split of the EOSIO community's node versions, EOSC actively promotes technology upgrades and updates in practice.
 
@@ -50,7 +50,7 @@ On the other hand, the function of setting chain property based on multi-sign ca
 
 
 
-## Node Heartbeat Mechanism and Stable Block-Generating Interval
+## 3.3Node Heartbeat Mechanism and Stable Block-Generating Interval
 
 In order to promote the stability of mainnet, EOSC strengthened the construction of Block Producer (BP) candidates from the aspect of Economy Model. Meanwhile, EOSC adds the node Heartbeat Mechanism on the chain to prompt nodes to strengthen their stability, making the mainnet more stable.
 
@@ -60,7 +60,7 @@ At the beginning of the launch, block-generating interval was extended to preven
 
 
 
-## More Contract Layer API
+## 3.4More Contract Layer API
 
 In order to make it more convenient for DAPP developers to develop the contracts, some APIs have been added, and some specific adjustments have been made to the system contracts.
 
@@ -68,7 +68,7 @@ Firstly, API for obtaining the height of the block has been added, which enables
 
 
 
-## Cross-Chain Service Adaption
+## 3.5Cross-Chain Service Adaption
 
 At the beginning of the launch, the EOSC Network team forecasted that the support to cross-chain would be the basic function of the public chain. Therefore, the EOSC team started the development of Codex project that supporting Relay service to the various chains by building Codex. Relay, In this way, the cross-chain mechanism between the various chains can be implemented. Codex.Relay is more completely supported. Through mutual operations by BPs on two chains, the complete Cross-chain Mechanism will be achieved that the degree of decentralization of any chain will not be reduced during the process.
 
@@ -76,7 +76,7 @@ Great extensibility can be obtained through Cross-chain Mechanism. Based on the 
 
 
 
-## Highly-customizable EOSIO Blockchain Development Framework
+## 3.6Highly-customizable EOSIO Blockchain Development Framework
 
 Based on the relay service, Layer 2 sub-chain can be added. In the future, all kinds of subchains will play a big role in EOSIO ecology. However, it should be noted that there is a high threshold for developing a customizable blockchain project based on EOSIO. For this reason, EOSC Network team enabled the Codex.io project to reduce the development threshold of subchains, which is a highly customizable EOSIO blockchain development framework, providing developers with a more economical and friendly subchain development experience.
 
@@ -88,17 +88,17 @@ With Codex.io, a large amount of Layer 2 subchains will be integrated in the fut
 
 
 
-# Economic Model & Resource Model
+# 4.Economic Model & Resource Model
 
 
 
-## Token Issue
+## 4.1Token Issue
 
 The initial circulation of EOSC was 1 billion, and the initial asset allocation was completed according to the mapping snapshot of EOS ERC20 on June 3, 2018 (BJT). Users can activate the EOSC account assets by offline signing with the mapped EOSIO private key. 
 
 
 
-## Resource Usage
+## 4.2Resource Usage
 
 The key function of EOSC token is to obtain resources on the chain. Each transaction on EOSC mainnet consumes certain resources. There are 3 broad classes of resources:
 
@@ -116,7 +116,7 @@ EOSC mainnet designed a fee-based resource model to avoid waste or abuse of limi
 
 
 
-## Block Rewards
+## 4.3Block Rewards
 
 EOSC mainnet enables blocks to be produced every 3 seconds. Every time when there is a new block produced, the system will increase a certain amount of EOSC, called Block Rewards. Block Rewards are distributed as follows:
 
@@ -134,17 +134,17 @@ The inflation rate of EOSC is 20% of the total amount of the previous year's tok
 
  
 
-# Community Governance
+# 5.Community Governance
 
 
 
-## Time-Weighted Election Mechanism
+## 5.1Time-Weighted Election Mechanism
 
 EOSC Network through continuously improving election mechanism to achieve the decentralization of DPOS consensus mechanism.
 
 
 
-### Weighted Votes
+### 5.1.1Weighted Votes
 
 The ranking of nodes is determined by the number of weighted votes polled. The more weighted votes polled by the node, the higher the ranking of the node.
 
@@ -158,7 +158,7 @@ Voters can switch nodes at any time in both Fix-time voting and current voting, 
 
 
 
-### 1-Token-1-Vote
+### 5.1.2One-Token-One-Vote
 
 The election mechanism determines whether DPOS will be fully effective.
 
@@ -168,13 +168,13 @@ Through the election mechanism of 1-token-1-node, no node is able to occupy long
 
 
 
-## Decentralized Protocol Governance
+## 5.2Decentralized Protocol Governance
 
 The open protocol governance mechanism of EOSC Network enables Block producers (BP) to update network through the governance on the chain, ensuring that the development of EOSC protocol follows the volition of community.
 
 
 
-### Voting Reward
+### 5.2.1Voting Reward
 
 Voting reward is an incentive method of EOSC mainnet to encourage users on the chain actively participate in the voting. By voting, token holders can receive rewards which come from tokens increased annually. 
 
@@ -184,7 +184,7 @@ Rewards of fix-time voting, and current voting can be received and re-invested a
 
 
 
-### Node Punishment
+### 5.2.2Node Punishment
 
 Nodes of EOSC mainnet are divided as BP and profitable node.
 
@@ -224,7 +224,7 @@ If the deposit is deducted to a minus when generating blocks and no supplement i
 
 
 
-## Decentralized Budget System on The Chain
+## 5.3Decentralized Budget System on The Chain
 
 The decentralized Budget System on the chain of EOSC mainnet provides budget support to community contributors and developers that anyone can initiate a budget proposal and will be approved by the decentralized budget management committee. The long-term sustainable development of blockchain can be achieved.
 

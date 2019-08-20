@@ -15,7 +15,7 @@
 可以通过命令review, 查看多签内容:
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig review eosio.pledge addblock.out
+./cleos --url https://w3.eosforce.cn:443 multisig review eosio.pledge addblock.out
 {
   "proposer": "eosio.pledge",
   "proposal_name": "addblock.out",
@@ -56,7 +56,7 @@
 节点批准(这里账户是`biosbpb`):
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig approve eosio.pledge addblock.out '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
+./cleos --url https://w3.eosforce.cn:443 multisig approve eosio.pledge addblock.out '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
 ```
 
 ## 2. bp多签设置更新后超级节点换届延期区块高度
@@ -66,7 +66,7 @@
 可以通过命令review, 查看多签内容:
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig review force.msig update.bp
+./cleos --url https://w3.eosforce.cn:443 multisig review force.msig update.bp
 {
   "proposer": "force.msig",
   "proposal_name": "update.bp",
@@ -106,7 +106,7 @@
 节点批准(这里账户是`biosbpb`):
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig approve force.msig update.bp '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
+./cleos --url https://w3.eosforce.cn:443 multisig approve force.msig update.bp '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
 ```
 
 ## 3. 通过bp多签更新系统合约
@@ -114,15 +114,15 @@
 之后需要通过多签执行更新系统合约, 这里code和abi需要分别批准:
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig review force.msig p.upsyscode
-./cleos https://w3.eosforce.cn:443 multisig review force.msig p.upsysabi
+./cleos --url https://w3.eosforce.cn:443 multisig review force.msig p.upsyscode
+./cleos --url https://w3.eosforce.cn:443 multisig review force.msig p.upsysabi
 ```
 
 节点批准(这里账户是`biosbpb`):
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig approve force.msig p.upsyscode '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
-./cleos https://w3.eosforce.cn:443 multisig approve force.msig p.upsysabi '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
+./cleos --url https://w3.eosforce.cn:443 multisig approve force.msig p.upsyscode '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
+./cleos --url https://w3.eosforce.cn:443 multisig approve force.msig p.upsysabi '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
 ```
 
 ## 4. 等待一段时间给bp缴纳押金之后, 通过bp多签开启节点惩罚机制
@@ -132,5 +132,5 @@
 节点批准(这里账户是`biosbpb`):
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig approve force.msig c.bppunish '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
+./cleos --url https://w3.eosforce.cn:443 multisig approve force.msig c.bppunish '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
 ```

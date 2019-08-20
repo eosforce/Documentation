@@ -14,7 +14,7 @@ After the completion of steps 1, 2, the fix-time voting function will be activat
 You can check the multi-sign content by command review:
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig review eosio.pledge addblock.out
+./cleos --url https://w3.eosforce.cn:443 multisig review eosio.pledge addblock.out
 {
   "proposer": "eosio.pledge",
   "proposal_name": "addblock.out",
@@ -55,7 +55,7 @@ You can check the multi-sign content by command review:
 block producer approval (here the account is `biosbpb`) :
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig approve eosio.pledge addblock.out '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
+./cleos --url https://w3.eosforce.cn:443 multisig approve eosio.pledge addblock.out '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
 ```
 
 ## 2. set `update.bp`
@@ -66,7 +66,7 @@ The current determined delay block height is 11975000, roughly two days after th
 You can check the multi-sign content by command review:
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig review force.msig update.bp
+./cleos --url https://w3.eosforce.cn:443 multisig review force.msig update.bp
 {
   "proposer": "force.msig",
   "proposal_name": "update.bp",
@@ -106,7 +106,7 @@ You can check the multi-sign content by command review:
 block producer approval (here the account is `biosbpb`) :
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig approve force.msig update.bp '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
+./cleos --url https://w3.eosforce.cn:443 multisig approve force.msig update.bp '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
 ```
 
 ## 3. Update eosio.system contract through bp multi-sign
@@ -116,15 +116,15 @@ Here the code and abi updates need to be approved separately:
 You can check the multi-sign content by command review:
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig review force.msig p.upsyscode
-./cleos https://w3.eosforce.cn:443 multisig review force.msig p.upsysabi
+./cleos --url https://w3.eosforce.cn:443 multisig review force.msig p.upsyscode
+./cleos --url https://w3.eosforce.cn:443 multisig review force.msig p.upsysabi
 ```
 
 block producer approval (here the account is `biosbpb`) :
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig approve force.msig p.upsyscode '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
-./cleos https://w3.eosforce.cn:443 multisig approve force.msig p.upsysabi '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
+./cleos --url https://w3.eosforce.cn:443 multisig approve force.msig p.upsyscode '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
+./cleos --url https://w3.eosforce.cn:443 multisig approve force.msig p.upsysabi '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
 ```
 
 ## 4.  After waiting for a period of time to pay the deposit for bps, open the block producers penalty mechanism through bp multi-sign
@@ -134,7 +134,7 @@ This step needs to wait for a period of time to bp to confirm the deposit state,
 block producer approval (here the account is `biosbpb`) :
 
 ```bash
-./cleos https://w3.eosforce.cn:443 multisig approve force.msig c.bppunish '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
+./cleos --url https://w3.eosforce.cn:443 multisig approve force.msig c.bppunish '{"actor":"biosbpb","permission":"active"}' -p biosbpb@active
 ```
 
 

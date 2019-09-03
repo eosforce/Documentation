@@ -279,7 +279,7 @@ cleos wallet import pri_key
 执行命令进行注册
 
 ```bash
-cleos -u https://p1.eosforce.cn push action eosio updatebp '{"bpname":"bpname","block_signing_key":"block_signing_key","commission_rate":"commission_rate","url":"https://eosforce.io"}' -p bpname
+cleos -u https://w1.eosforce.cn push action eosio updatebp '{"bpname":"bpname","block_signing_key":"block_signing_key","commission_rate":"commission_rate","url":"https://eosforce.io"}' -p bpname
 ```
 
 注册成功返回如下结果：

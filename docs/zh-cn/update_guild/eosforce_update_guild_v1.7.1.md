@@ -8,7 +8,7 @@
 
 ## . 通过bp多签更新系统合约
 
-这里code和abi需要分别批准:
+查看abi和code多签的内容:
 
 ```bash
 ./cleos --url https://w3.eosforce.cn:443 multisig review xuyapeng p.upsyscode
@@ -24,6 +24,7 @@
 
 ## 5. 通过多签设置removepunish的费用
 
+查看设置removepunish的费用多签的内容
 ```bash
 ./cleos --url https://w3.eosforce.cn:443 multisig review xuyapeng p.feermvpsh
 ```

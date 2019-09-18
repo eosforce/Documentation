@@ -8,7 +8,7 @@ Update is divided into two steps:
 
 ## . Update system contract with bp multi-sign
 
-Here code and abi need to be approved separately:
+View abi and code multi-signed content:
 
 ```bash
 ./cleos --url https://w3.eosforce.cn:443 multisig review xuyapeng p.upsyscode
@@ -23,6 +23,8 @@ Node approval (here the account is bpname):
 ```
 
 ## 5. Set the cost of removepunish by multi-signing
+
+View the cost of setting up remove punish multi-signed content:
 
 ```bash
 ./cleos --url https://w3.eosforce.cn:443 multisig review xuyapeng p.feermvpsh

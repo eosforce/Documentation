@@ -19,4 +19,7 @@ This list is updated regularly and shows nodes that have been online at some poi
 |202.131.88.25:9877|
 |47.91.155.141:9876|
 |47.103.139.96:9876|
+|39.104.48.221:10321|
+|39.104.189.27:10321|
+|39.104.68.245:9876|
 

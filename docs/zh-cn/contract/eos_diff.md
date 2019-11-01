@@ -2,6 +2,22 @@
 
 ## 与EMLG EOS的不同点，与合约迁移注意事项
 
+### 0. 编译工具集需要使用eosforce.cdt
+
+EOSC 合约开发与 EOSIO 存在一些不同, 这使得我们需要使用 eosforce.cdt 来进行构建, eosforce.cdt与 eosio.cdt不会冲突, 可以同时存在.
+
+编译安装 eosforce.cdt 与 eosio.cdt 类似:
+
+```bash
+git clone https://github.com/eosforce/eosforce.cdt.git
+cd eosforce.cdt
+git submodule update --init --recursive
+./build.sh
+sudo ./install.sh
+```
+
+!> 为了与EOSIO不产生冲突, 在CMake中find eosforce.cdt得到的宏为 `EOSFORCE_CDT_ROOT`, 故而原来的eosio项目在迁移时需要修改CMake文件中的 `EOSIO_CDT_ROOT` 为 `EOSFORCE_CDT_ROOT`, 为了不引起不必要的问题, 建议使用eosforce.cdt工具重建项目目录.
+
 ### 1. transfer 转账
 
 transfer转账消息监听，或合约内EOS系统代币transfer转账操作，使用的合约账号code是‘eosio’，而不是‘eosio.token’。

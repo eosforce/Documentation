@@ -22,4 +22,5 @@ This list is updated regularly and shows nodes that have been online at some poi
 |39.104.48.221:10321|
 |39.104.189.27:10321|
 |39.104.68.245:9876|
+|eosc.chaindev.top:9876|
 

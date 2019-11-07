@@ -14,7 +14,7 @@ This list is updated regularly and shows nodes that have been online at some poi
 |52.78.150.164:9876|
 |132.232.22.135:6000|
 |ef.eosou.io:9876|
-|134.175.86.25:9876|
+|121.37.25.228:9876|
 |13.127.133.51:9876|
 |202.131.88.25:9877|
 |47.91.155.141:9876|

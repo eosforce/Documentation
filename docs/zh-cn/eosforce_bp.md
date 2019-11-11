@@ -20,10 +20,10 @@
 节点可以通过docker hub直接获取镜像:
 
 ```bash
-docker pull eosforce/node:1.7.0
+docker pull eosforce/node:v1.8.2
 ```
 
-### 1.1 构建镜像
+### 1.1 构建镜像(可选)
 
 目前EOSForce Docker支持还在完善中, 所以没有直接整合到eosforce项目之中, 目前位于[eosforce-docker](https://github.com/fanyang1988/eosforce-docker)
 
@@ -91,11 +91,19 @@ tree
 p2p配置在config.ini中:
 
 ```bash
-p2p-peer-address = 47.99.138.131:9876
-p2p-peer-address = 47.99.165.99:9876
-p2p-peer-address = 47.99.167.137:9876
-p2p-peer-address = 47.99.151.178:9874
-...
+p2p-peer-address = 39.106.132.102:8888
+p2p-peer-address = 47.52.71.18:9880
+p2p-peer-address = 39.100.235.37:9876
+p2p-peer-address = 120.77.148.60:9888
+p2p-peer-address = 52.78.150.164:9876
+p2p-peer-address = 132.232.22.135:6000
+p2p-peer-address = ef.eosou.io:9876
+p2p-peer-address = 134.175.86.25:9876
+p2p-peer-address = 13.127.133.51:9876
+p2p-peer-address = 202.131.88.25:9877
+p2p-peer-address = 47.91.155.141:9876
+p2p-peer-address = 47.103.139.96:9876
+p2p-peer-address = 39.104.68.245:9876
 ```
 
 添加即可.

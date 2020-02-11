@@ -6,6 +6,8 @@
 
 BP节点的升级不要直接升级，先升级同步节点，同步节点升级1.8.3同步区块完毕以后再把出块节点迁移过去。
 
+1.8.3版本不再集成heatbeat_plugin插件，需要再config.ini上面把heatbneat_plugin插件去掉。
+
 **同步节点可以通过快照快速启动完成，如果其他节点（包括出块节点）使用同步节点的data数据启动的话使用正常启动eosforce节点的方法**
 
 ## 部署步骤
@@ -40,6 +42,9 @@ docker pull eosforce/node:v1.8.3
 │ ├── snapshots
 │ │ ├──snapshot-*.bin
 ```
+
+[eosforce快照下载地址](https://github.com/awaketeam/eosc_snapshots)
+
 
 ### 通过docker启动eosforce节点
 

@@ -146,7 +146,7 @@ git clone https://github.com/eosforce/eosforce.git $HOME/eosc
 ### 2.2. 执行如下命令安装原力
 
 ```bash
-cd $HOME/eosc && git fetch && git checkout force-v1.7.1 && git pull && git submodule update --init --recursive
+cd $HOME/eosc && git fetch && git checkout release-force-v1.8.x && git pull && git submodule update --init --recursive
 cd ./scripts/ && ./eosio_build.sh -y
 ```
 

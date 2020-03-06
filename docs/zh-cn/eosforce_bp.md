@@ -20,7 +20,7 @@
 节点可以通过docker hub直接获取镜像:
 
 ```bash
-docker pull eosforce/node:v1.8.2
+docker pull eosforce/node:v1.8.3
 ```
 
 ### 1.1 构建镜像(可选)
